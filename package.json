@@ -1,0 +1,23 @@
+{
+  "name": "gulp-webpack-test",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {},
+  "author": "kzhrk",
+  "license": "MIT",
+  "devDependencies": {
+    "coffee-script": "^1.10.0",
+    "gulp": "^3.9.0",
+    "gulp-concat": "^2.6.0",
+    "gulp-csscomb": "^3.0.6",
+    "gulp-csso": "^1.0.0",
+    "gulp-uglify": "^1.4.1",
+    "gulp-webpack": "^1.5.0",
+    "highlight": "^0.2.4",
+    "jquery": "^2.1.4",
+    "lodash": "^3.10.1",
+    "normalize.css": "^3.0.3",
+    "run-sequence": "^1.1.3"
+  }
+}
