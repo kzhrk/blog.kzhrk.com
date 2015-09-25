@@ -11,18 +11,18 @@ description = "Creators Meet Up 11で登壇しました。登壇内容とスラ�
 
 - [第11回Creators MeetUP開催しました](http://lab.designsatellites.jp/?p=2212)
 
-## 資料
+### 資料
 
 - [スライド](http://kzhrk.github.io/css-selector/slide/)
 - [サンプルコード](http://kzhrk.github.io/css-selector/sample/)
 
-## 概要
+### 概要
 
 「CSS Selectorを書こう」というタイトルで、IE6をサポートしないときに使えるCSS Selectorを紹介しました。
 
 [来月9日にサポートが切れる](https://www.microsoft.com/ja-jp/windows/lifecycle/xp_eos.aspx)とはいえ、日本マイクロソフト株式会社様が協賛しているにも関わらず、IE6のサポートをしないCSSのお話をしてしまったのは、配慮が足りていなかったですね…
 
-## IE6でサポートが切れているCSS Selector
+### IE6でサポートが切れているCSS Selector
 
 - E > F
 - E + F
@@ -41,7 +41,7 @@ a[target=blank] {
 
 要素間の兄弟関係でスタイルを当て込む、E > F、E + F、E ~ Fは影響範囲を絞り込んでくれるので、コンポーネント化が叫ばれる昨今では積極的に使っていくべきCSS Selectorだと思います。
 
-## スマートフォンサイトでのCSS Selector
+### スマートフォンサイトでのCSS Selector
 
 登壇時間が15分と短かったので省きましたが、IE6サポートを切っているサイトだけではなく、スマートフォンサイトのコーディングでもCSS Selectorが適切に使われていないコーディングをしているケースがよく見受けられます。
 
@@ -52,7 +52,7 @@ a[target=blank] {
 - E:first-of-type
 - E:last-of-type
 
-## 登壇を終えて
+### 登壇を終えて
 
 人生初の登壇ということで当日はかなり緊張していて、話したかったことがちゃんと伝わったか不安でしたが、Twitterの#cmu_jpのハッシュを見返してみたらレスポンスがちゃんと返って来ていたので安心しました。
 
