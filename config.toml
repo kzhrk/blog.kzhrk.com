@@ -1,4 +1,4 @@
-baseurl       = "https://blog.kzhrk.com/"
+baseurl       = "http://blog.kzhrk.com/"
 title         = "kzhrk's blog"
 Paginate      = 5
 uglyURLs      = true
