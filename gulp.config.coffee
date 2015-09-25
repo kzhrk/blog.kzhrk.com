@@ -4,7 +4,13 @@ src   = './src'
 
 module.exports =
   dest: dest
+  font:
+    dest: dest + '/fonts'
   css:
+    src: src + '/css/**'
+    dest: dest + '/css'
+  scss:
+    src: src + '/scss/**'
     dest: dest + '/css'
   js:
     src: src + '/js/**'
