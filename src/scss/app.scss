@@ -1,0 +1,36 @@
+// margin
+@for $i from 0 through 10 {
+  .mat#{$i*5} { margin-top: #{$i*5}px; }
+  .mar#{$i*5} { margin-right: #{$i*5}px; }
+  .mab#{$i*5} { margin-bottom: #{$i*5}px; }
+  .mal#{$i*5} { margin-left: #{$i*5}px; }
+}
+
+// padding
+@for $i from 0 through 10 {
+  .pat#{$i*5} { padding-top: #{$i*5}px; }
+  .par#{$i*5} { padding-right: #{$i*5}px; }
+  .pab#{$i*5} { padding-bottom: #{$i*5}px; }
+  .pal#{$i*5} { padding-left: #{$i*5}px; }
+}
+
+// overwrite
+body {
+  font-size: 16px;
+  font-family: "Noto Sans", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+}
+h2 {
+  margin-top: 1.5em;
+  margin-bottom: 1em;
+}
+h3, h4, h5, h6 {
+  margin-top: 2em;
+  margin-bottom: 1em;
+}
+pre code {
+  background: #f5f5f5;
+}
+.well h3 {
+  margin-top: 0;
+}
