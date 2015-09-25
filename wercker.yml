@@ -1,0 +1,15 @@
+box: debian
+build:
+  steps:
+    - arjen/hugo-build@1.6.1:
+        version: 0.14
+deploy:
+  steps:
+    - script:
+        name: install git
+        code: |
+          apt-get update
+          apt-get -y install git
+    - lukevivier/gh-pages@0.2.1:
+        token: $GIT_TOKEN
+        basedir: public
