@@ -1,6 +1,6 @@
 +++
+layout = "post"
 date = "2015-09-30T12:00:00+09:00"
-draft = false
 title = "HTML5とか勉強会 第60回に参加してきた"
 +++
 
