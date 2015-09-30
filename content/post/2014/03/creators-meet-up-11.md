@@ -1,5 +1,4 @@
 +++
-layout = "post"
 date = "2014-03-26T12:54:10+09:00"
 title = "Creators Meet Up 11で登壇しました"
 keywords = "JavaScript, HTML, CSS, Grunt, Node, フロントエンドエンジニア, kzhrk, Creators Meet Up, CMU"
