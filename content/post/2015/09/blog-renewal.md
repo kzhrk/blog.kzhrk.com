@@ -1,5 +1,4 @@
 +++
-layout = "post"
 date = "2015-09-25T10:53:28+09:00"
 title = "hello world"
 +++

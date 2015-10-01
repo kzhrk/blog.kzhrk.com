@@ -1,5 +1,4 @@
 +++
-layout = "post"
 date = "2015-09-30T12:00:00+09:00"
 title = "HTML5とか勉強会 第60回に参加してきた"
 +++
@@ -37,7 +36,7 @@ Angular.jsとMicrosoftが協力するニュース、TypeScript1.5やBabel.jsでd
 
 リンク貼ろうとしてWrasseでググったら魚のベラが出てきた。83さんが所属するChatWork社内ではプロジェクト名が魚で統一されているからWrasseにしたらしい。ベラの別名であるクサビ（楔）を意味するとか。
 
-### ES7 WebAssembly+SIMD	@_furoshiki (ピクシブ株式会社)
+### ES7 WebAssembly+SIMD
 - 登壇者：[_furoshiki](https://twitter.com/_furoshiki)
 - [スライド](http://www.slideshare.net/kawada_hiroshi/simdjsecmascript-7)
 
@@ -49,10 +48,6 @@ SIMDはCPUの機能。SIMDはJSからCPUを操作するAPI。
 
 [waifu2x](https://github.com/nagadomi/waifu2x)にSIMD.jsを適応して処理を高速化するサンプルが用意されていたけど、別に早くなっていなかった…。
 
-JavaScriptでベクトル演算ができるAPIのSIMD.jsについて。効率化、高速化のアプローチとしていいんじゃないかという話。
-
-[waifu2x](https://github.com/nagadomi/waifu2x)にSIMD.jsを適応して処理を高速化するサンプルが用意されていたけど、別に早くなっていなかった…。
-
-SIMB.Float32x4.extractLaneがボトルネックなんじゃないかと漏らしていた。
+SIMD.Float32x4.extractLaneがボトルネックなんじゃないかと漏らしていた。
 
 まだFirefox NightlyやMicrosoft Edgeあたりでしか実装されていないので、こんなのあるんだレベルの認識に留めておく。
