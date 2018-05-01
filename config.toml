@@ -1,8 +1,0 @@
-baseurl       = "http://blog.kzhrk.com/"
-title         = "kzhrk's blog"
-Paginate      = 5
-uglyURLs      = true
-
-[params]
-  description = "kzhrk's blog"
-  keywords    = "JavaScript, HTML, CSS, kzhrk"

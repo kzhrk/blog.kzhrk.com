@@ -1,0 +1,15 @@
+baseURL: "http://blog.kzhrk.com/"
+title: "kzhrk's blog"
+paginate: 5
+uglyUrls: true
+enableEmoji: true
+layoutDir: "layouts"
+publishDir: "public"
+staticDir: "static"
+contentDir: "content"
+metaDataFormat: "yaml"
+params:
+  description: "kzhrk's blog"
+  keywords: "JavaScript, HTML, CSS, kzhrk"
+permalinks:
+  post: "/:year/:month/:title"

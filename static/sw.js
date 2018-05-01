@@ -1,13 +1,9 @@
-var VERSION = 1;
+var VERSION = 3;
 var STATIC_CACHE_NAME = 'static' + VERSION;
 var ORIGIN = location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : '');
 
 var STATIC_FILES = [
 	ORIGIN + '/',
-	ORIGIN + '/css/app.css',
-	ORIGIN + '/css/libs.css',
-	ORIGIN + '/js/libs.js',
-
 ];
 
 var STATIC_FILE_URL_HASH = {};

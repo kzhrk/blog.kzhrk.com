@@ -4,37 +4,23 @@
     {{ partial "meta.html" . }}
   </head>
   <body>
-
-    <!-- Page Content -->
     <div class="container">
+      {{ partial "header.html" . }}
 
-      <div class="row">
+      <main class="main">
+        {{ $paginator := .Paginate (where .Data.Pages "Type" "posts") }}
+        {{ range $paginator.Pages }}
+        <section>
+          <h2><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
+          <p><span class="glyphicon glyphicon-time"></span> Posted on {{ .Date.Format "2006-01-02" }}</p>
+        </section>
+        {{ end }}
 
-        <!-- Blog Entries Column -->
-        <div class="col-md-8">
-          <h1 class="page-header">
-            <a href="{{.Site.BaseURL}}">{{ .Site.Title }}</a>
-          </h1>
-          {{ range (.Paginator).Pages }}
-            <h2><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
-            <p><span class="glyphicon glyphicon-time"></span> Posted on {{ .Date.Format "2006-01-02" }}</p>
-            <hr>
-          {{ end }}
-
-          {{ partial "pager.html" . }}
-        </div>
-
-        {{ partial "side.html" . }}
-      </div>
-      <!-- /.row -->
-
-      <hr>
+        {{ partial "pager.html" . }}
+      </main>
 
       {{ partial "footer.html" . }}
     </div>
-    <!-- /.container -->
-
     {{ partial "script.html" . }}
-
   </body>
 </html>

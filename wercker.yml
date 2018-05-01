@@ -1,15 +1,14 @@
-box: debian
+box: node:latest
 build:
   steps:
+    - npm-install
     - arjen/hugo-build@1.6.1:
-        version: 0.14
+        version: 0.38
+    - script:
+        name: Build
+        code: make build
 deploy:
   steps:
-    - script:
-        name: install git
-        code: |
-          apt-get update
-          apt-get -y install git
     - lukevivier/gh-pages@0.2.1:
         token: $GIT_TOKEN
         domain: blog.kzhrk.com
