@@ -2,7 +2,7 @@ box: node:latest
 build:
   steps:
     - npm-install
-    - arjen/hugo-build@1.6.1:
+    - arjen/hugo-build:
         version: 0.38
     - script:
         name: Build
