@@ -1,4 +1,4 @@
-baseURL: "http://blog.kzhrk.com/"
+baseURL: "https://blog.kzhrk.com/"
 title: "kzhrk's blog"
 paginate: 5
 uglyUrls: true
