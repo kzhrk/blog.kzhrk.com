@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta name="description" content="kzhrk&#39;s blog">
+  <meta name="keywords" content="JavaScript, HTML, CSS, kzhrk">
+
+<title>Migrate storybook v4 to v5 | kzhrk&#39;s blog</title>
+<link rel="stylesheet" href="/css/base.css">
+<link rel="stylesheet" href="/css/components.css">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://blog.kzhrk.com/posts/2019/03/storybook-v5.html">
+<meta property="og:site_name" content="kzhrk&#39;s blog">
+<meta property="og:title" content="Migrate storybook v4 to v5">
+  </head>
+  <body>
+    <div class="container">
+
+      <header class="header">
+  <h1>
+    <a href="https://blog.kzhrk.com/">kzhrk&#39;s blog</a>
+  </h1>
+</header>
+
+      <main>
+        <p><span class="glyphicon glyphicon-time"></span> Posted on 2019.03.11</p>
+
+        <h2>Migrate storybook v4 to v5</h2>
+
+        
+
+<h3 id="storybook-v4-0からv5-0にアップデートした">Storybook v4.0からv5.0にアップデートした</h3>
+
+<p>Storybook v5がリリースされたので、v4からv5にアップデートした。<br />
+<a href="https://github.com/storybooks/storybook/blob/next/MIGRATION.md#from-version-41x-to-50x">公式アナウンスのマイグレーション方法はこちら</a>。</p>
+
+<h4 id="webpack-config-js">webpack.config.js</h4>
+
+<p>Storybookのwebpack.config.jsをfull-controll modeで使っている（functionをexportsするやつ）場合は、functionの引数をObjectに変更する必要がある。</p>
+
+<pre><code class="language-diff">- module.exports = (storybookBaseConfig, configType) =&gt; {
++ module.exports = ({config, mode}) =&gt; {
+</code></pre>
+
+<p><a href="https://github.com/kzhrk-sandbox/storybook-for-styleguide/commit/26e0974708cef41d56627e95a3ea4a432effa4cc#diff-6da49b24efd584154cfb4ec759745192L3">https://github.com/kzhrk-sandbox/storybook-for-styleguide/commit/26e0974708cef41d56627e95a3ea4a432effa4cc#diff-6da49b24efd584154cfb4ec759745192L3</a></p>
+
+<p>今までは第一引数、第二引数にStorybookから値が投げ込まれていたが、引数がObjectになったことで変数名（key名）が決め打ちになった。</p>
+
+<h4 id="storiesofの第一引数に日本語が使えない">storiesOfの第一引数に日本語が使えない</h4>
+
+<p>storiesOfの第一引数のサニタイズに使われている関数が追加され下記リンクのような実装になっているので、storiesOfの第一引数にA-Za-z0-9以外の文字が使えなくなった。</p>
+
+<p><a href="https://github.com/storybooks/storybook/commit/54faca3793338cb521c8b1aaf5801c597f037cb8#diff-18efc3f2c976feeab3887b2fd2a58f7eR15">https://github.com/storybooks/storybook/commit/54faca3793338cb521c8b1aaf5801c597f037cb8#diff-18efc3f2c976feeab3887b2fd2a58f7eR15</a></p>
+
+<p>このサニタイズは、Storybookにカテゴリ名やストーリー名を登録する際に実行される。サニタイズの結果、カテゴリ名やストーリー名がカラになったときにエラーが返却されて登録が弾かれる。</p>
+
+<p><a href="https://github.com/storybooks/storybook/commit/54faca3793338cb521c8b1aaf5801c597f037cb8#diff-18efc3f2c976feeab3887b2fd2a58f7eR21">https://github.com/storybooks/storybook/commit/54faca3793338cb521c8b1aaf5801c597f037cb8#diff-18efc3f2c976feeab3887b2fd2a58f7eR21</a></p>
+
+<p>実際にサニタイズを実行してみると、下記のような結果になる。</p>
+
+<pre><code class="language-js">'ヘッドライン'
+  .toLowerCase()
+  .replace(/[^a-z0-9-]/g, '-')
+  .replace(/-+/g, '-')
+  .replace(/^-+/, '')
+  .replace(/-+$/, '') // ''
+
+'headline ヘッドライン'
+  .toLowerCase()
+  .replace(/[^a-z0-9-]/g, '-')
+  .replace(/-+/g, '-')
+  .replace(/^-+/, '')
+  .replace(/-+$/, '') // 'headline'
+</code></pre>
+
+<p>頭に半角英数を入れればStorybookへの登録はできるが、サニタイズ後の名前が登録されてしまう。<br />
+そのため、<code>icon: ログイン</code>や<code>icon: ログアウト</code>を登録すると、両方とも<code>icon</code>となるため最初に登録されたStoryしか有効にならない。</p>
+
+<p>このサニタイズ部分を修正してテストを実行するといくつかのテストがコケたので、修正のPRを送るのには骨が折れそう。<br />
+ひとまずフォークしてぐちゃぐちゃコードをいじってみようと思う。</p>
+
+
+        <hr>
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="kzhrk0430">Tweet</a>
+      </main>
+
+      <footer class="footer">
+  <h3>Author</h3>
+  <div>
+    <h4>kzhrk/Kazuhiro Kobayashi</h4>
+    <p>マークアップエンジニアを経てフロントエンドエンジニアに転身。HTMLのセマンティックさ、運用しやすいCSS設計について考える日々。</p>
+    <ul>
+      <li><a href="https://twitter.com/kzhrk0430">twitter</a></li>
+      <li><a href="https://facebook.com/kzhrk">facebook</a></li>
+      <li><a href="https://github.com/kzhrk">github</a></li>
+    </ul>
+  </div>
+  <address>Copyright &copy; kzhrk 2020</address>
+</footer>
+    </div>
+
+    <script>
+  
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-29985375-3', 'auto');
+  ga('send', 'pageview');
+</script>
+
+    <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/ja_JP/sdk.js#xfbml=1&version=v2.4";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+  </body>
+</html>

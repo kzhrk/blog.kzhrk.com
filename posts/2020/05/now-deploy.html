@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta name="description" content="kzhrk&#39;s blog">
+  <meta name="keywords" content="JavaScript, HTML, CSS, kzhrk">
+
+<title>Deploy Next.js project to now | kzhrk&#39;s blog</title>
+<link rel="stylesheet" href="/css/base.css">
+<link rel="stylesheet" href="/css/components.css">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://blog.kzhrk.com/posts/2020/05/now-deploy.html">
+<meta property="og:site_name" content="kzhrk&#39;s blog">
+<meta property="og:title" content="Deploy Next.js project to now">
+  </head>
+  <body>
+    <div class="container">
+
+      <header class="header">
+  <h1>
+    <a href="https://blog.kzhrk.com/">kzhrk&#39;s blog</a>
+  </h1>
+</header>
+
+      <main>
+        <p><span class="glyphicon glyphicon-time"></span> Posted on 2020.05.06</p>
+
+        <h2>Deploy Next.js project to now</h2>
+
+        
+
+<p>Next.jsでつくったプロジェクトを、CircleCIから<a href="https://vercel.com/">Vercel</a>(旧now)にデプロイするときに躓いたので忘備録として記事を残しておく。</p>
+
+<h3 id="next-jsでtodoをつくった">Next.jsでTODOをつくった</h3>
+
+<p>Next.jsの習作としてTODOをつくってみた。<br />
+VSCodeのCommand Paletteの操作感が好きなのでキーボード操作でタスクの追加と削除ができるUIになっている。<br />
+Next.js + Material UI + TypeScript + VSCodeで開発すると、型がUIのドキュメンテーションとして機能していて、開発体験が非常によかった。</p>
+
+<p><a href="https://ctodo.now.sh/">CTODO</a></p>
+
+<h3 id="vercelへのデプロイ">Vercelへのデプロイ</h3>
+
+<p>Vercelへデプロイする場合、最も簡単な方法は<a href="https://vercel.com/docs/v2/git-integrations/vercel-for-github">Git Intergration</a>でGitHubのリポジトリをVercelプロジェクトに結びつける方法だ。</p>
+
+<p>この方法だと、GitHubにPushしたら必ずデプロイが実行されるようになる。<br />
+テストやlintをパスした状態でデプロイ実行したかったのでCircleCIでWorkflowを定義した。</p>
+
+<h3 id="vercelのtokenの設定">VercelのTokenの設定</h3>
+
+<p>CircleCIからVercelへデプロイする場合、まず<a href="https://vercel.com/account/tokens">Account Settings &gt; Tokens</a>のCreateボタンを押下して、Create Tokenモーダルで適当なToken名を設定してTokenを作成する。</p>
+
+<p>次に、CircleCIの環境変数にVercelのTokenを定義する。<br />
+Project Settings &gt; Environment VariablesにNOW_TOKENという名前で先ほどのTokenを設定する。</p>
+
+<h3 id="デプロイコマンド">デプロイコマンド</h3>
+
+<p>npmで提供されているデプロイに使うnowをインストールする。</p>
+
+<pre><code>$ yarn add -D now
+</code></pre>
+
+<p>npm-scriptsにデプロイ用のコマンドを追記する。このとき、先ほど作成したCircleCIの環境変数を<code>token</code>オプションとして渡す。<br />
+<code>prod</code>オプションをつけないとプロジェクト名+ランダム文字列のURLのプレビューURLが発行されるので、production用とpreview用のコマンドを用意した。</p>
+
+<pre><code class="language-json">{
+  &quot;scripts&quot;: {
+    &quot;deploy:production&quot;: &quot;now -t $NOW_TOKEN -c --prod&quot;,
+    &quot;deploy:preview&quot;: &quot;now -t $NOW_TOKEN -c&quot;
+  }
+}
+</code></pre>
+
+<h3 id="circleciの設定">CircleCIの設定</h3>
+
+<p>CircleCIの設定ファイルを作成する。<br />
+nowコマンドはプロジェクトのディレクトリがVercelのプロジェクト名として定義されるので、<code>working_directory</code>プロパティを定義してVercelのProduction/Stagingのプロジェクトを出し分ける必要がある。<br />
+CircleCIではデフォルトのディレクトリ名が<code>project</code>なので、<code>working_directory</code>を指定しなかった場合、Vercelに<code>project</code>という名前のプロジェクトが作成される。</p>
+
+<p>Vercelに<code>ctodo</code>, <code>stg-ctodo</code>のプロジェクトを用意して、<code>stg-ctodo</code>プロジェクトをプレビュー用に使うと仮定すると下記のような実装になる。<br />
+（<code>now</code>コマンドの<code>alias</code>オプションを利用すれば<code>stg-ctodo</code>プロジェクトを用意する必要がなくなると思われる）</p>
+
+<pre><code class="language-yml">jobs:
+  deploy:
+    parameters:
+      project:
+        type: string
+        default: stg-ctodo
+    working_directory: ~/&lt;&lt; parameters.project &gt;&gt;
+    executor:
+      name: node/default
+    steps:
+      - setup
+      - run:
+          name: deploy to now
+          command: |
+            if [ ! ${CIRCLE_BRANCH} = staging ] &amp;&amp; [ ! ${CIRCLE_BRANCH} = master ]; then
+              yarn deploy:preview
+            else
+              yarn deploy:production
+            fi
+
+workflows:
+  version: 2
+  deploy:
+    jobs:
+      - deploy:
+          name: Deploy to preview
+          project: stg-ctodo
+          filters:
+            branches:
+              ignore:
+                - staging
+                - master
+                - development
+      - deploy:
+          name: Deploy to staging
+          project: stg-ctodo
+          filters:
+            branches:
+              only:
+                - staging
+      - deploy:
+          name: Deploy to production
+          project: ctodo
+          filters:
+            branches:
+              only:
+                - master
+</code></pre>
+
+<h3 id="懸念点">懸念点</h3>
+
+<p>Vercelはサービス名がNowから切り替わって間もないので、そのうちnpmで提供されているnowも<code>@vercel/cli</code>のようなパッケージ名に変更されそうな予感がある。<br />
+そして変更に伴いオプション変更や設定ファイル（now.json）のアップデートも行われそうなので、ここに残した記事の賞味期限がかなり短そうだ。</p>
+
+
+        <hr>
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="kzhrk0430">Tweet</a>
+      </main>
+
+      <footer class="footer">
+  <h3>Author</h3>
+  <div>
+    <h4>kzhrk/Kazuhiro Kobayashi</h4>
+    <p>マークアップエンジニアを経てフロントエンドエンジニアに転身。HTMLのセマンティックさ、運用しやすいCSS設計について考える日々。</p>
+    <ul>
+      <li><a href="https://twitter.com/kzhrk0430">twitter</a></li>
+      <li><a href="https://facebook.com/kzhrk">facebook</a></li>
+      <li><a href="https://github.com/kzhrk">github</a></li>
+    </ul>
+  </div>
+  <address>Copyright &copy; kzhrk 2020</address>
+</footer>
+    </div>
+
+    <script>
+  
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-29985375-3', 'auto');
+  ga('send', 'pageview');
+</script>
+
+    <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/ja_JP/sdk.js#xfbml=1&version=v2.4";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+  </body>
+</html>

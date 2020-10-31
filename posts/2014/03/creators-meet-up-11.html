@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta name="description" content="Creators Meet Up 11で登壇しました。登壇内容とスライドを公開します。">
+  <meta name="keywords" content="JavaScript,, HTML,, CSS,, Grunt,, Node,, フロントエンドエンジニア,, kzhrk,, Creators, Meet, Up,, CMU">
+
+<title>Creators Meet Up 11で登壇しました | kzhrk&#39;s blog</title>
+<link rel="stylesheet" href="/css/base.css">
+<link rel="stylesheet" href="/css/components.css">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://blog.kzhrk.com/posts/2014/03/creators-meet-up-11.html">
+<meta property="og:site_name" content="kzhrk&#39;s blog">
+<meta property="og:title" content="Creators Meet Up 11で登壇しました">
+  </head>
+  <body>
+    <div class="container">
+
+      <header class="header">
+  <h1>
+    <a href="https://blog.kzhrk.com/">kzhrk&#39;s blog</a>
+  </h1>
+</header>
+
+      <main>
+        <p><span class="glyphicon glyphicon-time"></span> Posted on 2014.03.26</p>
+
+        <h2>Creators Meet Up 11で登壇しました</h2>
+
+        
+
+<p>2013年12月21日に開催された<a href="http://lab.designsatellites.jp/">DSLABさん</a>主催の勉強会、Creators MeetUP 11で登壇させていただきました。</p>
+
+<ul>
+<li><a href="http://lab.designsatellites.jp/?p=2212">第11回Creators MeetUP開催しました</a></li>
+</ul>
+
+<h3 id="資料">資料</h3>
+
+<ul>
+<li><a href="http://kzhrk.github.io/css-selector/slide/">スライド</a></li>
+<li><a href="http://kzhrk.github.io/css-selector/sample/">サンプルコード</a></li>
+</ul>
+
+<h3 id="概要">概要</h3>
+
+<p>「CSS Selectorを書こう」というタイトルで、IE6をサポートしないときに使えるCSS Selectorを紹介しました。</p>
+
+<p><a href="https://www.microsoft.com/ja-jp/windows/lifecycle/xp_eos.aspx">来月9日にサポートが切れる</a>とはいえ、日本マイクロソフト株式会社様が協賛しているにも関わらず、IE6のサポートをしないCSSのお話をしてしまったのは、配慮が足りていなかったですね…</p>
+
+<h3 id="ie6でサポートが切れているcss-selector">IE6でサポートが切れているCSS Selector</h3>
+
+<ul>
+<li>E &gt; F</li>
+<li>E + F</li>
+<li>E ~ F</li>
+<li>E:first-child</li>
+<li>E[attribute=value]</li>
+</ul>
+
+<p>たとえば、IE6のサポートが切れるとE[attribute=value]が使えるので、a(target=&rdquo;_blank&rdquo;)のように新規ウィンドウ表示のtargetプロパティをもつaタグにわざわざclassを付ける必要ななく、下記のようにCSSを書けば事足ります。</p>
+
+<pre><code class="language-css">a[target=blank] {
+  padding-right: 18px;
+  background: url(&quot;/images/i_blank.gif&quot;) no-repeat right center;
+}
+</code></pre>
+
+<p>要素間の兄弟関係でスタイルを当て込む、E &gt; F、E + F、E ~ Fは影響範囲を絞り込んでくれるので、コンポーネント化が叫ばれる昨今では積極的に使っていくべきCSS Selectorだと思います。</p>
+
+<h3 id="スマートフォンサイトでのcss-selector">スマートフォンサイトでのCSS Selector</h3>
+
+<p>登壇時間が15分と短かったので省きましたが、IE6サポートを切っているサイトだけではなく、スマートフォンサイトのコーディングでもCSS Selectorが適切に使われていないコーディングをしているケースがよく見受けられます。</p>
+
+<p>下記のセレクターくらいは積極的に使っていきましょう。</p>
+
+<ul>
+<li>E:last-child</li>
+<li>E:nth-child(n)</li>
+<li>E:first-of-type</li>
+<li>E:last-of-type</li>
+</ul>
+
+<h3 id="登壇を終えて">登壇を終えて</h3>
+
+<p>人生初の登壇ということで当日はかなり緊張していて、話したかったことがちゃんと伝わったか不安でしたが、Twitterの#cmu_jpのハッシュを見返してみたらレスポンスがちゃんと返って来ていたので安心しました。</p>
+
+<p>また機会があれば、登壇したいです。</p>
+
+
+        <hr>
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="kzhrk0430">Tweet</a>
+      </main>
+
+      <footer class="footer">
+  <h3>Author</h3>
+  <div>
+    <h4>kzhrk/Kazuhiro Kobayashi</h4>
+    <p>マークアップエンジニアを経てフロントエンドエンジニアに転身。HTMLのセマンティックさ、運用しやすいCSS設計について考える日々。</p>
+    <ul>
+      <li><a href="https://twitter.com/kzhrk0430">twitter</a></li>
+      <li><a href="https://facebook.com/kzhrk">facebook</a></li>
+      <li><a href="https://github.com/kzhrk">github</a></li>
+    </ul>
+  </div>
+  <address>Copyright &copy; kzhrk 2020</address>
+</footer>
+    </div>
+
+    <script>
+  
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-29985375-3', 'auto');
+  ga('send', 'pageview');
+</script>
+
+    <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/ja_JP/sdk.js#xfbml=1&version=v2.4";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+  </body>
+</html>

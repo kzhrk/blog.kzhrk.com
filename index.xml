@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>kzhrk&#39;s blog</title>
+    <link>https://blog.kzhrk.com/</link>
+    <description>Recent content on kzhrk&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Wed, 06 May 2020 00:00:00 +0900</lastBuildDate>
+    
+	<atom:link href="https://blog.kzhrk.com/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Deploy Next.js project to now</title>
+      <link>https://blog.kzhrk.com/posts/2020/05/now-deploy.html</link>
+      <pubDate>Wed, 06 May 2020 00:00:00 +0900</pubDate>
+      
+      <guid>https://blog.kzhrk.com/posts/2020/05/now-deploy.html</guid>
+      <description>Next.jsでつくったプロジェクトを、CircleCIからVercel(旧now)にデプロイするときに躓いたので忘備録として記事を残しておく。
+Next.jsでTODOをつくった Next.jsの習作としてTODOをつくってみた。
+VSCodeのCommand Paletteの操作感が好きなのでキーボード操作でタスクの追加と削除ができるUIになっている。
+Next.js + Material UI + TypeScript + VSCodeで開発すると、型がUIのドキュメンテーションとして機能していて、開発体験が非常によかった。
+CTODO
+Vercelへのデプロイ Vercelへデプロイする場合、最も簡単な方法はGit IntergrationでGitHubのリポジトリをVercelプロジェクトに結びつける方法だ。
+この方法だと、GitHubにPushしたら必ずデプロイが実行されるようになる。
+テストやlintをパスした状態でデプロイ実行したかったのでCircleCIでWorkflowを定義した。
+VercelのTokenの設定 CircleCIからVercelへデプロイする場合、まずAccount Settings &amp;gt; TokensのCreateボタンを押下して、Create Tokenモーダルで適当なToken名を設定してTokenを作成する。
+次に、CircleCIの環境変数にVercelのTokenを定義する。
+Project Settings &amp;gt; Environment VariablesにNOW_TOKENという名前で先ほどのTokenを設定する。
+デプロイコマンド npmで提供されているデプロイに使うnowをインストールする。
+$ yarn add -D now  npm-scriptsにデプロイ用のコマンドを追記する。このとき、先ほど作成したCircleCIの環境変数をtokenオプションとして渡す。
+prodオプションをつけないとプロジェクト名+ランダム文字列のURLのプレビューURLが発行されるので、production用とpreview用のコマンドを用意した。
+{ &amp;quot;scripts&amp;quot;: { &amp;quot;deploy:production&amp;quot;: &amp;quot;now -t $NOW_TOKEN -c --prod&amp;quot;, &amp;quot;deploy:preview&amp;quot;: &amp;quot;now -t $NOW_TOKEN -c&amp;quot; } }  CircleCIの設定 CircleCIの設定ファイルを作成する。
+nowコマンドはプロジェクトのディレクトリがVercelのプロジェクト名として定義されるので、working_directoryプロパティを定義してVercelのProduction/Stagingのプロジェクトを出し分ける必要がある。
+CircleCIではデフォルトのディレクトリ名がprojectなので、working_directoryを指定しなかった場合、Vercelにprojectという名前のプロジェクトが作成される。
+Vercelにctodo, stg-ctodoのプロジェクトを用意して、stg-ctodoプロジェクトをプレビュー用に使うと仮定すると下記のような実装になる。
+（nowコマンドのaliasオプションを利用すればstg-ctodoプロジェクトを用意する必要がなくなると思われる）
+jobs: deploy: parameters: project: type: string default: stg-ctodo working_directory: ~/&amp;lt;&amp;lt; parameters.</description>
+    </item>
+    
+    <item>
+      <title>Migrate storybook v4 to v5</title>
+      <link>https://blog.kzhrk.com/posts/2019/03/storybook-v5.html</link>
+      <pubDate>Mon, 11 Mar 2019 00:00:00 +0900</pubDate>
+      
+      <guid>https://blog.kzhrk.com/posts/2019/03/storybook-v5.html</guid>
+      <description>Storybook v4.0からv5.0にアップデートした Storybook v5がリリースされたので、v4からv5にアップデートした。
+公式アナウンスのマイグレーション方法はこちら。
+webpack.config.js Storybookのwebpack.config.jsをfull-controll modeで使っている（functionをexportsするやつ）場合は、functionの引数をObjectに変更する必要がある。
+- module.exports = (storybookBaseConfig, configType) =&amp;gt; { + module.exports = ({config, mode}) =&amp;gt; {  https://github.com/kzhrk-sandbox/storybook-for-styleguide/commit/26e0974708cef41d56627e95a3ea4a432effa4cc#diff-6da49b24efd584154cfb4ec759745192L3
+今までは第一引数、第二引数にStorybookから値が投げ込まれていたが、引数がObjectになったことで変数名（key名）が決め打ちになった。
+storiesOfの第一引数に日本語が使えない storiesOfの第一引数のサニタイズに使われている関数が追加され下記リンクのような実装になっているので、storiesOfの第一引数にA-Za-z0-9以外の文字が使えなくなった。
+https://github.com/storybooks/storybook/commit/54faca3793338cb521c8b1aaf5801c597f037cb8#diff-18efc3f2c976feeab3887b2fd2a58f7eR15
+このサニタイズは、Storybookにカテゴリ名やストーリー名を登録する際に実行される。サニタイズの結果、カテゴリ名やストーリー名がカラになったときにエラーが返却されて登録が弾かれる。
+https://github.com/storybooks/storybook/commit/54faca3793338cb521c8b1aaf5801c597f037cb8#diff-18efc3f2c976feeab3887b2fd2a58f7eR21
+実際にサニタイズを実行してみると、下記のような結果になる。
+&#39;ヘッドライン&#39; .toLowerCase() .replace(/[^a-z0-9-]/g, &#39;-&#39;) .replace(/-+/g, &#39;-&#39;) .replace(/^-+/, &#39;&#39;) .replace(/-+$/, &#39;&#39;) // &#39;&#39; &#39;headline ヘッドライン&#39; .toLowerCase() .replace(/[^a-z0-9-]/g, &#39;-&#39;) .replace(/-+/g, &#39;-&#39;) .replace(/^-+/, &#39;&#39;) .replace(/-+$/, &#39;&#39;) // &#39;headline&#39;  頭に半角英数を入れればStorybookへの登録はできるが、サニタイズ後の名前が登録されてしまう。
+そのため、icon: ログインやicon: ログアウトを登録すると、両方ともiconとなるため最初に登録されたStoryしか有効にならない。
+このサニタイズ部分を修正してテストを実行するといくつかのテストがコケたので、修正のPRを送るのには骨が折れそう。
+ひとまずフォークしてぐちゃぐちゃコードをいじってみようと思う。</description>
+    </item>
+    
+    <item>
+      <title>技術書典5に一般参加した</title>
+      <link>https://blog.kzhrk.com/posts/2018/10/techbookfest-5.html</link>
+      <pubDate>Tue, 09 Oct 2018 23:45:56 +0900</pubDate>
+      
+      <guid>https://blog.kzhrk.com/posts/2018/10/techbookfest-5.html</guid>
+      <description>技術書典5に一般参加してきた。
+前回の技術書典4がはじめての一般参加で、そこで手に入れた技術同人誌によるインプットが有意義だったので引き続き一般参加しようと決意していた。
+購入・訪問したサークル 運01 技術書典運営事務局 入場前に今回もパンフレット買った。
+第6回の開催も期待してます。
+ス03 pixiv PAY事務局 メルペイ、LINE、アリババとPAY系のプレイヤがしのぎを削り合っているけど、pixivがPAYをやっているのは全く認識していなかった。
+コミケのような同人イベントでマッチしそう。というか、公式サイトに行ったら開催される同人イベントでpxivi PAYが使えるサークルリストを表示できる機能があるようだ。
+コミケのオンライン申し込みにも使われているCircle.msでうまいこと使えるようにするとか、イベントのサークルマップのジェネレータなりを自前で用意して最高のイベントマップUIを提供するとサークルチェックアプリ兼PAYアプリとして普及するのでは、と雑に思った。
+ス04 メルカリ 技術書典部 ブース番号がスの島は企業出展で、その中でも一際キラキラしていて賑わっていた。
+書籍自体は実務のTipsがまとまった実用的なものになっていたが、エンジニア色が多彩すぎて内容がとっちらかってる印象があった。
+ス08 虎の穴ラボ Twitterのターゲット広告が優秀すぎて自分のTwitterプロモーションにたびたび出現するところ。
+ラメ加工の美少女イラスト表紙で「同人誌です！！！」という印象が強かった。なんと無料配布。
+古いECサイトの開発環境を刷新しましたといった内容。バックエンドまわりの内容がメインで、フロントエンド、UI/UXまわりの記事はなかった。
+とらラボ！のAPI呼び出しのJSのサンプルコードが$.ajaxでつらくなった
+&amp;mdash; Kazuhiro.K a.k.a. kzhrk (@kzhrk0430) 2018年10月8日 あ12 ひかる黄金わかめ帝国 vvakameさんのGo + GraphQL本。
+vvakameさんと一緒に住んでいるネコのふわふわちゃんが掲載されたQRコードカードが尊い。
+う60 マメヒコファンクラブ 今回の一般参加で真っ先に買いに行ったところ。
+CSS設計思想のFLOCSSの考案者・谷さんご自身によるFLOCSSの解説本。
+FLOCSSは業務で何度か導入をしているので、FLOCSSのを身につけるというよりは自分の理解度がどの程度間違っていないかを確認したくて同人誌を購入した。
+会場限定頒布のマメヒコブロマイドが最高だった。次はマメヒコ写真集を出して欲しい（技術書ではない）。
+「柴犬でもわかるFLOCSS」読了。理解の確認のために購入したけど、大方認識に齟齬がなかった。Block、Elementを省略したModifierはFLOCSSの設計を周知させないと複数人開発でオーバーライド起こしそうな予感がした。
+&amp;mdash; Kazuhiro.K a.k.a. kzhrk (@kzhrk0430) 2018年10月8日 か73 潜推艦 TypeScriptはちょっと触ったレベルだったので勉強のために購入。
+TypeScriptの一番の肝になる型定義まわりの知見がピンポイントにまとまっているのはうれしい。
+き18 Nikkei Engineer Team Slack APIを活用したライブブログのつくり方が面白かった。
+技術的な部分もそうだがチャットツールとして浸透したSlackを、CMSの管理画面のように使うというのは非エンジニア層にフレンドリーでとてもいい試みだなと感じた。
+け45 伝説のコンポーネント 「よくわかるWeb Components」読了。customElementsのget()メソッドとwhenDefined()メソッド知らなかった…。get()は汎用性高そう。
+&amp;mdash; Kazuhiro.K a.k.a. kzhrk (@kzhrk0430) 2018年10月8日 所感 前回の技術書典4は秋葉原UDXビルのAKIBA_SQUAREという、イベント規模に対してせまい箱で開催され入場制限がかかるほどだったが、今回は会場も広くなり入場制限はかかっていなかったんじゃないだろうか。</description>
+    </item>
+    
+    <item>
+      <title>IIJmioにしてみた</title>
+      <link>https://blog.kzhrk.com/posts/2016/08/iij-mio.html</link>
+      <pubDate>Sat, 13 Aug 2016 00:00:00 +0900</pubDate>
+      
+      <guid>https://blog.kzhrk.com/posts/2016/08/iij-mio.html</guid>
+      <description>3年も使っていたiPhone5のバッテリーがお亡くなりになってました。
+AppleStoreで調査してもらったところ、充電回数をカンストしているというありがたいお言葉をいただきました。
+で、先週の土曜日に「シン・ゴジラ」をみてテンションが高まったので、iPhoneSEに機種変をしてきました。
+AppleStoreのスタッフさんと話していてSIMフリーかキャリア購入かどうするかという話になり、MySoftBankページで調べてみたら通信量も通話時間もスマホ持っている意味がないんじゃないかっていうぐらい少なかったので即決でSIMフリー版を購入しました。
+SIMフリーに前からしようと思っていたんですが、手続きがめんどくさそう（調べてない）という理由でずっと先延ばしにしてました。
+やってみたら思った以上に簡単に手続きが済んだので、SoftBankからIIJmioに乗り換えの手続きをまとめておきます（2016/08/13現在のもの）。
+必要なもの  iPhoneSE（SIMフリー端末） 身分証明書 クレジットカード IIJmio みおふぉん SIMカード 音声通話パック  手順 SoftBankの契約者名義の確認 契約者名義が自分でない場合はソフトバンクショップで譲渡の手続きを済ませましょう。
+更新月の確認 自分はすぐにIIJmioに変更したかったので気にしませんでしたが、更新月以外にMNP転出を行うと契約解除料9,500円がとられます。
+契約解除料を支払いたくない場合は、更新月の1〜10日までにMNP手続きを済ませてしまいましょう。
+IIJmio SIMの購入 IIJmio みおふぉん SIMカード 音声通話パックを購入します。
+サイズの選択肢に「2.ナノ」「3.マイクロ」とありますが、迷わずに「1.音声通話」を選びましょう。
+こちらの「1.音声通話」の製品にはSIMカードは付属されずエントリーコードのみが記載されています。サイズは申込時に行います。
+私は間違えてデータ専用nanoSIMを1回購入しました(´・ω:;.:&amp;hellip;
+MNP予約番号の取得 MNP予約番号の取得を行います。ソフトバンクショップでも手続き可能ですが、Y!mobileはどうだあれやこれやと質問されるようなので電話でちゃっちゃと済ませてしまいましょう。
+MNP予約番号の取得
+ガイダンスでの取得ルートがわかりづらいので、上記のリンクにある通り「2」「1」と押してオペレータに繋ぎましょう。
+ここで「Y!mobileが〜」という勧誘をされますが、「大丈夫です」と言って乗り切ります。
+受付完了後、SMSでMNP予約番号が届きます。
+IIJmioに申し込む IIJmio みおふぉん SIMカード 音声通話パックに記載されている手続きを進めます。
+ここで本人確認書類とMNP予約番号が必要になります。
+1、2日で本人確認が完了します。その後、すぐSIMカードが発送されます。
+私の場合は申し込み開始から4日くらいでSIMが手元に届きました。
+開通！ SIMに付属されている説明の通り、IIJmioオンデマンド開通センターに電話をして音声ガイダンスに従って手続きを済ませます。
+あとはiPhoneのキャリア表示が「SoftBank」から「圏外」になったのを確認してからIIJmio SIMに差し替え、専用アプリ「IIJクーポンスイッチ」でAPN構成プロファイルをインストールしたら開通完了です。
+IIJmio SIMを差して「圏外」表示になっている状態でAPN構成プロファイルインストールをしてしまうと、接続がうまく行きません。
+必ずSoftBank SIMが圏外になって回線が使用できなくなったのを確認してから、APN構成プロファイルのインストールを行いましょう。
+私はこれでハマってました。うまく接続できなかった場合は、一度「IIJクーポンスイッチ」を再インストールしてAPN構成プロファイルのインストールをやり直してみてください。
+安い早いうまい いままで7,000〜8,000円近く取られていた携帯電話代が2,000円前後に落ち着くので1年もすればiPhoneSE本体代はペイできそうです。
+LTEは問題なく拾えているので回線の遅さは全く感じないです。
+名義変更と契約解除料さえ気にしなければ5日前後でMNP転出・転入の手続きは完了しました。
+「SIMフリーにしたいなー、でも面倒くさそう…」と思っていた過去の自分に「別にソフバンショップ行かなくてもいいしメッチャ簡単やぞ！」って伝えたい。</description>
+    </item>
+    
+    <item>
+      <title>Jade(Pug)でディレクトリ構造を維持して出力する方法</title>
+      <link>https://blog.kzhrk.com/posts/2016/04/jade-hierarchy.html</link>
+      <pubDate>Tue, 19 Apr 2016 00:00:00 +0900</pubDate>
+      
+      <guid>https://blog.kzhrk.com/posts/2016/04/jade-hierarchy.html</guid>
+      <description>最近、gulpを使わずにnpm-scriptsを使ってタスク管理していたらHTMLテンプレートエンジンのJadeで少し躓いた。
+gulpを使っていれば、下記のように書けば階層構造を維持したまま出力してくれる。
+gulp = require &#39;gulp&#39; jade = require &#39;gulp-jade&#39; gulp.task &#39;jade&#39;, -&amp;gt; gulp .src(&#39;./src/**/*.jade&#39;) .pipe(jade()) .pipe(gulp.dest(&#39;./public&#39;))  ├── public │ ├── hoge │ │ └── index.html │ └── index.html └── src ├── hoge │ └── index.jade └── index.jade  しかし、jadeコマンドで下記のように実行するとフラットな状態で出力されていた。
+$ jade src --out public  ├── public │ └── index.html └── src ├── hoge │ └── index.jade └── index.jade  オフィシャルのドキュメントを読んでもそれっぽいオプションがなかったので、GitHubのissueを漁ってたらhierarchyオプションが追加されてた…
+$ jade src --hierarchy --out public  オフィシャルのドキュメントが信用ならないパターンもある。</description>
+    </item>
+    
+    <item>
+      <title>nvmで他バージョンのNode.jsのnpmを引き継ぐ</title>
+      <link>https://blog.kzhrk.com/posts/2016/04/reinstall-npm.html</link>
+      <pubDate>Sat, 16 Apr 2016 00:00:00 +0900</pubDate>
+      
+      <guid>https://blog.kzhrk.com/posts/2016/04/reinstall-npm.html</guid>
+      <description>PCのNode.jsのバージョンが古くなっていたのでバージョンを上げてみた。
+Node.jsのバージョン管理ツールのnvmを使っているけど、いままで新しいバージョンをインストールする度にグローバルにインストールしたnpmをインストールしなおしていた。
+グローバルのnpmも大した数がなかったので今まで気にしてこなかったけど、これ何かコマンドあるんじゃないかと思ったらちゃんとオプションがあった。
+$ nvm install v5.0 --reinstall-packages-from=4.2  GithubのREADME.mdにもちゃんと書いてある。
+ドキュメントはちゃんと読もうな…。</description>
+    </item>
+    
+    <item>
+      <title>100万回生きたIEバグ</title>
+      <link>https://blog.kzhrk.com/posts/2015/12/css-ie-bug.html</link>
+      <pubDate>Fri, 11 Dec 2015 12:00:00 +0900</pubDate>
+      
+      <guid>https://blog.kzhrk.com/posts/2015/12/css-ie-bug.html</guid>
+      <description>この記事は、CSS昔話 Advent Calendar 2015の記事になります。
+100万年もフィックスしないIEバグがありました。
+100万回も潰され、100万回も対応されたのです。
+立派なシェア率を誇るブラウザでした。
+100万人の人がそのブラウザを必要とし、100万人の人がそのブラウザのサポートが切れたときに泣きました。
+IEは、1回も泣きませんでした。
+とあるマークアップエンジニアは、IE6でposition: absoluteを使わなければなりませんでした。
+IE6は絶対配置なんか嫌いでした。floatやhasLayoutをもつ要素やwidth: 100%;でfloatしている要素が大嫌いでした。
+そんな要素の間や直前でposition; absolute;を指定した要素を、IE6はいつもどこかに隠してしまいました。
+他のブラウザでは同じように絶対配置されるのに、IE6だけ要素がどこかにすっ飛んで消えてしまいます。
+マークアップエンジニアは泣きながら親要素にzoom: 1;を指定したり、マークアップ構造を変更してバグを潰しました。
+とあるマークアップエンジニアは、IE6,7でz-indexを使わなければなりませんでした。
+IE6,7はz-indexなんか嫌いでした。
+&amp;lt;div style=&amp;quot;position: relative;&amp;quot;&amp;gt; &amp;lt;div style=&amp;quot;position: relative; z-index: 1;&amp;quot;&amp;gt; &amp;lt;p style=&amp;quot;position: absolute; z-index: 9999;&amp;quot;&amp;gt;HOGE&amp;lt;/p&amp;gt; &amp;lt;/div&amp;gt; &amp;lt;div style=&amp;quot;position: relative; z-index: 2;&amp;quot;&amp;gt; &amp;lt;p style=&amp;quot;position: absolute; z-index: 100;&amp;quot;&amp;gt;FUGA&amp;lt;/p&amp;gt; &amp;lt;/div&amp;gt; &amp;lt;/div&amp;gt;  IE6,7は親要素に指定されたz-indexが優先されてしまうので、z-indexが小さいFUGAを手前に出してしまいました。
+マークアップエンジニアはjQuery.each()を使って泣きながらすべての要素にz-indexを定義してバグを潰しました。
+とあるマークアップエンジニアは、IE6で透過PNGを使わなければなりませんでした。
+IE6は透過PNGなんか嫌いでした。アルファ値というものを理解したくありませんでした。
+マークアップエンジニアがPNG24の透過画像をimgタグやbackground-imageで表示しようとすると、IE6は透過部分をグレーに塗りつぶしてしまいました。
+マークアップエンジニアは泣きながらDD_belatedPNG.jsというVML(Vector Markup Language)を使ったJavaScriptライブラリでバグを潰しました。
+あるとき、IEはメジャーブラウザでした。IT革命の名のもとに大企業が業務のIT化を進める中で、IEは着実にシェアを伸ばしていました。
+どんな企業もIT化を進めました。IE6依存のシステムを導入する企業もいました。
+あるとき、IEはレガシーブラウザでした。シェア率は低迷してしまいましたが、IEは気にしませんでした。IT革命の黎明期にIT化を進めた大企業とそのグループ会社の中でまだまだ使われ続けていたからです。
+どんなマークアップエンジニアも、IEのお世話をしていました。
+zoom: 1;を定義するマークアップエンジニアもいました。JavaScriptを駆使するマークアップエンジニアもいました。コンディショナルタグでCSSを切り替えるマークアップエンジニアもいました。
+IEはいいました。
+「俺はこんなにマークアップエンジニアを苦しめてきたんだぜ」
+たったひとり、IEに見向きもしないマークアップエンジニアがいました。
+IEはそのマークアップエンジニアのそばにいって、
+「俺は100万回もバグったんだぜ！」
+と、いいました。
+マークアップエンジニアは、
+「そう…」
+と、いったきりでした。</description>
+    </item>
+    
+    <item>
+      <title>Hello Atom!!</title>
+      <link>https://blog.kzhrk.com/posts/2015/10/hello-atom.html</link>
+      <pubDate>Thu, 15 Oct 2015 12:00:00 +0900</pubDate>
+      
+      <guid>https://blog.kzhrk.com/posts/2015/10/hello-atom.html</guid>
+      <description>今まで恋に落ちるという触れ込みのSublime Text2を使っていたけど、最近になってAtomに乗り換えた。
+イケてるところ コマンドパネルにClose Other Tabsがある。
+SettingsからPackagesのステータスがひと目で分かる（Install済、Enable, Disable）。
+Packagesの設定画面がある。SublimeだとJSONファイルを編集していたのが途端に理解しやすくなった。Sublimeは設定ファイルをコメント行が書けないJSONなんかにするんじゃなくてyamlにでもするべきだったんじゃ…。
+GitのRepositoryを置いておけば、サイドナビと行数表示部分に更新状況が表示される。
+イケてないところ ⌘+Shift+Fの複数行検索、置換の挙動が怪しい。うまくいったりいかなかったりする。
+Preferred Lineの表示/非表示がコマンドパネルから操作できない。SettingsからPreferred Line Lengthを0に設定するか、Core Packagesのwrap-guideをDisableにするしかない。Toggle Preferred Line的なのが欲しい。
+つかってるPackages まだPackagesの調査を全然行っていないのでオススメのものがあればTwitterなどでリプください。
+convert-to-utf8 Atomで文字化けするShift_JISなんかをUTF-8に変換してくれる。古いコードの運用つらい。
+emmet マークアップには必須。
+japanese-wrap マルチバイト文字の折り返しがバグいのを解消してくれる。
+jshint JSHint。ESLintのPackageはまだ見当たらない。
+split-diff ファイルの差分表示。左右の画面に表示した状態で同時スクロールをしてくれるので便利。</description>
+    </item>
+    
+    <item>
+      <title>HTML5とか勉強会 第60回に参加してきた</title>
+      <link>https://blog.kzhrk.com/posts/2015/09/html5j-60.html</link>
+      <pubDate>Wed, 30 Sep 2015 12:00:00 +0900</pubDate>
+      
+      <guid>https://blog.kzhrk.com/posts/2015/09/html5j-60.html</guid>
+      <description>2015/09/29にMicrosoft本社で開催されたHTML5とか勉強会に参加してきた。
+ES2015（ES6）とES7のお話。
+これからのJavaScriptの話 ~そしてES7へ~  登壇者：1000ch スライド  ECMA ScriptとJavaScriptとの関係性と、ES2015(ES6)で実装された主なSyntax、Global Objectについて。結構ざっくりな説明とサンプルコード。
+ES7の進捗状態（Proposal）と主な仕様の説明。
+Babel で今すぐ使える ES6 体験  登壇者：takesako  Template Literalを使って新言語ゼクシィをつくってみたというネタ話。
+Babel.jsに関しては、inline mapingでデバッグが楽になるくらいしか触れていなかった。
+ES7 Decorators  登壇者：armorik83 スライド JavaScript Decorators - Qiita Wrasse  Angular.jsとMicrosoftが協力するニュース、TypeScript1.5やBabel.jsでdecoratorsが採用された経緯から、ES7でdecoratorが実装されるであろうという説明がわかりやすかった。
+あとで調べたら83さんのQiitaの記事を読めば大体書いてあった。
+他にはdecoratorsを活用した、npmで公開しているwrasseの説明とか。
+リンク貼ろうとしてWrasseでググったら魚のベラが出てきた。83さんが所属するChatWork社内ではプロジェクト名が魚で統一されているからWrasseにしたらしい。ベラの別名であるクサビ（楔）を意味するとか。
+ES7 WebAssembly+SIMD  登壇者：_furoshiki スライド  WebAssemblyのお話は時間の関係上割愛されていた。
+JavaScriptでベクトル演算ができるAPIのSIMD.jsについて。効率化、高速化のアプローチとしていいんじゃないかという話。
+SIMDはCPUの機能。SIMDはJSからCPUを操作するAPI。
+waifu2xにSIMD.jsを適応して処理を高速化するサンプルが用意されていたけど、別に早くなっていなかった…。
+SIMD.Float32x4.extractLaneがボトルネックなんじゃないかと漏らしていた。
+まだFirefox NightlyやMicrosoft Edgeあたりでしか実装されていないので、こんなのあるんだレベルの認識に留めておく。</description>
+    </item>
+    
+    <item>
+      <title>hello world</title>
+      <link>https://blog.kzhrk.com/posts/2015/09/blog-renewal.html</link>
+      <pubDate>Fri, 25 Sep 2015 10:53:28 +0900</pubDate>
+      
+      <guid>https://blog.kzhrk.com/posts/2015/09/blog-renewal.html</guid>
+      <description>GitHubにブログを移動しました。
+GitHubまでの経緯 kzhrk.comのドメインを取得してから、レンタルサーバにMovableTypeを入れたりWordPressを入れたりしたけど、ブログレベルのコンテンツをCMSで管理するのは冗長すぎた。
+管理画面にログインするのもWYSIWYGの変な挙動に悩まされるのに疲れて、ローカルでページャー等のJSONを生成してJadeに食わせてビルドしていたのが以前のブログ。
+Jadeのファイル郡からJSON生成する自前のNode.jsが見るに耐えないほど汚かったので、良さそうなジェネレーターないかなー、と思って探していたらDocPadを見つけた。
+でもメタ言語のextentionのデフォルトルールがindex.html.jadeとかapp.css.scssとかで気持ち悪かったり、ビルドが重たくて精神的負荷が高かった。で、レイアウトのマークアップだけやって放置してた。
+DocPadのことググっていたら、Hugoがいいらしい、Hugoに移行したという記事がいくつか出てきたのでHugoの導入を検討しはじめたのが今年の春先。
+Hugoの公式ドキュメントを読むと、Werckerを使って自動デプロイしようぜって項目があったのでレンタルサーバからGitHub Pagesに移行した。
+今まで更新頻度が上がらなかった理由としては、ネタがない（探していない）っていうのもあるけどそれ以前にデプロイがメンドイっていうのが一番のボトルネックだと思っているので、Werckerの導入で停滞は改善されるはず。はず。
+Hugo導入 Hugoの公式サイトのフッターにbrew install hugoって書かれてるけど、Homebrewだと古いバージョンしか落ちてこないトラップがある。最新版のバイナリを落としてくるのが吉。
+最初にHomebrewでインストールしたら、partialの記法が現行のドキュメントと違ってビルド失敗してハマってた。
+PATH通したら黒い画面で
+$ hugo new site blog $ cd blog $ hugo new post/sample.md $ hugo server -Dw  とかやれば、1313ポートに勝手にサーバ立ててくれます。livereloadもデフォルトでついてる親切仕様。
+DocPadに比べると段違いにビルドが早い。Markdownファイル保存すると、1秒もかからずにlivereloadでブラウザが更新される。すごい快適。
+Hugoにはオフィシャルのテーマが用意されていたけど、最新版（v0.14）に対応しておらずビルド失敗するものがいくつかあったので、自前でlayoutファイルを用意した。
+イチからマークアップする気はなかったので、bootstrapを導入。HTMLはStart Bootstrapから拝借。
+bootstrapやhighlight.jsなんかはnpmで落として、gulpのモジュールで必要なものだけ引っ張った。
+よけいな作業をとことん省いたら、1,2時間くらいでlayoutファイル完成した。
+ブログやドキュメント作成には申し分ない機能を備えていて、ドキュメントも充実しているのでHugoオススメです。今回はlayout自前で用意したけど、デフォルトテーマ使えばそれこそ1時間くらいで環境を整えて記事作成に着手できる感じ。</description>
+    </item>
+    
+    <item>
+      <title>Creators Meet Up 11で登壇しました</title>
+      <link>https://blog.kzhrk.com/posts/2014/03/creators-meet-up-11.html</link>
+      <pubDate>Wed, 26 Mar 2014 12:54:10 +0900</pubDate>
+      
+      <guid>https://blog.kzhrk.com/posts/2014/03/creators-meet-up-11.html</guid>
+      <description>2013年12月21日に開催されたDSLABさん主催の勉強会、Creators MeetUP 11で登壇させていただきました。
+ 第11回Creators MeetUP開催しました  資料  スライド サンプルコード  概要 「CSS Selectorを書こう」というタイトルで、IE6をサポートしないときに使えるCSS Selectorを紹介しました。
+来月9日にサポートが切れるとはいえ、日本マイクロソフト株式会社様が協賛しているにも関わらず、IE6のサポートをしないCSSのお話をしてしまったのは、配慮が足りていなかったですね…
+IE6でサポートが切れているCSS Selector  E &amp;gt; F E + F E ~ F E:first-child E[attribute=value]  たとえば、IE6のサポートが切れるとE[attribute=value]が使えるので、a(target=&amp;rdquo;_blank&amp;rdquo;)のように新規ウィンドウ表示のtargetプロパティをもつaタグにわざわざclassを付ける必要ななく、下記のようにCSSを書けば事足ります。
+a[target=blank] { padding-right: 18px; background: url(&amp;quot;/images/i_blank.gif&amp;quot;) no-repeat right center; }  要素間の兄弟関係でスタイルを当て込む、E &amp;gt; F、E + F、E ~ Fは影響範囲を絞り込んでくれるので、コンポーネント化が叫ばれる昨今では積極的に使っていくべきCSS Selectorだと思います。
+スマートフォンサイトでのCSS Selector 登壇時間が15分と短かったので省きましたが、IE6サポートを切っているサイトだけではなく、スマートフォンサイトのコーディングでもCSS Selectorが適切に使われていないコーディングをしているケースがよく見受けられます。
+下記のセレクターくらいは積極的に使っていきましょう。
+ E:last-child E:nth-child(n) E:first-of-type E:last-of-type  登壇を終えて 人生初の登壇ということで当日はかなり緊張していて、話したかったことがちゃんと伝わったか不安でしたが、Twitterの#cmu_jpのハッシュを見返してみたらレスポンスがちゃんと返って来ていたので安心しました。
+また機会があれば、登壇したいです。</description>
+    </item>
+    
+  </channel>
+</rss>

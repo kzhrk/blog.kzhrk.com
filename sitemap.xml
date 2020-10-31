@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <url>
+    <loc>https://blog.kzhrk.com/posts/2020/05/now-deploy.html</loc>
+    <lastmod>2020-05-06T00:00:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.kzhrk.com/</loc>
+    <lastmod>2020-05-06T00:00:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.kzhrk.com/posts.html</loc>
+    <lastmod>2020-05-06T00:00:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.kzhrk.com/posts/2019/03/storybook-v5.html</loc>
+    <lastmod>2019-03-11T00:00:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.kzhrk.com/posts/2018/10/techbookfest-5.html</loc>
+    <lastmod>2018-10-09T23:45:56+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.kzhrk.com/posts/2016/08/iij-mio.html</loc>
+    <lastmod>2016-08-13T00:00:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.kzhrk.com/posts/2016/04/jade-hierarchy.html</loc>
+    <lastmod>2016-04-19T00:00:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.kzhrk.com/posts/2016/04/reinstall-npm.html</loc>
+    <lastmod>2016-04-16T00:00:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.kzhrk.com/posts/2015/12/css-ie-bug.html</loc>
+    <lastmod>2015-12-11T12:00:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.kzhrk.com/posts/2015/10/hello-atom.html</loc>
+    <lastmod>2015-10-15T12:00:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.kzhrk.com/posts/2015/09/html5j-60.html</loc>
+    <lastmod>2015-09-30T12:00:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.kzhrk.com/posts/2015/09/blog-renewal.html</loc>
+    <lastmod>2015-09-25T10:53:28+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.kzhrk.com/posts/2014/03/creators-meet-up-11.html</loc>
+    <lastmod>2014-03-26T12:54:10+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.kzhrk.com/categories.html</loc>
+  </url>
+  
+  <url>
+    <loc>https://blog.kzhrk.com/tags.html</loc>
+  </url>
+  
+</urlset>
