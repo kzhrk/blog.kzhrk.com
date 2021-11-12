@@ -10,9 +10,9 @@
       <main class="main">
         {{ $paginator := .Paginate (where .Data.Pages "Type" "posts") }}
         {{ range $paginator.Pages }}
-        <section>
-          <h2><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
+        <section class="post">
           <p><span class="glyphicon glyphicon-time"></span> Posted on {{ .Date.Format "2006-01-02" }}</p>
+          <h2><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
         </section>
         {{ end }}
 

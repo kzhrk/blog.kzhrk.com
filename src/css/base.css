@@ -3,7 +3,8 @@ html {
 }
 
 body {
-  font-family: Noto Sans,Noto Sans CJK JP,NotoSansCJKjp-1000ch,sans-serif;
+  margin: 0;
+  font-family: Noto Sans, Noto Sans CJK JP, NotoSansCJKjp-1000ch, sans-serif;
   font-size: 1.6rem;
   color: #333;
   box-sizing: border-box;
@@ -13,12 +14,11 @@ body {
 }
 
 a {
-  color: #ff8c00;
-  transition: opacity .3s;
+  color: #2434ab;
   text-decoration: none;
 }
 a:hover {
-  opacity: .7;
+  color: #4d569d;
 }
 
 h1,
@@ -30,11 +30,21 @@ h4 {
 }
 
 code {
-  background-color: #FFEFDF;
-  padding: .5rem;
+  font-family: "Roboto Mono", monospace;
+  font-size: 1.4rem;
+  margin: 0.1rem 0.2rem;
+  padding: 0.1rem 0.2rem;
+  border: 0.1rem solid #eee;
+  border-radius: 0.4rem;
+  background-color: #eee;
 }
-pre code {
+
+pre > code {
   display: block;
+  overflow-x: scroll;
+  margin: 0.8rem 0;
+  padding: 0.8rem;
+  border-width: 0;
 }
 
 table {
@@ -43,14 +53,18 @@ table {
   overflow: auto;
 }
 th {
-  background-color: #FFEFDF;
+  background-color: #ffefdf;
 }
 td,
 th {
-  padding: .8rem;
-  border: .1rem solid #ddd;
+  padding: 0.8rem;
+  border: 0.1rem solid #ddd;
 }
 
 address {
   font-style: normal;
+}
+
+hr {
+  margin: 2rem 0;
 }

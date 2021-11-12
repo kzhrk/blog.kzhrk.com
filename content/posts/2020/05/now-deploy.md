@@ -9,10 +9,10 @@ Next.jsでつくったプロジェクトを、CircleCIから[Vercel](https://ver
 ### Next.jsでTODOをつくった
 
 Next.jsの習作としてTODOをつくってみた。  
-VSCodeのCommand Paletteの操作感が好きなのでキーボード操作でタスクの追加と削除ができるUIになっている。  
+VSCodeのCommand Paletteの操作感が好きなのでキーボード操作でタスクの追加と削除ができるUIになっている。  
 Next.js + Material UI + TypeScript + VSCodeで開発すると、型がUIのドキュメンテーションとして機能していて、開発体験が非常によかった。
 
-[CTODO](https://ctodo.now.sh/)
+[CTODO](https://ctodo.now.sh/)
 
 ### Vercelへのデプロイ
 
@@ -23,7 +23,7 @@ Vercelへデプロイする場合、最も簡単な方法は[Git Intergration](h
 
 ### VercelのTokenの設定
 
-CircleCIからVercelへデプロイする場合、まず[Account Settings > Tokens](https://vercel.com/account/tokens)のCreateボタンを押下して、Create Tokenモーダルで適当なToken名を設定してTokenを作成する。
+CircleCIからVercelへデプロイする場合、まず[Account Settings > Tokens](https://vercel.com/account/tokens)のCreateボタンを押下して、Create Tokenモーダルで適当なToken名を設定してTokenを作成する。
 
 次に、CircleCIの環境変数にVercelのTokenを定義する。  
 Project Settings > Environment VariablesにNOW_TOKENという名前で先ほどのTokenを設定する。
