@@ -1,29 +1,27 @@
 {
-  "private": true,
-  "scripts": {
-    "css": "postcss ./src/css/*.css -c ./postcss.config.js --no-map -b ./src/css -x css -d ./static/css",
-    "watch": "watch \"make postcss\" ./src/css --interval=15"
-  },
-  "dependencies": {
-    "highlight.js": "^9.12.0",
-    "reset-css": "^3.0.0"
-  },
-  "devDependencies": {
-    "autoprefixer": "^8.3.0",
-    "babel-core": "^6.26.0",
-    "babel-loader": "^7.1.4",
-    "babel-preset-env": "^1.6.1",
-    "cpx": "^1.5.0",
-    "cssnano": "^3.10.0",
-    "eslint": "^4.19.1",
-    "eslint-config-prettier": "^2.9.0",
-    "eslint-plugin-prettier": "^2.6.0",
-    "postcss-cli": "^5.0.0",
-    "postcss-import": "^11.1.0",
-    "precss": "^3.1.2",
-    "prettier": "^1.12.1",
-    "watch": "^1.0.2",
-    "webpack": "^4.6.0",
-    "webpack-cli": "^2.0.14"
-  }
+	"name": "blog.kzhrk.com",
+	"private": true,
+	"type": "module",
+	"scripts": {
+		"build": "nuxt build",
+		"dev": "nuxt dev",
+		"generate": "nuxt generate",
+		"preview": "nuxt preview",
+		"postinstall": "nuxt prepare",
+		"format": "biome format --write ."
+	},
+	"dependencies": {
+		"@nuxtjs/sitemap": "^5.1.4",
+		"highlight.js": "^11.9.0",
+		"nuxt": "^3.11.2",
+		"vue": "^3.4.21",
+		"vue-router": "^4.3.0"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "1.7.1",
+		"@nuxtjs/tailwindcss": "^6.11.4",
+		"date-fns": "^3.6.0",
+		"marked": "^12.0.1",
+		"parse-md": "^3.0.3"
+	}
 }
