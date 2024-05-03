@@ -50,7 +50,7 @@ onMounted(() => {
 		</div>
 		<div v-html="html" class="html" />
     <div class="mt-8">
-      <a class="twitter-share-button" :href="`https://twitter.com/intent/tweet?url=${url}&text=${title}`">
+      <a class="twitter-share-button" :href="`https://twitter.com/intent/tweet?url=${url}&text=${title} | blog.kzhrk.com`">
         Tweet
       </a>
     </div>
