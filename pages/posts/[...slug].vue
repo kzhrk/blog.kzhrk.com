@@ -24,11 +24,11 @@ onMounted(() => {
 });
 
 useHead(() => ({
-	title,
+	title: `${title} | blog.kzhrk.com`,
 	meta: [
 		{
 			name: "twitter:title",
-			content: title,
+			content: `${title} | blog.kzhrk.com`,
 		},
 		{
 			property: "og:url",
