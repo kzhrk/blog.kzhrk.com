@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { format } from "date-fns";
 import hljs from "highlight.js";
-import 'highlight.js/styles/github.css';
+import "highlight.js/styles/github.css";
 
 const route = useRoute();
 const slug = route.params.slug as string[];
