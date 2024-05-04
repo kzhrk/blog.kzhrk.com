@@ -33,6 +33,10 @@ export default defineNuxtConfig({
 	generate: {
 		routes,
 	},
+	site: {
+		url: "https://blog.kzhrk.com",
+		trailingSlash: false,
+	},
 	vite: {
 		plugins: [
 			{
