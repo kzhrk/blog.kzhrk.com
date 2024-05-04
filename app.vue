@@ -33,24 +33,13 @@ useHead(() => ({
 			content: "https://blog.kzhrk.com/",
 		},
 	],
-	script: [
-		{
-			src: "https://www.googletagmanager.com/gtag/js?id=G-E9G5KSJ28F",
-			async: true,
-		},
-		{
-			innerHTML: `
-			window.dataLayer = window.dataLayer || [];
-			function gtag(){dataLayer.push(arguments);}
-			gtag('js', new Date());
-			gtag('config', 'G-E9G5KSJ28F');
-			`,
-		},
-	],
 }));
 </script>
 
 <template>
+	<!-- Google Tag Manager (noscript) -->
+	<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5WPKT2H7" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+	<!-- End Google Tag Manager (noscript) -->
   <nuxt-layout>
     <nuxt-page />
   </nuxt-layout>
