@@ -35,6 +35,14 @@ useHead(() => ({
 	],
 	link: [
 		{
+			rel: "icon",
+			href: "/favicon.png",
+		},
+		{
+			rel: "shortcut icon",
+			href: "/favicon.png",
+		},
+		{
 			rel: "preconnect",
 			href: "https://www.googletagmanager.com",
 		},
