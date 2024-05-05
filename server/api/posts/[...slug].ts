@@ -11,8 +11,13 @@ export default defineEventHandler(async (event) => {
 		content: string;
 	};
 	const html = parse(content);
+	const description = `${content
+		.replace(/##(#+)?\s/g, "")
+		.replace(/```(\w+)?(\r\n|\n|\r)/g, "")
+		.substring(0, 100)}...`;
 	return {
 		...metadata,
 		html,
+		description,
 	};
 });

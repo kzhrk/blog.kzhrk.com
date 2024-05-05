@@ -17,6 +17,7 @@ const title = res.data.value.title;
 const metaTitle = `${title} | blog.kzhrk.com`;
 const html = res.data.value.html;
 const date = res.data.value.date;
+const description = res.data.value.description;
 const formatedDate = format(date, "yyyy年M月d日");
 const url = `https://blog.kzhrk.com/posts/${slug.join("/")}`;
 
@@ -24,8 +25,16 @@ useHead(() => ({
 	title: metaTitle,
 	meta: [
 		{
+			name: "description",
+			content: description,
+		},
+		{
 			name: "twitter:title",
 			content: metaTitle,
+		},
+		{
+			property: "og:description",
+			content: description,
 		},
 		{
 			property: "og:url",

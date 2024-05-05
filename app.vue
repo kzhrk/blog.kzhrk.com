@@ -1,9 +1,14 @@
 <script lang="ts" setup>
 const title = "blog.kzhrk.com";
+const description = "kzhrk のブログ。プログラミングとか料理とか映像作品とか。";
 
 useHead(() => ({
 	title,
 	meta: [
+		{
+			name: "description",
+			content: description,
+		},
 		{
 			name: "twitter:card",
 			content: "summary_large_image",
@@ -15,6 +20,10 @@ useHead(() => ({
 		{
 			name: "twitter:title",
 			content: title,
+		},
+		{
+			property: "og:description",
+			content: description,
 		},
 		{
 			property: "og:image",
