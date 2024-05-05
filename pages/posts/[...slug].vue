@@ -20,10 +20,6 @@ const date = res.data.value.date;
 const formatedDate = format(date, "yyyy年M月d日");
 const url = `https://blog.kzhrk.com/posts/${slug.join("/")}`;
 
-onMounted(() => {
-	hljs.highlightAll();
-});
-
 useHead(() => ({
 	title: metaTitle,
 	meta: [
@@ -39,6 +35,7 @@ useHead(() => ({
 }));
 
 onMounted(() => {
+	hljs.highlightAll();
 	window.twttr.widgets.load();
 });
 </script>
