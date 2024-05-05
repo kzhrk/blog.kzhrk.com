@@ -33,6 +33,12 @@ useHead(() => ({
 			content: "https://blog.kzhrk.com/",
 		},
 	],
+	link: [
+		{
+			rel: "preconnect",
+			href: "https://www.googletagmanager.com",
+		},
+	],
 }));
 </script>
 
