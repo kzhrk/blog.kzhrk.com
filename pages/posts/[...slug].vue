@@ -14,6 +14,7 @@ if (res.error.value) {
 }
 
 const title = res.data.value.title;
+const metaTitle = `${title} | blog.kzhrk.com`;
 const html = res.data.value.html;
 const date = res.data.value.date;
 const formatedDate = format(date, "yyyy年M月d日");
@@ -24,11 +25,11 @@ onMounted(() => {
 });
 
 useHead(() => ({
-	title: `${title} | blog.kzhrk.com`,
+	title: metaTitle,
 	meta: [
 		{
 			name: "twitter:title",
-			content: `${title} | blog.kzhrk.com`,
+			content: metaTitle,
 		},
 		{
 			property: "og:url",
@@ -50,7 +51,7 @@ onMounted(() => {
 		</div>
 		<div v-html="html" class="html" />
     <div class="mt-8">
-      <a class="twitter-share-button" :href="`https://twitter.com/intent/tweet?url=${url}&text=${title} | blog.kzhrk.com`">
+      <a class="twitter-share-button" :href="`https://twitter.com/intent/tweet?url=${url}&text=${title}`">
         Tweet
       </a>
     </div>
