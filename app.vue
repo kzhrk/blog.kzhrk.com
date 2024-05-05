@@ -8,18 +8,18 @@ useHead(() => ({
 			name: "twitter:card",
 			content: "summary_large_image",
 		},
-		// {
-		// 	name: "twitter:image",
-		// 	content: "https://blog.kzhrk.com/images/logo.png",
-		// },
+		{
+			name: "twitter:image",
+			content: "https://blog.kzhrk.com/images/ogp.png",
+		},
 		{
 			name: "twitter:title",
 			content: title,
 		},
-		// {
-		// 	property: "og:image",
-		// 	content: "https://blog.kzhrk.com/images/logo.png",
-		// },
+		{
+			property: "og:image",
+			content: "https://blog.kzhrk.com/images/ogp.png",
+		},
 		{
 			property: "og:site_name",
 			content: "blog.kzhrk.com",
