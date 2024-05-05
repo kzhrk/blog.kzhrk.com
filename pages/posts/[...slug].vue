@@ -7,17 +7,17 @@ const route = useRoute();
 const slug = route.params.slug as string[];
 
 const apiParam = slug.join("-");
-const res = await useFetch(`/api/posts/${apiParam}`);
+const { data } = await useFetch(`/api/posts/${apiParam}`, {
+	onResponseError() {
+		return navigateTo("/404");
+	}
+});
 
-if (res.error.value) {
-	await navigateTo("/404");
-}
-
-const title = res.data.value.title;
+const title = data.value.title;
 const metaTitle = `${title} | blog.kzhrk.com`;
-const html = res.data.value.html;
-const date = res.data.value.date;
-const description = res.data.value.description;
+const html = data.value.html;
+const date = data.value.date;
+const description = data.value.description;
 const formatedDate = format(date, "yyyy年M月d日");
 const url = `https://blog.kzhrk.com/posts/${slug.join("/")}`;
 

@@ -1,8 +1,7 @@
 <script lang="ts" setup>
 import { format } from "date-fns";
 
-const res = await useFetch("/api/posts");
-const data = res.data;
+const { data } = await useFetch("/api/posts");
 
 function getFormatedDate(dateString: string) {
 	return format(dateString, "yyyy年M月d日");
