@@ -3,7 +3,7 @@
     <div class="px-6 py-4 sm:px-12 sm:py-8 bg-slate-800 bg-opacity-75">
       <div class="w-auto sm:w-10/12 mx-auto">
         <h1 class="text-xl sm:text-3xl font-bold">
-          <nuxt-link class="font-normal" href="/">blog.kzhrk.com</nuxt-link>
+          <nuxt-link class="font-normal" to="/">blog.kzhrk.com</nuxt-link>
         </h1>
       </div>
     </div>
