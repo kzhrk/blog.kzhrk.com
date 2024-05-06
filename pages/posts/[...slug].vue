@@ -10,7 +10,7 @@ const apiParam = slug.join("-");
 const { data } = await useFetch(`/api/posts/${apiParam}`, {
 	onResponseError() {
 		return navigateTo("/404");
-	}
+	},
 });
 
 const title = data.value.title;
@@ -18,6 +18,7 @@ const metaTitle = `${title} | blog.kzhrk.com`;
 const html = data.value.html;
 const date = data.value.date;
 const description = data.value.description;
+const tags = data.value.tags as string[] | undefined;
 const formatedDate = format(date, "yyyy年M月d日");
 const url = `https://blog.kzhrk.com/posts/${slug.join("/")}`;
 
@@ -52,8 +53,13 @@ onMounted(() => {
 <template>
   <section class="px-6 py-12 sm:p-12">
 		<h1 class="mb-4 text-3xl font-bold">{{ title }}</h1>
-		<div class="mb-10">
+		<div class="mb-10 flex items-center">
 			<time :datetime="date" class="text-sm text-gray-600">{{ formatedDate }}</time>
+			<ul v-if="tags" v-for="(tag, i) in tags" :key="i" class="flex gap-4 items-center ml-4">
+				<li>
+					<nuxt-link :to="`/?tags=${tag}`" class="text-sm block px-2 py-1 text-gray-700 bg-blue-100 hover:bg-blue-200">{{ tag }}</nuxt-link>
+				</li>
+			</ul>
 		</div>
 		<div v-html="html" class="html" />
     <div class="mt-8">

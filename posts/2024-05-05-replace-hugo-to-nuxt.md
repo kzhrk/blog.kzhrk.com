@@ -1,6 +1,7 @@
 ---
 title: "SSG を Hugo から Nuxt に置き換えた"
 date: 2024-05-05T00:00:00+09:00
+tags: [技術]
 ---
 
 kzhrk.com のドメインは大学生か新卒のときに取得したドメインで、最初はレンタルサーバ上の PHP で [Movable Type](https://www.movabletype.org/) を動かしていた。  
