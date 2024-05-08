@@ -70,6 +70,10 @@ useHead(() => ({
 
 <style>
 body {
+	@apply dark:text-white dark:bg-gray-900;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica Neue, Hiragino Kaku Gothic ProN, meiryo, sans-serif;
+}
+.link {
+	@apply text-blue-700 dark:text-blue-200;
 }
 </style>

@@ -11,7 +11,7 @@
   <main class="w-auto sm:w-10/12 mx-auto">
     <nuxt-page />
   </main>
-  <footer class="px-6 py-8 sm:px-12 sm:py-16 bg-gray-200">
+  <footer class="px-6 py-8 sm:px-12 sm:py-16 bg-gray-200 dark:bg-gray-800">
 		<div class="w-auto sm:w-10/12 mx-auto">
 			<h1 class="text-xl font-bold">Author</h1>
 			<div class="mt-4 flex items-center">
@@ -22,7 +22,7 @@
 		</div>
     <p class="mt-16 text-sm text-center">
       &copy; 2014
-      <a class="text-link underline hover:no-underline" href="https://blog.kzhrk.com">kzhrk</a>
+      <a class="link underline hover:no-underline" href="https://blog.kzhrk.com">kzhrk</a>
     </p>
   </footer>
 </template>

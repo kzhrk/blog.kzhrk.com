@@ -15,6 +15,9 @@ export default defineEventHandler(async (event) => {
 		const tag = `h${level}`;
 		return `<${tag} id="${text}" class="heading">${text}<a href="#${text}" class="heading-anchor-icon" aria-hidden="true">アンカーリンク</a></${tag}>`;
 	};
+	renderer.link = (href, _title, text) => {
+		return `<a href="${href}" class="link">${text}</a>`;
+	};
 	const html = parse(content, {
 		renderer,
 	});

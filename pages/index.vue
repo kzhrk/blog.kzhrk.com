@@ -43,7 +43,7 @@ useHead(() => ({
 	</section>
   <section class="px-6 sm:px-12 my-12" v-for="(post, i) in posts" :key="i">
     <h1 class="text-2xl">
-      <nuxt-link class="text-link underline hover:no-underline" :to="`/posts${post.path}`">
+      <nuxt-link class="link underline hover:no-underline" :to="`/posts${post.path}`">
         {{ post.title }}
       </nuxt-link>
     </h1>

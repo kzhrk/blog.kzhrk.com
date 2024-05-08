@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { format } from "date-fns";
 import hljs from "highlight.js";
-import "highlight.js/styles/github.css";
+import "highlight.js/styles/github-dark.css";
 
 const route = useRoute();
 const slug = route.params.slug as string[];
@@ -54,7 +54,7 @@ onMounted(() => {
   <section class="px-6 py-12 sm:p-12">
 		<h1 class="mb-4 text-3xl font-bold">{{ title }}</h1>
 		<div class="mb-10 flex items-center">
-			<time :datetime="date" class="text-sm text-gray-600">{{ formatedDate }}</time>
+			<time :datetime="date" class="text-sm text-gray-600 dark:text-gray-200">{{ formatedDate }}</time>
 			<ul v-if="tags" v-for="(tag, i) in tags" :key="i" class="flex gap-4 items-center ml-4">
 				<li>
 					<nuxt-link :to="`/?tags=${tag}`" class="text-sm block px-2 py-1 text-gray-700 bg-blue-100 hover:bg-blue-200">{{ tag }}</nuxt-link>
@@ -100,15 +100,18 @@ onMounted(() => {
   @apply mt-2 list-disc;
 }
 .html ul li::marker {
-  @apply text-gray-700;
+  @apply text-gray-700 dark:text-gray-200;
 }
 .html a {
-  @apply text-link underline hover:no-underline;
+  @apply underline hover:no-underline;
 }
 .html pre {
 	@apply my-8;
 }
 .html code {
-	@apply bg-gray-100;
+	@apply bg-gray-100 dark:bg-gray-500;
+}
+.html pre code {
+	@apply bg-gray-700;
 }
 </style>
