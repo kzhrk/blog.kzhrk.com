@@ -1,5 +1,5 @@
 import { readFileSync } from "node:fs";
-import { parse } from "marked";
+import { parse, Renderer } from "marked";
 import parseMD from "parse-md";
 
 export default defineEventHandler(async (event) => {
@@ -10,7 +10,14 @@ export default defineEventHandler(async (event) => {
 		metadata: Metadata;
 		content: string;
 	};
-	const html = parse(content);
+	const renderer = new Renderer();
+	renderer.heading = (text, level) => {
+		const tag = `h${level}`;
+		return `<${tag} id="${text}" class="heading">${text}<a href="#${text}" class="heading-anchor-icon" aria-hidden="true">アンカーリンク</a></${tag}>`;
+	};
+	const html = parse(content, {
+		renderer,
+	});
 	const description = `${content
 		.replace(/##(#+)?\s/g, "")
 		.replace(/```(\w+)?(\r\n|\n|\r)/g, "")

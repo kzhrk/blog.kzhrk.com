@@ -25,22 +25,27 @@ Preferred Line の表示/非表示がコマンドパネルから操作できな�
 
 まだ Packages の調査を全然行っていないのでオススメのものがあれば Twitter などでリプください。
 
-### [convert-to-utf8](https://atom.io/packages/convert-to-utf8)
+### convert-to-utf8
 
+https://atom.io/packages/convert-to-utf8
 Atom で文字化けする Shift_JIS なんかを UTF-8 に変換してくれる。古いコードの運用つらい。
 
-### [emmet](https://atom.io/packages/emmet)
+### emmet
 
+https://atom.io/packages/emmet  
 マークアップには必須。
 
-### [japanese-wrap](https://atom.io/packages/japanese-wrap)
+### japanese-wrap
 
+https://atom.io/packages/japanese-wrap  
 マルチバイト文字の折り返しがバグいのを解消してくれる。
 
-### [jshint](https://atom.io/packages/jshint)
+### jshint
 
+https://atom.io/packages/jshint  
 JSHint。ESLint の Package はまだ見当たらない。
 
-### [split-diff](https://atom.io/packages/split-diff)
+### split-diff
 
+https://atom.io/packages/split-diff  
 ファイルの差分表示。左右の画面に表示した状態で同時スクロールをしてくれるので便利。
