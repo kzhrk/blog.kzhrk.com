@@ -1,6 +1,7 @@
 ---
 title: "Migrate storybook v4 to v5"
 date: 2019-03-11T00:00:00+09:00
+tags: [技術]
 ---
 
 ## Storybook v4.0 から v5.0 にアップデートした

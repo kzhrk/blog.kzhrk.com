@@ -1,6 +1,7 @@
 ---
 title: "Deploy Next.js project to now"
 date: 2020-05-06T00:00:00+09:00
+tags: [技術]
 ---
 
 Next.js でつくったプロジェクトを、CircleCI から[Vercel](https://vercel.com/)(旧 now)にデプロイするときに躓いたので忘備録として記事を残しておく。

@@ -1,6 +1,7 @@
 ---
 date: 2015-10-15T12:00:00+09:00
 title: Hello Atom!!
+tags: [技術]
 ---
 
 今まで[恋に落ちるという触れ込みの Sublime Text2](http://www.sublimetext.com/)を使っていたけど、最近になって[Atom](https://atom.io/)に乗り換えた。

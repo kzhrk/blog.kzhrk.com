@@ -1,6 +1,7 @@
 ---
 date: 2014-03-26T12:54:10+09:00
 title: Creators Meet Up 11で登壇しました
+tags: [イベント]
 ---
 
 2013 年 12 月 21 日に開催された[DSLAB さん](http://lab.designsatellites.jp/)主催の勉強会、Creators MeetUP 11 で登壇させていただきました。
