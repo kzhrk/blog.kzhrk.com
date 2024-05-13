@@ -1,17 +1,21 @@
-import { readFileSync, statSync } from "node:fs";
+import { readFileSync } from "node:fs";
 import { parse, Renderer } from "marked";
+import { execSync } from "node:child_process"
 import parseMD from "parse-md";
 
 export default defineEventHandler(async (event) => {
 	const slug = getRouterParam(event, "slug");
 	const path = `./posts/${slug}.md`;
 	const file = readFileSync(path);
-	const stat = statSync(path);
 
 	const { metadata, content } = parseMD(file.toString()) as {
 		metadata: Metadata;
 		content: string;
 	};
+
+	const gitLog = execSync(`git log --no-merges --pretty=format:"%ad" --date=format:"%Y/%m/%d %H:%M:%S" ${path}`);
+	const updatedAt = gitLog.toString().split('\n')[0]; 
+
 	const renderer = new Renderer();
 	renderer.heading = (text, level) => {
 		const tag = `h${level}`;
@@ -30,7 +34,7 @@ export default defineEventHandler(async (event) => {
 	return {
 		...metadata,
 		createdAt: metadata.date,
-		updatedAt: stat.mtime,
+		updatedAt,
 		html,
 		description,
 	};
