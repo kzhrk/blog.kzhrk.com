@@ -47,11 +47,16 @@ useHead(() => ({
         {{ post.title }}
       </nuxt-link>
     </h1>
-		<div class="mt-2 flex items-center">
-			<time class="text-sm" :datetime="post.date">{{ getFormatedDate(post.date) }}</time>
-			<ul v-if="post.tags" v-for="(tag, i) in post.tags" :key="i" class="flex gap-4 items-center ml-4">
+		<div class="mt-2">
+			<ul class="flex flex-col gap-y-1">
+				<li class="text-sm">作成日: <time :datetime="post.createdAt">{{ getFormatedDate(post.createdAt) }}</time></li>
+				<li class="text-sm">更新日: <time :datetime="post.updatedAt">{{ getFormatedDate(post.updatedAt) }}</time></li>
 				<li>
-					<nuxt-link :to="`/?tags=${tag}`" class="text-xs block px-2 py-1 text-gray-700 bg-blue-100 hover:bg-blue-200">{{ tag }}</nuxt-link>
+					<ul v-if="post.tags" v-for="(tag, i) in post.tags" :key="i" class="flex gap-4 items-center">
+						<li>
+							<nuxt-link :to="`/?tags=${tag}`" class="text-xs block px-2 py-1 text-gray-700 bg-blue-100 hover:bg-blue-200">{{ tag }}</nuxt-link>
+						</li>
+					</ul>
 				</li>
 			</ul>
 		</div>

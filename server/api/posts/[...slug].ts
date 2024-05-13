@@ -1,4 +1,4 @@
-import { readFileSync } from "node:fs";
+import { readFileSync, statSync } from "node:fs";
 import { parse, Renderer } from "marked";
 import parseMD from "parse-md";
 
@@ -6,6 +6,8 @@ export default defineEventHandler(async (event) => {
 	const slug = getRouterParam(event, "slug");
 	const path = `./posts/${slug}.md`;
 	const file = readFileSync(path);
+	const stat = statSync(path);
+
 	const { metadata, content } = parseMD(file.toString()) as {
 		metadata: Metadata;
 		content: string;
@@ -27,6 +29,8 @@ export default defineEventHandler(async (event) => {
 		.substring(0, 100)}...`;
 	return {
 		...metadata,
+		createdAt: metadata.date,
+		updatedAt: stat.mtime,
 		html,
 		description,
 	};
