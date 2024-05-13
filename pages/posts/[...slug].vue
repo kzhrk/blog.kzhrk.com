@@ -44,6 +44,12 @@ useHead(() => ({
 			content: url,
 		},
 	],
+	link: [
+		{
+			rel: "canonical",
+			href: `https://blog.kzhrk.com${route.path}`,
+		},
+	],
 }));
 
 onMounted(() => {
