@@ -1,5 +1,5 @@
 ---
-date: 2014-03-26T12:54:10+09:00
+date: 2014-03-26
 title: Creators Meet Up 11で登壇しました
 tags: [イベント]
 ---

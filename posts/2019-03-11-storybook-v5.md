@@ -1,6 +1,6 @@
 ---
 title: "Migrate storybook v4 to v5"
-date: 2019-03-11T00:00:00+09:00
+date: 2019-03-11
 tags: [技術]
 ---
 
