@@ -7,22 +7,20 @@ const route = useRoute();
 const slug = route.params.slug as string[];
 
 const apiParam = slug.join("-");
-const { data: post } = await useFetch(`/api/posts/${apiParam}`, {
+const { data } = await useFetch(`/api/posts/${apiParam}`, {
 	onResponseError() {
 		return navigateTo("/404");
 	},
 });
 
-const title = post.value.title;
+const title = data.value.title;
 const metaTitle = `${title} | blog.kzhrk.com`;
-const html = post.value.html;
-const description = post.value.description;
-const tags = post.value.tags as string[] | undefined;
+const html = data.value.html;
+const date = data.value.date;
+const description = data.value.description;
+const tags = data.value.tags as string[] | undefined;
+const formatedDate = format(date, "yyyy年M月d日");
 const url = `https://blog.kzhrk.com/posts/${slug.join("/")}`;
-
-function getFormatedDate(dateString: string) {
-	return format(dateString, "yyyy年M月d日");
-}
 
 useHead(() => ({
 	title: metaTitle,
@@ -62,15 +60,10 @@ onMounted(() => {
   <section class="px-6 py-12 sm:p-12">
 		<h1 class="mb-4 text-3xl font-bold">{{ title }}</h1>
 		<div class="mb-10 flex items-center">
-			<ul class="flex flex-col gap-y-1">
-				<li class="text-sm">作成日: <time :datetime="post.createdAt">{{ getFormatedDate(post.createdAt) }}</time></li>
-				<li class="text-sm">更新日: <time :datetime="post.updatedAt">{{ getFormatedDate(post.updatedAt) }}</time></li>
+			<time :datetime="date" class="text-sm text-gray-600 dark:text-gray-200">{{ formatedDate }}</time>
+			<ul v-if="tags" v-for="(tag, i) in tags" :key="i" class="flex gap-4 items-center ml-4">
 				<li>
-					<ul v-if="post.tags" v-for="(tag, i) in post.tags" :key="i" class="flex gap-4 items-center">
-						<li>
-							<nuxt-link :to="`/?tags=${tag}`" class="text-xs block px-2 py-1 text-gray-700 bg-blue-100 hover:bg-blue-200">{{ tag }}</nuxt-link>
-						</li>
-					</ul>
+					<nuxt-link :to="`/?tags=${tag}`" class="text-sm block px-2 py-1 text-gray-700 bg-blue-100 hover:bg-blue-200">{{ tag }}</nuxt-link>
 				</li>
 			</ul>
 		</div>
