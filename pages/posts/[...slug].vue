@@ -120,4 +120,7 @@ onMounted(() => {
 .html pre code {
 	@apply bg-gray-700;
 }
+.html img {
+	@apply block max-w-80 max-h-max mx-auto my-8;
+}
 </style>
