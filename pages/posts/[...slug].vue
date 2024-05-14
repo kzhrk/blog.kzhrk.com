@@ -63,7 +63,7 @@ onMounted(() => {
 			<time :datetime="date" class="text-sm text-gray-600 dark:text-gray-200">{{ formatedDate }}</time>
 			<ul v-if="tags" v-for="(tag, i) in tags" :key="i" class="flex gap-4 items-center ml-4">
 				<li>
-					<nuxt-link :to="`/?tags=${tag}`" class="text-sm block px-2 py-1 text-gray-700 bg-blue-100 hover:bg-blue-200">{{ tag }}</nuxt-link>
+					<nuxt-link :to="`/?tags=${tag}`" class="text-xs block px-2 py-1 text-gray-700 bg-blue-100 hover:bg-blue-200">{{ tag }}</nuxt-link>
 				</li>
 			</ul>
 		</div>
