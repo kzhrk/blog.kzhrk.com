@@ -18,13 +18,6 @@ const tagOptions = computed(
 		})),
 );
 
-const posts = computed(() => {
-	if (tag.value) {
-		return allPosts.value?.filter((p) => p?.tags?.includes(tag.value));
-	}
-	return allPosts.value;
-});
-
 function getFormatedDate(dateString: string) {
 	return format(dateString, "yyyy年M月d日");
 }
@@ -55,19 +48,21 @@ useHead(() => ({
 			<option v-for="(option, i) in tagOptions" :key="i" :value="option.value" :selected="option.selected">{{ option.label }}</option>
 		</select>
 	</div>
-  <section class="px-6 sm:px-12 my-12" v-for="(post, i) in posts" :key="i">
-    <h1 class="text-2xl">
-      <nuxt-link class="link underline hover:no-underline" :to="`/posts${post.path}`">
-        {{ post.title }}
-      </nuxt-link>
-    </h1>
-		<div class="mt-2 flex items-center">
-			<time class="text-sm" :datetime="post.date">{{ getFormatedDate(post.date) }}</time>
-			<ul v-if="post.tags" v-for="(tag, i) in post.tags" :key="i" class="flex gap-4 items-center ml-4">
-				<li>
-					<nuxt-link :to="`/?tag=${tag}`" class="text-xs block px-2 py-1 text-gray-700 bg-blue-100 hover:bg-blue-200">{{ tag }}</nuxt-link>
-				</li>
-			</ul>
-		</div>
-  </section>
+	<template v-for="(post, i) in allPosts" :key="i">
+		<section v-if="tag === undefined || post?.tags?.includes(tag)" class="px-6 sm:px-12 my-12">
+			<h1 class="text-2xl">
+				<nuxt-link class="link underline hover:no-underline" :to="`/posts${post.path}`">
+					{{ post.title }}
+				</nuxt-link>
+			</h1>
+			<div class="mt-2 flex items-center">
+				<time class="text-sm" :datetime="post.date">{{ getFormatedDate(post.date) }}</time>
+				<ul v-if="post.tags" v-for="(tag, i) in post.tags" :key="i" class="flex gap-4 items-center ml-4">
+					<li>
+						<nuxt-link :to="`/?tag=${tag}`" class="text-xs block px-2 py-1 text-gray-700 bg-blue-100 hover:bg-blue-200">{{ tag }}</nuxt-link>
+					</li>
+				</ul>
+			</div>
+		</section>
+	</template>
 </template>
