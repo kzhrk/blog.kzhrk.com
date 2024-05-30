@@ -11,7 +11,7 @@
 		"format": "biome format --write ."
 	},
 	"dependencies": {
-		"@nuxtjs/sitemap": "^5.1.4",
+		"@nuxtjs/sitemap": "^5.2.0",
 		"highlight.js": "^11.9.0",
 		"nuxt": "^3.11.2",
 		"vue": "^3.4.27",
