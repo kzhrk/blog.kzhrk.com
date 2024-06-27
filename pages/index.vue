@@ -43,8 +43,8 @@ useHead(() => ({
 
 <template>
 	<div class="flex gap-x-2 items-center px-6 sm:px-12 my-6">
-		<p class="font-bold">絞り込みタグ:</p>
-		<select @change="onChangeTag" class="p-2 bg-gray-100 border border-gray-400 dark:text-gray-900">
+		<label for="category-select" class="font-bold">絞り込みタグ:</label>
+		<select id="category-select" class="p-2 bg-gray-100 border border-gray-400 dark:text-gray-900" @change="onChangeTag">
 			<option v-for="(option, i) in tagOptions" :key="i" :value="option.value" :selected="option.selected">{{ option.label }}</option>
 		</select>
 	</div>
