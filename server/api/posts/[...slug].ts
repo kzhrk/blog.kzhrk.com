@@ -1,5 +1,5 @@
 import { readFileSync } from "node:fs";
-import { parse, Renderer } from "marked";
+import { marked } from "marked";
 import parseMD from "parse-md";
 
 export default defineEventHandler(async (event) => {
@@ -10,24 +10,27 @@ export default defineEventHandler(async (event) => {
 		metadata: Metadata;
 		content: string;
 	};
-	const renderer = new Renderer();
-	renderer.heading = (text, level) => {
-		const tag = `h${level}`;
-		return `<${tag} id="${text}" class="heading">${text}<a href="#${text}" class="heading-anchor-icon" aria-hidden="true">アンカーリンク</a></${tag}>`;
-	};
-	renderer.link = (href, _title, text) => {
-		return `<a href="${href}" class="link">${text}</a>`;
-	};
-	const html = parse(content, {
-		renderer,
+
+	marked.use({
+		renderer: {
+			heading({ depth, text }) {
+				const tag = `h${depth}`;
+				return `<${tag} id="${text}" class="heading">${text}<a href="#${text}" class="heading-anchor-icon" aria-hidden="true">アンカーリンク</a></${tag}>`;
+			},
+			link({ text, href }) {
+				return `<a href="${href}" class="link">${text}</a>`;
+			}
+		},
 	});
+
 	const description = `${content
 		.replace(/##(#+)?\s/g, "")
 		.replace(/```(\w+)?(\r\n|\n|\r)/g, "")
 		.substring(0, 100)}...`;
+
 	return {
 		...metadata,
-		html,
+		html: marked.parse(content),
 		description,
 	};
 });
