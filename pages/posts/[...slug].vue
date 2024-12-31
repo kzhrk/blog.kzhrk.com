@@ -129,4 +129,8 @@ onMounted(() => {
 .html img {
 	@apply block max-w-80 max-h-max mx-auto my-8;
 }
+.html table th,
+.html table td {
+	@apply px-4 py-2 border-b border-gray-500;
+}
 </style>
