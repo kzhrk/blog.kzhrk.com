@@ -22,7 +22,7 @@
 	"devDependencies": {
 		"@biomejs/biome": "1.9.4",
 		"@nuxtjs/tailwindcss": "^6.12.2",
-		"date-fns": "^3.6.0",
+		"date-fns": "^4.1.0",
 		"marked": "^15.0.5",
 		"parse-md": "^3.0.3"
 	}
