@@ -19,7 +19,7 @@ export default defineEventHandler(async (event) => {
 			},
 			link({ text, href }) {
 				return `<a href="${href}" class="link">${text}</a>`;
-			}
+			},
 		},
 	});
 
