@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { format } from "date-fns";
+import PostInfo from "@/components/PostInfo.vue";
 
 const route = useRoute();
 const router = useRouter();
@@ -17,10 +17,6 @@ const tagOptions = computed(
 			selected: t === tag.value,
 		})),
 );
-
-function getFormatedDate(dateString: string) {
-	return format(dateString, "yyyy年M月d日");
-}
 
 function onChangeTag(event: Event) {
 	const value = event.target.value;
@@ -56,12 +52,7 @@ useHead(() => ({
 				</nuxt-link>
 			</h1>
 			<div class="mt-2 flex items-center">
-				<time class="text-sm" :datetime="post.date">{{ getFormatedDate(post.date) }}</time>
-				<ul v-if="post.tags" v-for="(tag, i) in post.tags" :key="i" class="flex gap-4 items-center ml-4">
-					<li>
-						<nuxt-link :to="`/?tag=${tag}`" class="text-xs block px-2 py-1 text-gray-700 bg-blue-100 hover:bg-blue-200">{{ tag }}</nuxt-link>
-					</li>
-				</ul>
+				<PostInfo :date="post.date" :tags="post.tags" />
 			</div>
 		</section>
 	</template>
