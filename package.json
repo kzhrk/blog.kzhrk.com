@@ -27,7 +27,7 @@
 		"@nuxtjs/tailwindcss": "^6.12.2",
 		"@vue/test-utils": "^2.4.6",
 		"date-fns": "^4.1.0",
-		"happy-dom": "^16.3.0",
+		"happy-dom": "^16.6.0",
 		"marked": "^15.0.5",
 		"parse-md": "^3.0.3",
 		"vitest": "^2.1.8"
