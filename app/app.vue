@@ -63,9 +63,9 @@ useHead(() => ({
 	<!-- Google Tag Manager (noscript) -->
 	<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5WPKT2H7" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 	<!-- End Google Tag Manager (noscript) -->
-  <nuxt-layout>
-    <nuxt-page />
-  </nuxt-layout>
+	<nuxt-layout>
+		<nuxt-page />
+	</nuxt-layout>
 </template>
 
 <style>

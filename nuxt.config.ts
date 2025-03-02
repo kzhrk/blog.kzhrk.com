@@ -6,6 +6,14 @@ const routes = posts.map((p) =>
 );
 
 export default defineNuxtConfig({
+	future: {
+		compatibilityVersion: 4,
+	},
+
+	dir: {
+		app: "app",
+	},
+
 	app: {
 		head: {
 			htmlAttrs: {
