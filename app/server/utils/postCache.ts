@@ -63,9 +63,9 @@ class PostCache {
 				},
 			});
 
-			const html = marked.parse(content);
-			const path = filename.replace(
-				/(\d+)-(\d+)-(\d+)-([\w|-]+)/,
+			const html = await marked.parse(content);
+			const path = `${filename}.md`.replace(
+				/(\d+)-(\d+)-(\d+)-([\w|-]+)\.md/,
 				"/$1/$2/$3/$4",
 			);
 
