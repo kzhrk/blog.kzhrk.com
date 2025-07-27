@@ -8,24 +8,27 @@ const { data: allPosts } = await useFetch("/api/posts");
 const { data: allTags } = await useFetch("/api/tags");
 
 const tag = computed(() => route.query.tag);
+const selectedTag = ref(route.query.tag || '');
 
 const tagOptions = computed(
-	(): { label: string; value: string; selected: boolean }[] =>
+	(): { label: string; value: string }[] =>
 		[undefined, ...allTags.value].map((t) => ({
 			label: t || "未選択",
 			value: t || "",
-			selected: t === tag.value,
 		})),
 );
 
-function onChangeTag(event: Event) {
-	const value = event.target.value;
+function onChangeTag() {
 	router.push({
 		query: {
-			tag: value ? value : undefined,
+			tag: selectedTag.value ? selectedTag.value : undefined,
 		},
 	});
 }
+
+watch(() => route.query.tag, (newTag) => {
+	selectedTag.value = newTag || '';
+});
 
 useHead(() => ({
 	link: [
@@ -40,8 +43,8 @@ useHead(() => ({
 <template>
 	<div class="flex gap-x-2 items-center px-6 sm:px-12 my-6">
 		<label for="category-select" class="font-bold">絞り込みタグ:</label>
-		<select id="category-select" class="p-2 bg-gray-100 border border-gray-400 dark:text-gray-900" @change="onChangeTag">
-			<option v-for="(option, i) in tagOptions" :key="i" :value="option.value" :selected="option.selected">{{ option.label }}</option>
+		<select id="category-select" class="p-2 bg-gray-100 border border-gray-400 dark:text-gray-900" v-model="selectedTag" @change="onChangeTag">
+			<option v-for="(option, i) in tagOptions" :key="i" :value="option.value">{{ option.label }}</option>
 		</select>
 	</div>
 	<template v-for="(post, i) in allPosts" :key="i">
