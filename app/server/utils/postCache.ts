@@ -4,16 +4,20 @@ import { marked } from "marked";
 import parseMD from "parse-md";
 
 interface CachedPost {
-	metadata: any;
+	metadata: Metadata;
 	content: string;
 	html: string;
+	path: string;
+}
+
+interface PostSummary extends Metadata {
 	path: string;
 }
 
 class PostCache {
 	private cache = new Map<string, CachedPost>();
 	private tagsCache: string[] | null = null;
-	private postsCache: any[] | null = null;
+	private postsCache: PostSummary[] | null = null;
 	private isWatching = false;
 
 	private async initializeWatcher() {
@@ -38,7 +42,8 @@ class PostCache {
 
 	async getPost(filename: string): Promise<CachedPost | null> {
 		if (this.cache.has(filename)) {
-			return this.cache.get(filename)!;
+			const cachedPost = this.cache.get(filename);
+			return cachedPost || null;
 		}
 
 		try {
@@ -47,7 +52,7 @@ class PostCache {
 
 			const file = await readFile(filePath, "utf-8");
 			const { metadata, content } = parseMD(file) as {
-				metadata: any;
+				metadata: Metadata;
 				content: string;
 			};
 
@@ -85,7 +90,7 @@ class PostCache {
 		}
 	}
 
-	async getAllPosts(): Promise<any[]> {
+	async getAllPosts(): Promise<PostSummary[]> {
 		if (this.postsCache) {
 			return this.postsCache;
 		}
