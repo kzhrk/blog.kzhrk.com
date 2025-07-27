@@ -8,14 +8,13 @@ const { data: allPosts } = await useFetch("/api/posts");
 const { data: allTags } = await useFetch("/api/tags");
 
 const tag = computed(() => route.query.tag);
-const selectedTag = ref(route.query.tag || '');
+const selectedTag = ref(route.query.tag || "");
 
-const tagOptions = computed(
-	(): { label: string; value: string }[] =>
-		[undefined, ...allTags.value].map((t) => ({
-			label: t || "未選択",
-			value: t || "",
-		})),
+const tagOptions = computed((): { label: string; value: string }[] =>
+	[undefined, ...allTags.value].map((t) => ({
+		label: t || "未選択",
+		value: t || "",
+	})),
 );
 
 function onChangeTag() {
@@ -26,9 +25,12 @@ function onChangeTag() {
 	});
 }
 
-watch(() => route.query.tag, (newTag) => {
-	selectedTag.value = newTag || '';
-});
+watch(
+	() => route.query.tag,
+	(newTag) => {
+		selectedTag.value = newTag || "";
+	},
+);
 
 useHead(() => ({
 	link: [
