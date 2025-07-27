@@ -21,14 +21,20 @@ class PostCache {
 	private isWatching = false;
 
 	private async initializeWatcher() {
-		if (this.isWatching) return;
+		// Only watch files in development mode
+		if (!process.dev || this.isWatching) return;
 		this.isWatching = true;
 
 		try {
 			const watcher = watch("./posts");
-			for await (const event of watcher) {
-				this.invalidateCache();
-			}
+			// Use non-blocking approach
+			(async () => {
+				for await (const event of watcher) {
+					this.invalidateCache();
+				}
+			})().catch((error) => {
+				console.warn("Watcher error:", error);
+			});
 		} catch (error) {
 			console.warn("Could not watch posts directory:", error);
 		}
