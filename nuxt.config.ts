@@ -2,7 +2,7 @@ import { readdirSync } from "node:fs";
 
 const posts = readdirSync("./posts");
 const routes = posts.map((p) =>
-	p.replace(/(\d+)-(\d+)-(\d+)-([\w|-]+)\.md/, "$1/$2/$3/$4"),
+	p.replace(/(\d+)-(\d+)-(\d+)-([\w|-]+)\.md/, "/posts/$1/$2/$3/$4"),
 );
 
 export default defineNuxtConfig({
