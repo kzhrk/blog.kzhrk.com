@@ -1,75 +1,70 @@
-# Nuxt 3 Minimal Starter
+# blog.kzhrk.com
 
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+Personal blog built with Next.js and deployed to Cloudflare Workers.
+
+## Tech Stack
+
+- **Framework**: Next.js 15 (React 19)
+- **Styling**: Tailwind CSS
+- **Deployment**: Cloudflare Workers + KV (via @opennextjs/cloudflare)
+- **Content**: Markdown files with gray-matter frontmatter
 
 ## Setup
 
-Make sure to install the dependencies:
-
 ```bash
-# npm
-npm install
-
-# pnpm
 pnpm install
-
-# yarn
-yarn install
-
-# bun
-bun install
 ```
 
-## Development Server
+## Development
 
 Start the development server on `http://localhost:3000`:
 
 ```bash
-# npm
-npm run dev
-
-# pnpm
-pnpm run dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
+pnpm dev
 ```
 
-## Production
+## Build
 
 Build the application for production:
 
 ```bash
-# npm
-npm run build
-
-# pnpm
-pnpm run build
-
-# yarn
-yarn build
-
-# bun
-bun run build
+pnpm build
 ```
 
-Locally preview production build:
+## Preview
+
+Preview the production build locally with Cloudflare Workers:
 
 ```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm run preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
+pnpm preview
 ```
 
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+## Deploy
+
+Deploy to Cloudflare Workers:
+
+```bash
+pnpm deploy
+```
+
+### Environment Variables
+
+Set the following environment variables in `.env` or GitHub Secrets:
+
+| Variable | Description |
+|----------|-------------|
+| `CLOUDFLARE_ACCOUNT_ID` | Cloudflare account ID |
+| `CLOUDFLARE_API_TOKEN` | Cloudflare API token with Workers permissions |
+
+## Project Structure
+
+```
+├── posts/              # Markdown blog posts
+├── src/
+│   ├── app/            # Next.js App Router pages
+│   ├── components/     # React components
+│   ├── lib/            # Utility functions (posts, markdown)
+│   └── types/          # TypeScript type definitions
+├── open-next.config.ts # OpenNext configuration for Cloudflare
+└── wrangler.jsonc      # Cloudflare Workers configuration
+```
