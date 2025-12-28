@@ -1,0 +1,21 @@
+{
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "blog-kzhrk-com",
+	"main": ".open-next/worker.js",
+	"compatibility_date": "2025-04-01",
+	"compatibility_flags": ["nodejs_compat"],
+	"assets": {
+		"directory": ".open-next/assets",
+		"binding": "ASSETS"
+	},
+	"kv_namespaces": [
+		{
+			"binding": "NEXT_INC_CACHE_KV",
+			"id": "62078b6abfbd4385bd1bcb4d549561b0"
+		},
+		{
+			"binding": "NEXT_TAG_CACHE_KV",
+			"id": "c4fd7572d3c6495b9f69df605873d6fc"
+		}
+	]
+}

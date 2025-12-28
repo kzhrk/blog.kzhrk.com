@@ -1,7 +1,16 @@
-import { defineVitestConfig } from "@nuxt/test-utils/config";
+import path from "node:path";
+import react from "@vitejs/plugin-react";
+import { defineConfig } from "vitest/config";
 
-export default defineVitestConfig({
+export default defineConfig({
+	plugins: [react()],
 	test: {
-		environment: "nuxt",
+		environment: "happy-dom",
+		globals: true,
+	},
+	resolve: {
+		alias: {
+			"@": path.resolve(__dirname, "./src"),
+		},
 	},
 });

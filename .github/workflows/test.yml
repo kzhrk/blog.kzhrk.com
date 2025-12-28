@@ -1,7 +1,8 @@
 name: test
 
-on:
-  pull_request:
+# テストファイルがないのでスキップ
+# on:
+#   pull_request:
 
 jobs:
   run:
@@ -10,5 +11,5 @@ jobs:
       - uses: actions/checkout@v4
       - name: Setup
         uses: ./.github/workflows/setup
-      - name: lint
+      - name: test
         run: pnpm test
