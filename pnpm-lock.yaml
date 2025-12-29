@@ -55,8 +55,8 @@ importers:
         specifier: ^10.4.20
         version: 10.4.20(postcss@8.5.3)
       happy-dom:
-        specifier: ^20.0.2
-        version: 20.0.2
+        specifier: ^20.0.11
+        version: 20.0.11
       postcss:
         specifier: ^8.4.49
         version: 8.5.3
@@ -68,7 +68,7 @@ importers:
         version: 5.7.2
       vitest:
         specifier: ^3.0.6
-        version: 3.0.6(@types/node@22.13.0)(happy-dom@20.0.2)(jiti@2.4.2)(terser@5.37.0)(yaml@2.8.2)
+        version: 3.0.6(@types/node@22.13.0)(happy-dom@20.0.11)(jiti@2.4.2)(terser@5.37.0)(yaml@2.8.2)
       wrangler:
         specifier: ^4.53.0
         version: 4.54.0
@@ -2608,8 +2608,8 @@ packages:
     resolution: {integrity: sha512-ax7ZYomf6jqPTQ4+XCpUGyXKHk5WweS+e05MBO4/y3WJ5RkmPXNKvX+bx1behVILVwr6JSQvZAku021CHPXG3Q==}
     engines: {node: '>=10'}
 
-  happy-dom@20.0.2:
-    resolution: {integrity: sha512-pYOyu624+6HDbY+qkjILpQGnpvZOusItCk+rvF5/V+6NkcgTKnbOldpIy22tBnxoaLtlM9nXgoqAcW29/B7CIw==}
+  happy-dom@20.0.11:
+    resolution: {integrity: sha512-QsCdAUHAmiDeKeaNojb1OHOPF7NjcWPBR7obdu3NwH2a/oyQaLg5d0aaCy/9My6CdPChYF07dvz5chaXBGaD4g==}
     engines: {node: '>=20.0.0'}
 
   has-symbols@1.1.0:
@@ -6778,7 +6778,7 @@ snapshots:
     dependencies:
       duplexer: 0.1.2
 
-  happy-dom@20.0.2:
+  happy-dom@20.0.11:
     dependencies:
       '@types/node': 20.19.27
       '@types/whatwg-mimetype': 3.0.2
@@ -7595,7 +7595,7 @@ snapshots:
       terser: 5.37.0
       yaml: 2.8.2
 
-  vitest@3.0.6(@types/node@22.13.0)(happy-dom@20.0.2)(jiti@2.4.2)(terser@5.37.0)(yaml@2.8.2):
+  vitest@3.0.6(@types/node@22.13.0)(happy-dom@20.0.11)(jiti@2.4.2)(terser@5.37.0)(yaml@2.8.2):
     dependencies:
       '@vitest/expect': 3.0.6
       '@vitest/mocker': 3.0.6(vite@6.1.1(@types/node@22.13.0)(jiti@2.4.2)(terser@5.37.0)(yaml@2.8.2))
@@ -7619,7 +7619,7 @@ snapshots:
       why-is-node-running: 2.3.0
     optionalDependencies:
       '@types/node': 22.13.0
-      happy-dom: 20.0.2
+      happy-dom: 20.0.11
     transitivePeerDependencies:
       - jiti
       - less
