@@ -1,7 +1,7 @@
-import { Footer } from "@/components/Footer";
-import { Header } from "@/components/Header";
 import type { Metadata } from "next";
 import Script from "next/script";
+import { Footer } from "@/components/Footer";
+import { Header } from "@/components/Header";
 import "highlight.js/styles/github-dark.css";
 import "./globals.css";
 

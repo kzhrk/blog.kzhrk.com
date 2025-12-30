@@ -1,7 +1,7 @@
-import { PostInfo } from "@/components/PostInfo";
-import { getAllPosts, getDescription, getPost } from "@/lib/posts";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { PostInfo } from "@/components/PostInfo";
+import { getAllPosts, getDescription, getPost } from "@/lib/posts";
 
 interface PageProps {
 	params: Promise<{ slug: string[] }>;

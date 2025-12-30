@@ -1,8 +1,8 @@
-import { readFile, readdir } from "node:fs/promises";
-import type { Metadata, Post, PostSummary } from "@/types";
+import { readdir, readFile } from "node:fs/promises";
 import { format, parseISO } from "date-fns";
 import matter from "gray-matter";
 import { cache } from "react";
+import type { Metadata, Post, PostSummary } from "@/types";
 import { parseMarkdown } from "./markdown";
 
 function filenameToSlug(filename: string): string {

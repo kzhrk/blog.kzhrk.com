@@ -1,10 +1,10 @@
 "use client";
 
-import { PostInfo } from "@/components/PostInfo";
-import type { PostSummary } from "@/types";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useMemo } from "react";
+import { PostInfo } from "@/components/PostInfo";
+import type { PostSummary } from "@/types";
 
 interface PostListProps {
 	posts: PostSummary[];

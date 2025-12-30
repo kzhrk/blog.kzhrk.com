@@ -1,6 +1,6 @@
-import { getAllPosts, getAllTags } from "@/lib/posts";
 import type { Metadata } from "next";
 import { Suspense } from "react";
+import { getAllPosts, getAllTags } from "@/lib/posts";
 import { PostList } from "./PostList";
 
 export const dynamic = "force-static";
