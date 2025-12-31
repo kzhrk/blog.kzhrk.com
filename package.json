@@ -4,8 +4,9 @@
 	"type": "module",
 	"packageManager": "pnpm@10.26.2",
 	"scripts": {
+		"prepare": "panda codegen",
 		"dev": "next dev --turbopack",
-		"build": "next build",
+		"build": "pnpm prepare && next build",
 		"start": "next start",
 		"preview": "pnpm build && pnpm exec opennextjs-cloudflare build && pnpm exec wrangler dev",
 		"deploy": "pnpm build && pnpm exec opennextjs-cloudflare build && pnpm exec opennextjs-cloudflare deploy",

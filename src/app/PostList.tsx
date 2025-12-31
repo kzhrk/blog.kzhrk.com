@@ -55,7 +55,7 @@ export function PostList({ posts, tags }: PostListProps) {
 				</label>
 				<select
 					id="category-select"
-					className={css({ p: "2", bg: "gray.100", border: "1px solid", borderColor: "gray.400" })}
+					className={css({ p: "2", bg: "gray.100", color: "black", border: "1px solid", borderColor: "gray.400" })}
 					style={{ colorScheme: "light" }}
 					value={selectedTag}
 					onChange={onChangeTag}
