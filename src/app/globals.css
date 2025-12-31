@@ -1,7 +1,6 @@
-@import "tailwindcss";
+@layer reset, base, tokens, recipes, utilities;
 
 body {
-	@apply dark:text-white dark:bg-gray-900;
 	font-family:
 		-apple-system,
 		BlinkMacSystemFont,
@@ -12,69 +11,148 @@ body {
 		sans-serif;
 }
 
+@media (prefers-color-scheme: dark) {
+	body {
+		color: white;
+		background-color: rgb(17 24 39); /* gray-900 */
+	}
+}
+
 .link {
-	@apply text-blue-700 dark:text-blue-200;
+	color: rgb(29 78 216); /* blue-700 */
+}
+
+@media (prefers-color-scheme: dark) {
+	.link {
+		color: rgb(191 219 254); /* blue-200 */
+	}
 }
 
 /* Article HTML styles */
 .html {
 	word-break: break-all;
 }
+
 .html p {
-	@apply my-4;
+	margin-top: 1rem;
+	margin-bottom: 1rem;
 }
+
 .html h2 {
-	@apply text-2xl mt-8 mb-4;
+	font-size: 1.5rem;
+	line-height: 2rem;
+	margin-top: 2rem;
+	margin-bottom: 1rem;
 }
+
 .html h3 {
-	@apply text-xl mt-8 mb-4;
+	font-size: 1.25rem;
+	line-height: 1.75rem;
+	margin-top: 2rem;
+	margin-bottom: 1rem;
 }
+
 .html .heading {
-	@apply flex flex-wrap gap-2 items-center;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5rem;
+	align-items: center;
 }
+
 .html .heading:hover .heading-anchor-icon {
-	@apply inline-block;
+	display: inline-block;
 }
+
 .html .heading-anchor-icon {
-	@apply hidden size-6;
+	display: none;
+	width: 1.5rem;
+	height: 1.5rem;
 	font-size: 0;
 	background-image: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48c3ZnIHdpZHRoPSI4MDBweCIgaGVpZ2h0PSI4MDBweCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxwYXRoIGQ9Ik0xMy4yMjE4IDMuMzIyMzRDMTUuMzY5NyAxLjE3NDQ1IDE4Ljg1MjEgMS4xNzQ0NSAyMSAzLjMyMjM0QzIzLjE0NzkgNS40NzAyMiAyMy4xNDc5IDguOTUyNjMgMjEgMTEuMTAwNUwxNy40NjQ1IDE0LjYzNkMxNS4zMTY2IDE2Ljc4MzkgMTEuODM0MiAxNi43ODM5IDkuNjg2MyAxNC42MzZDOS40ODc1MiAxNC40MzczIDkuMzA3MTMgMTQuMjI3MSA5LjE0NTE0IDE0LjAwNzVDOC45MDMxOCAxMy42Nzk2IDguOTcwOTggMTMuMjMwMSA5LjI1OTE0IDEyLjk0MTlDOS43MzIyMSAxMi40Njg4IDEwLjU2NjIgMTIuNjU2MSAxMS4wMjQ1IDEzLjE0MzVDMTEuMDQ5NCAxMy4xNjk5IDExLjA3NDcgMTMuMTk2IDExLjEwMDUgMTMuMjIxOEMxMi40NjczIDE0LjU4ODcgMTQuNjgzNCAxNC41ODg3IDE2LjA1MDMgMTMuMjIxOEwxOS41ODU4IDkuNjg2M0MyMC45NTI2IDguMzE5NDcgMjAuOTUyNiA2LjEwMzM5IDE5LjU4NTggNC43MzY1NUMxOC4yMTkgMy4zNjk3MiAxNi4wMDI5IDMuMzY5NzIgMTQuNjM2IDQuNzM2NTVMMTMuNTc1NCA1Ljc5NzIxQzEzLjE4NDkgNi4xODc3NCAxMi41NTE3IDYuMTg3NzQgMTIuMTYxMiA1Ljc5NzIxQzExLjc3MDYgNS40MDY2OSAxMS43NzA2IDQuNzczNTIgMTIuMTYxMiA0LjM4M0wxMy4yMjE4IDMuMzIyMzRaIiBmaWxsPSIjMEYwRjBGIi8+PHBhdGggZD0iTTYuODU3ODcgOS42ODYzQzguOTAxODQgNy42NDIzMyAxMi4yMjYxIDcuNjAwOTQgMTQuMzQ5NCA5LjQyMjY4QzE0LjczMTkgOS43NTA4MyAxNC43MDA4IDEwLjMyODcgMTQuMzQ0NCAxMC42ODVDMTMuOTI1MyAxMS4xMDQxIDEzLjIzMTcgMTEuMDQwNCAxMi43NDE2IDEwLjcwN0MxMS4zOTggOS43OTI5MiA5LjQ4NTkzIDkuODg2NjcgOC4yNzIwOSAxMS4xMDA1TDQuNzM2NTUgMTQuNjM2QzMuMzY5NzIgMTYuMDAyOSAzLjM2OTcyIDE4LjIxOSA0LjczNjU1IDE5LjU4NThDNi4xMDMzOSAyMC45NTI2IDguMzE5NDcgMjAuOTUyNiA5LjY4NjMgMTkuNTg1OEwxMC43NDcgMTguNTI1MUMxMS4xMzc1IDE4LjEzNDYgMTEuNzcwNiAxOC4xMzQ2IDEyLjE2MTIgMTguNTI1MUMxMi41NTE3IDE4LjkxNTcgMTIuNTUxNyAxOS41NDg4IDEyLjE2MTIgMTkuOTM5NEwxMS4xMDA1IDIxQzguOTUyNjMgMjMuMTQ3OSA1LjQ3MDIyIDIzLjE0NzkgMy4zMjIzNCAyMUMxLjE3NDQ1IDE4Ljg1MjEgMS4xNzQ0NSAxNS4zNjk3IDMuMzIyMzQgMTMuMjIxOEw2Ljg1Nzg3IDkuNjg2M1oiIGZpbGw9IiMwRjBGMEYiLz48L3N2Zz4=");
 	background-size: contain;
+}
 
-	@media (prefers-color-scheme: dark) {
+@media (prefers-color-scheme: dark) {
+	.html .heading-anchor-icon {
 		background-image: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48c3ZnIHdpZHRoPSI4MDBweCIgaGVpZ2h0PSI4MDBweCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxwYXRoIGQ9Ik0xMy4yMjE4IDMuMzIyMzRDMTUuMzY5NyAxLjE3NDQ1IDE4Ljg1MjEgMS4xNzQ0NSAyMSAzLjMyMjM0QzIzLjE0NzkgNS40NzAyMiAyMy4xNDc5IDguOTUyNjMgMjEgMTEuMTAwNUwxNy40NjQ1IDE0LjYzNkMxNS4zMTY2IDE2Ljc4MzkgMTEuODM0MiAxNi43ODM5IDkuNjg2MyAxNC42MzZDOS40ODc1MiAxNC40MzczIDkuMzA3MTMgMTQuMjI3MSA5LjE0NTE0IDE0LjAwNzVDOC45MDMxOCAxMy42Nzk2IDguOTcwOTggMTMuMjMwMSA5LjI1OTE0IDEyLjk0MTlDOS43MzIyMSAxMi40Njg4IDEwLjU2NjIgMTIuNjU2MSAxMS4wMjQ1IDEzLjE0MzVDMTEuMDQ5NCAxMy4xNjk5IDExLjA3NDcgMTMuMTk2IDExLjEwMDUgMTMuMjIxOEMxMi40NjczIDE0LjU4ODcgMTQuNjgzNCAxNC41ODg3IDE2LjA1MDMgMTMuMjIxOEwxOS41ODU4IDkuNjg2M0MyMC45NTI2IDguMzE5NDcgMjAuOTUyNiA2LjEwMzM5IDE5LjU4NTggNC43MzY1NUMxOC4yMTkgMy4zNjk3MiAxNi4wMDI5IDMuMzY5NzIgMTQuNjM2IDQuNzM2NTVMMTMuNTc1NCA1Ljc5NzIxQzEzLjE4NDkgNi4xODc3NCAxMi41NTE3IDYuMTg3NzQgMTIuMTYxMiA1Ljc5NzIxQzExLjc3MDYgNS40MDY2OSAxMS43NzA2IDQuNzczNTIgMTIuMTYxMiA0LjM4M0wxMy4yMjE4IDMuMzIyMzRaIiBmaWxsPSIjZmZmIi8+PHBhdGggZD0iTTYuODU3ODcgOS42ODYzQzguOTAxODQgNy42NDIzMyAxMi4yMjYxIDcuNjAwOTQgMTQuMzQ5NCA5LjQyMjY4QzE0LjczMTkgOS43NTA4MyAxNC43MDA4IDEwLjMyODcgMTQuMzQ0NCAxMC42ODVDMTMuOTI1MyAxMS4xMDQxIDEzLjIzMTcgMTEuMDQwNCAxMi43NDE2IDEwLjcwN0MxMS4zOTggOS43OTI5MiA5LjQ4NTkzIDkuODg2NjcgOC4yNzIwOSAxMS4xMDA1TDQuNzM2NTUgMTQuNjM2QzMuMzY5NzIgMTYuMDAyOSAzLjM2OTcyIDE4LjIxOSA0LjczNjU1IDE5LjU4NThDNi4xMDMzOSAyMC45NTI2IDguMzE5NDcgMjAuOTUyNiA5LjY4NjMgMTkuNTg1OEwxMC43NDcgMTguNTI1MUMxMS4xMzc1IDE4LjEzNDYgMTEuNzcwNiAxOC4xMzQ2IDEyLjE2MTIgMTguNTI1MUMxMi41NTE3IDE4LjkxNTcgMTIuNTUxNyAxOS41NDg4IDEyLjE2MTIgMTkuOTM5NEwxMS4xMDA1IDIxQzguOTUyNjMgMjMuMTQ3OSA1LjQ3MDIyIDIzLjE0NzkgMy4zMjIzNCAyMUMxLjE3NDQ1IDE4Ljg1MjEgMS4xNzQ0NSAxNS4zNjk3IDMuMzIyMzQgMTMuMjIxOEw2Ljg1Nzg3IDkuNjg2M1oiIGZpbGw9IiNmZmYiLz48L3N2Zz4=");
 	}
 }
 
 .html ul,
 .html ol {
-	@apply pl-4 my-4;
+	padding-left: 1rem;
+	margin-top: 1rem;
+	margin-bottom: 1rem;
 }
+
 .html ul li {
-	@apply mt-2 list-disc;
+	margin-top: 0.5rem;
+	list-style-type: disc;
 }
+
 .html ul li::marker {
-	@apply text-gray-700 dark:text-gray-200;
+	color: rgb(55 65 81); /* gray-700 */
 }
+
+@media (prefers-color-scheme: dark) {
+	.html ul li::marker {
+		color: rgb(229 231 235); /* gray-200 */
+	}
+}
+
 .html a {
-	@apply underline hover:no-underline;
+	text-decoration: underline;
 }
+
+.html a:hover {
+	text-decoration: none;
+}
+
 .html pre {
-	@apply my-8;
+	margin-top: 2rem;
+	margin-bottom: 2rem;
 }
+
 .html code {
-	@apply bg-gray-100 dark:bg-gray-500;
+	background-color: rgb(243 244 246); /* gray-100 */
 }
+
+@media (prefers-color-scheme: dark) {
+	.html code {
+		background-color: rgb(107 114 128); /* gray-500 */
+	}
+}
+
 .html pre code {
-	@apply bg-gray-700;
+	background-color: rgb(55 65 81); /* gray-700 */
 }
+
 .html img {
-	@apply block max-w-80 max-h-max mx-auto my-8;
+	display: block;
+	max-width: 20rem;
+	max-height: max-content;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 2rem;
+	margin-bottom: 2rem;
 }
+
 .html table tbody tr:nth-child(2n - 1) {
-	@apply bg-slate-100 dark:bg-gray-800;
+	background-color: rgb(241 245 249); /* slate-100 */
 }
+
+@media (prefers-color-scheme: dark) {
+	.html table tbody tr:nth-child(2n - 1) {
+		background-color: rgb(31 41 55); /* gray-800 */
+	}
+}
+
 .html table th,
 .html table td {
-	@apply px-4 py-2 border-b border-gray-500;
+	padding-left: 1rem;
+	padding-right: 1rem;
+	padding-top: 0.5rem;
+	padding-bottom: 0.5rem;
+	border-bottom-width: 1px;
+	border-color: rgb(107 114 128); /* gray-500 */
 }
