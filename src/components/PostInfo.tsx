@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { css } from "../../styled-system/css";
 
 interface PostInfoProps {
 	tags?: string[];
@@ -12,16 +13,31 @@ export function PostInfo({ tags, date, formattedDate }: PostInfoProps) {
 
 	return (
 		<>
-			<time className="text-sm" dateTime={dateTimeValue}>
+			<time className={css({ fontSize: "sm" })} dateTime={dateTimeValue}>
 				{formattedDate}
 			</time>
 			{tags && tags.length > 0 && (
-				<ul className="flex gap-4 items-center ml-4">
+				<ul
+					className={css({
+						display: "flex",
+						gap: "4",
+						alignItems: "center",
+						ml: "4",
+					})}
+				>
 					{tags.map((tag) => (
 						<li key={tag}>
 							<Link
 								href={`/?tag=${tag}`}
-								className="text-xs block px-2 py-1 text-gray-700 bg-blue-100 hover:bg-blue-200"
+								className={css({
+									fontSize: "xs",
+									display: "block",
+									px: "2",
+									py: "1",
+									color: "rgb(55 65 81)",
+									bg: "rgb(219 234 254)",
+									_hover: { bg: "rgb(191 219 254)" },
+								})}
 							>
 								{tag}
 							</Link>

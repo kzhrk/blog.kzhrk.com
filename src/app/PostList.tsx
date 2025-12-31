@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useMemo } from "react";
 import { PostInfo } from "@/components/PostInfo";
 import type { PostSummary } from "@/types";
+import { css } from "../../styled-system/css";
 
 interface PostListProps {
 	posts: PostSummary[];
@@ -48,13 +49,32 @@ export function PostList({ posts, tags }: PostListProps) {
 
 	return (
 		<>
-			<div className="flex gap-x-2 items-center px-6 sm:px-12 my-6">
-				<label htmlFor="category-select" className="font-bold">
+			<div
+				className={css({
+					display: "flex",
+					gap: "2",
+					alignItems: "center",
+					px: "6",
+					sm: { px: "12" },
+					my: "6",
+				})}
+			>
+				<label
+					htmlFor="category-select"
+					className={css({ fontWeight: "bold" })}
+				>
 					絞り込みタグ:
 				</label>
 				<select
 					id="category-select"
-					className="p-2 bg-gray-100 border border-gray-400 dark:text-gray-900"
+					className={css({
+						p: "2",
+						bg: "gray.100",
+						color: "black",
+						border: "1px solid",
+						borderColor: "gray.400",
+					})}
+					style={{ colorScheme: "light" }}
 					value={selectedTag}
 					onChange={onChangeTag}
 				>
@@ -66,16 +86,18 @@ export function PostList({ posts, tags }: PostListProps) {
 				</select>
 			</div>
 			{filteredPosts.map((post) => (
-				<section key={post.slug} className="px-6 sm:px-12 my-12">
-					<h2 className="text-2xl">
-						<Link
-							className="link underline hover:no-underline"
-							href={`/posts${post.path}`}
-						>
+				<section
+					key={post.slug}
+					className={css({ px: "6", sm: { px: "12" }, my: "12" })}
+				>
+					<h2 className={css({ fontSize: "2xl" })}>
+						<Link className="link" href={`/posts${post.path}`}>
 							{post.title}
 						</Link>
 					</h2>
-					<div className="mt-2 flex items-center">
+					<div
+						className={css({ mt: "2", display: "flex", alignItems: "center" })}
+					>
 						<PostInfo
 							date={post.date}
 							tags={post.tags}

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Script from "next/script";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
+import { css } from "../../styled-system/css";
 import "highlight.js/styles/github-dark.css";
 import "./globals.css";
 
@@ -63,7 +64,11 @@ export default function RootLayout({
 					/>
 				</noscript>
 				<Header />
-				<main className="w-auto sm:w-10/12 mx-auto">{children}</main>
+				<main
+					className={css({ width: "auto", sm: { width: "10/12" }, mx: "auto" })}
+				>
+					{children}
+				</main>
 				<Footer />
 			</body>
 		</html>

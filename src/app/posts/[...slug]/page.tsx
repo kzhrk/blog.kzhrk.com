@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { PostInfo } from "@/components/PostInfo";
 import { getAllPosts, getDescription, getPost } from "@/lib/posts";
+import { css } from "../../../../styled-system/css";
 
 interface PageProps {
 	params: Promise<{ slug: string[] }>;
@@ -58,9 +59,11 @@ export default async function PostPage({ params }: PageProps) {
 	const url = `https://blog.kzhrk.com/posts/${slugPath}`;
 
 	return (
-		<section className="px-10 py-12 sm:p-12">
-			<h1 className="mb-4 text-3xl font-bold">{post.metadata.title}</h1>
-			<div className="mb-10 flex items-center">
+		<section className={css({ px: "10", py: "12", sm: { p: "12" } })}>
+			<h1 className={css({ mb: "4", fontSize: "3xl", fontWeight: "bold" })}>
+				{post.metadata.title}
+			</h1>
+			<div className={css({ mb: "10", display: "flex", alignItems: "center" })}>
 				<PostInfo
 					date={post.metadata.date}
 					tags={post.metadata.tags}
@@ -72,7 +75,7 @@ export default async function PostPage({ params }: PageProps) {
 				// biome-ignore lint/security/noDangerouslySetInnerHtml: HTML is generated from markdown
 				dangerouslySetInnerHTML={{ __html: post.html }}
 			/>
-			<div className="mt-8">
+			<div className={css({ mt: "8" })}>
 				<a
 					className="twitter-share-button"
 					href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(post.metadata.title)}`}
