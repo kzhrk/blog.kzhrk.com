@@ -64,7 +64,11 @@ export default function RootLayout({
 					/>
 				</noscript>
 				<Header />
-				<main className={css({ width: "auto", sm: { width: "10/12" }, mx: "auto" })}>{children}</main>
+				<main
+					className={css({ width: "auto", sm: { width: "10/12" }, mx: "auto" })}
+				>
+					{children}
+				</main>
 				<Footer />
 			</body>
 		</html>

@@ -49,13 +49,31 @@ export function PostList({ posts, tags }: PostListProps) {
 
 	return (
 		<>
-			<div className={css({ display: "flex", gap: "2", alignItems: "center", px: "6", sm: { px: "12" }, my: "6" })}>
-				<label htmlFor="category-select" className={css({ fontWeight: "bold" })}>
+			<div
+				className={css({
+					display: "flex",
+					gap: "2",
+					alignItems: "center",
+					px: "6",
+					sm: { px: "12" },
+					my: "6",
+				})}
+			>
+				<label
+					htmlFor="category-select"
+					className={css({ fontWeight: "bold" })}
+				>
 					絞り込みタグ:
 				</label>
 				<select
 					id="category-select"
-					className={css({ p: "2", bg: "gray.100", color: "black", border: "1px solid", borderColor: "gray.400" })}
+					className={css({
+						p: "2",
+						bg: "gray.100",
+						color: "black",
+						border: "1px solid",
+						borderColor: "gray.400",
+					})}
 					style={{ colorScheme: "light" }}
 					value={selectedTag}
 					onChange={onChangeTag}
@@ -68,16 +86,18 @@ export function PostList({ posts, tags }: PostListProps) {
 				</select>
 			</div>
 			{filteredPosts.map((post) => (
-				<section key={post.slug} className={css({ px: "6", sm: { px: "12" }, my: "12" })}>
+				<section
+					key={post.slug}
+					className={css({ px: "6", sm: { px: "12" }, my: "12" })}
+				>
 					<h2 className={css({ fontSize: "2xl" })}>
-						<Link
-							className="link"
-							href={`/posts${post.path}`}
-						>
+						<Link className="link" href={`/posts${post.path}`}>
 							{post.title}
 						</Link>
 					</h2>
-					<div className={css({ mt: "2", display: "flex", alignItems: "center" })}>
+					<div
+						className={css({ mt: "2", display: "flex", alignItems: "center" })}
+					>
 						<PostInfo
 							date={post.date}
 							tags={post.tags}

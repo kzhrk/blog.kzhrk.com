@@ -60,7 +60,9 @@ export default async function PostPage({ params }: PageProps) {
 
 	return (
 		<section className={css({ px: "10", py: "12", sm: { p: "12" } })}>
-			<h1 className={css({ mb: "4", fontSize: "3xl", fontWeight: "bold" })}>{post.metadata.title}</h1>
+			<h1 className={css({ mb: "4", fontSize: "3xl", fontWeight: "bold" })}>
+				{post.metadata.title}
+			</h1>
 			<div className={css({ mb: "10", display: "flex", alignItems: "center" })}>
 				<PostInfo
 					date={post.metadata.date}

@@ -12,9 +12,13 @@ export function Footer() {
 				_osDark: { backgroundColor: "rgb(31 41 55)" },
 			})}
 		>
-			<div className={css({ width: "auto", sm: { width: "10/12" }, mx: "auto" })}>
+			<div
+				className={css({ width: "auto", sm: { width: "10/12" }, mx: "auto" })}
+			>
 				<h2 className={css({ fontSize: "xl", fontWeight: "bold" })}>Author</h2>
-				<div className={css({ mt: "4", display: "flex", alignItems: "center" })}>
+				<div
+					className={css({ mt: "4", display: "flex", alignItems: "center" })}
+				>
 					<p className={css({ mr: "2" })}>kzhrk</p>
 					<a
 						href="https://twitter.com/kzhrk0430"
