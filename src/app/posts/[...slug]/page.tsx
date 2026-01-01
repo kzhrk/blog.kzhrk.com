@@ -37,9 +37,12 @@ export async function generateMetadata({
 			title,
 			description,
 			url,
+			images: [{ url: "https://blog.kzhrk.com/images/ogp.png" }],
 		},
 		twitter: {
+			card: "summary_large_image",
 			title,
+			images: ["https://blog.kzhrk.com/images/ogp.png"],
 		},
 		alternates: {
 			canonical: url,
