@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { PostInfo } from "@/components/PostInfo";
+import { SITE_NAME, SITE_URL } from "@/lib/constants";
 import { getAllPosts, getDescription, getPost } from "@/lib/posts";
 import { css } from "../../../../styled-system/css";
 
@@ -26,9 +27,9 @@ export async function generateMetadata({
 		return {};
 	}
 
-	const title = `${post.metadata.title} | blog.kzhrk.com`;
+	const title = `${post.metadata.title} | ${SITE_NAME}`;
 	const description = getDescription(post.content);
-	const url = `https://blog.kzhrk.com/posts/${slugPath}`;
+	const url = `${SITE_URL}/posts/${slugPath}`;
 
 	return {
 		title,
@@ -56,7 +57,7 @@ export default async function PostPage({ params }: PageProps) {
 		notFound();
 	}
 
-	const url = `https://blog.kzhrk.com/posts/${slugPath}`;
+	const url = `${SITE_URL}/posts/${slugPath}`;
 
 	return (
 		<section className={css({ px: "10", py: "12", sm: { p: "12" } })}>
