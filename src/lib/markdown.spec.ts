@@ -63,7 +63,8 @@ describe("parseMarkdown", () => {
 		});
 
 		it("JavaScriptコードが正しくハイライトされる", async () => {
-			const markdown = "```javascript\nfunction hello() { return 'world'; }\n```";
+			const markdown =
+				"```javascript\nfunction hello() { return 'world'; }\n```";
 
 			const html = await parseMarkdown(markdown);
 

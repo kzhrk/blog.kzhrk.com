@@ -6,9 +6,10 @@ vi.mock("next/link", () => ({
 	default: ({
 		children,
 		href,
-	}: { children: React.ReactNode; href: string }) => (
-		<a href={href}>{children}</a>
-	),
+	}: {
+		children: React.ReactNode;
+		href: string;
+	}) => <a href={href}>{children}</a>,
 }));
 
 describe("PostInfo", () => {
@@ -22,7 +23,7 @@ describe("PostInfo", () => {
 				/>,
 			);
 
-			expect(screen.getByText("2024年5月5日")).toBeInTheDocument();
+			expect(screen.getByText("2024年5月5日")).not.toBeNull();
 		});
 
 		it("time要素にdateTime属性が設定される（文字列の場合）", () => {
@@ -31,7 +32,7 @@ describe("PostInfo", () => {
 			);
 
 			const timeElement = screen.getByText("2024年5月5日");
-			expect(timeElement).toHaveAttribute("datetime", "2024-05-05");
+			expect(timeElement.getAttribute("datetime")).toBe("2024-05-05");
 		});
 
 		it("time要素にdateTime属性が設定される（Dateオブジェクトの場合）", () => {
@@ -41,7 +42,7 @@ describe("PostInfo", () => {
 			);
 
 			const timeElement = screen.getByText("2024年5月5日");
-			expect(timeElement).toHaveAttribute("datetime", "2024-05-05");
+			expect(timeElement.getAttribute("datetime")).toBe("2024-05-05");
 		});
 	});
 
@@ -55,8 +56,8 @@ describe("PostInfo", () => {
 				/>,
 			);
 
-			expect(screen.getByRole("link", { name: "技術" })).toBeInTheDocument();
-			expect(screen.getByRole("link", { name: "React" })).toBeInTheDocument();
+			expect(screen.getByRole("link", { name: "技術" })).not.toBeNull();
+			expect(screen.getByRole("link", { name: "React" })).not.toBeNull();
 		});
 
 		it("タグリンクの href が正しい", () => {
@@ -69,7 +70,7 @@ describe("PostInfo", () => {
 			);
 
 			const tagLink = screen.getByRole("link", { name: "技術" });
-			expect(tagLink).toHaveAttribute("href", "/?tag=技術");
+			expect(tagLink.getAttribute("href")).toBe("/?tag=技術");
 		});
 
 		it("タグが空配列の場合はリストが表示されない", () => {
@@ -77,15 +78,13 @@ describe("PostInfo", () => {
 				<PostInfo date="2024-05-05" formattedDate="2024年5月5日" tags={[]} />,
 			);
 
-			expect(screen.queryByRole("list")).not.toBeInTheDocument();
+			expect(screen.queryByRole("list")).toBeNull();
 		});
 
 		it("tagsがundefinedの場合はリストが表示されない", () => {
-			render(
-				<PostInfo date="2024-05-05" formattedDate="2024年5月5日" />,
-			);
+			render(<PostInfo date="2024-05-05" formattedDate="2024年5月5日" />);
 
-			expect(screen.queryByRole("list")).not.toBeInTheDocument();
+			expect(screen.queryByRole("list")).toBeNull();
 		});
 
 		it("複数のタグがすべて表示される", () => {

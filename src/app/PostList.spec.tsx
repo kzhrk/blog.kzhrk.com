@@ -16,9 +16,10 @@ vi.mock("next/link", () => ({
 	default: ({
 		children,
 		href,
-	}: { children: React.ReactNode; href: string }) => (
-		<a href={href}>{children}</a>
-	),
+	}: {
+		children: React.ReactNode;
+		href: string;
+	}) => <a href={href}>{children}</a>,
 }));
 
 const mockPosts: PostSummary[] = [
@@ -58,26 +59,26 @@ describe("PostList", () => {
 	it("すべての記事が表示される", () => {
 		render(<PostList posts={mockPosts} tags={mockTags} />);
 
-		expect(screen.getByText("技術記事1")).toBeInTheDocument();
-		expect(screen.getByText("投資記事")).toBeInTheDocument();
-		expect(screen.getByText("技術記事2")).toBeInTheDocument();
+		expect(screen.getByText("技術記事1")).not.toBeNull();
+		expect(screen.getByText("投資記事")).not.toBeNull();
+		expect(screen.getByText("技術記事2")).not.toBeNull();
 	});
 
 	it("タグ選択のセレクトボックスが表示される", () => {
 		render(<PostList posts={mockPosts} tags={mockTags} />);
 
 		const select = screen.getByLabelText("絞り込みタグ:");
-		expect(select).toBeInTheDocument();
+		expect(select).not.toBeNull();
 	});
 
 	it("セレクトボックスにすべてのタグオプションが含まれる", () => {
 		render(<PostList posts={mockPosts} tags={mockTags} />);
 
-		expect(screen.getByRole("option", { name: "未選択" })).toBeInTheDocument();
-		expect(screen.getByRole("option", { name: "技術" })).toBeInTheDocument();
-		expect(screen.getByRole("option", { name: "React" })).toBeInTheDocument();
-		expect(screen.getByRole("option", { name: "Vue" })).toBeInTheDocument();
-		expect(screen.getByRole("option", { name: "投資" })).toBeInTheDocument();
+		expect(screen.getByRole("option", { name: "未選択" })).not.toBeNull();
+		expect(screen.getByRole("option", { name: "技術" })).not.toBeNull();
+		expect(screen.getByRole("option", { name: "React" })).not.toBeNull();
+		expect(screen.getByRole("option", { name: "Vue" })).not.toBeNull();
+		expect(screen.getByRole("option", { name: "投資" })).not.toBeNull();
 	});
 
 	it("タグを選択するとURLが更新される", () => {
@@ -105,14 +106,14 @@ describe("PostList", () => {
 		render(<PostList posts={mockPosts} tags={mockTags} />);
 
 		const link = screen.getByRole("link", { name: "技術記事1" });
-		expect(link).toHaveAttribute("href", "/posts/2024/05/05/tech-post-1");
+		expect(link.getAttribute("href")).toBe("/posts/2024/05/05/tech-post-1");
 	});
 
 	it("空の記事リストでも正常にレンダリングされる", () => {
 		render(<PostList posts={[]} tags={[]} />);
 
-		expect(screen.getByLabelText("絞り込みタグ:")).toBeInTheDocument();
-		expect(screen.queryByRole("heading", { level: 2 })).not.toBeInTheDocument();
+		expect(screen.getByLabelText("絞り込みタグ:")).not.toBeNull();
+		expect(screen.queryByRole("heading", { level: 2 })).toBeNull();
 	});
 
 	it("タグがない記事も表示される", () => {
@@ -128,7 +129,7 @@ describe("PostList", () => {
 
 		render(<PostList posts={postsWithoutTags} tags={[]} />);
 
-		expect(screen.getByText("タグなし記事")).toBeInTheDocument();
+		expect(screen.getByText("タグなし記事")).not.toBeNull();
 	});
 });
 

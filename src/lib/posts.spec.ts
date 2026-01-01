@@ -50,7 +50,7 @@ describe("posts", () => {
 
 			const description = getDescription(content);
 
-			expect(description).toBe("あ".repeat(100) + "...");
+			expect(description).toBe(`${"あ".repeat(100)}...`);
 		});
 
 		it("ちょうど100文字の場合も省略記号が付く", () => {
@@ -58,7 +58,7 @@ describe("posts", () => {
 
 			const description = getDescription(content);
 
-			expect(description).toBe("あ".repeat(100) + "...");
+			expect(description).toBe(`${"あ".repeat(100)}...`);
 		});
 
 		it("空文字列の場合は省略記号のみ返す", () => {
