@@ -12,7 +12,14 @@ export default defineConfig({
 
 	// Useful for theme customization
 	theme: {
-		extend: {},
+		extend: {
+			keyframes: {
+				pulse: {
+					"0%, 100%": { opacity: "1" },
+					"50%": { opacity: "0.5" },
+				},
+			},
+		},
 	},
 
 	// The output directory for your css system
