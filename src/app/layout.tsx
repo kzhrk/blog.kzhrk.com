@@ -2,29 +2,30 @@ import type { Metadata } from "next";
 import Script from "next/script";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
+import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/constants";
 import { css } from "../../styled-system/css";
 import "highlight.js/styles/github-dark.css";
 import "./globals.css";
 
 export const metadata: Metadata = {
-	title: "blog.kzhrk.com",
-	description: "kzhrk のブログ。プログラミングとか料理とか映像作品とか。",
+	title: SITE_NAME,
+	description: SITE_DESCRIPTION,
 	openGraph: {
-		title: "blog.kzhrk.com",
-		description: "kzhrk のブログ。プログラミングとか料理とか映像作品とか。",
-		url: "https://blog.kzhrk.com/",
-		siteName: "blog.kzhrk.com",
+		title: SITE_NAME,
+		description: SITE_DESCRIPTION,
+		url: `${SITE_URL}/`,
+		siteName: SITE_NAME,
 		type: "website",
 		images: [
 			{
-				url: "https://blog.kzhrk.com/images/ogp.png",
+				url: `${SITE_URL}/images/ogp.png`,
 			},
 		],
 	},
 	twitter: {
 		card: "summary_large_image",
-		title: "blog.kzhrk.com",
-		images: ["https://blog.kzhrk.com/images/ogp.png"],
+		title: SITE_NAME,
+		images: [`${SITE_URL}/images/ogp.png`],
 	},
 	icons: {
 		icon: "/favicon.png",

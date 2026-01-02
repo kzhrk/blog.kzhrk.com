@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
+import { SITE_URL } from "@/lib/constants";
 import { getAllPosts, getAllTags } from "@/lib/posts";
 import { PostList } from "./PostList";
 
@@ -7,7 +8,7 @@ export const dynamic = "force-static";
 
 export const metadata: Metadata = {
 	alternates: {
-		canonical: "https://blog.kzhrk.com",
+		canonical: SITE_URL,
 	},
 };
 
