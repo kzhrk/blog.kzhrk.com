@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { PostInfo } from "@/components/PostInfo";
+import { TweetButton } from "@/components/TweetButton";
 import { SITE_NAME, SITE_URL } from "@/lib/constants";
 import { getAllPosts, getDescription, getPost } from "@/lib/posts";
 import { css } from "../../../../styled-system/css";
@@ -80,12 +81,7 @@ export default async function PostPage({ params }: PageProps) {
 				dangerouslySetInnerHTML={{ __html: post.html }}
 			/>
 			<div className={css({ mt: "8" })}>
-				<a
-					className="twitter-share-button"
-					href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(post.metadata.title)}`}
-				>
-					Tweet
-				</a>
+				<TweetButton url={url} text={post.metadata.title} />
 			</div>
 		</section>
 	);
