@@ -3,7 +3,7 @@ import Script from "next/script";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/constants";
-import { css } from "../../styled-system/css";
+import { css } from "@/styled-system/css";
 import "highlight.js/styles/github-dark.css";
 import "./globals.css";
 

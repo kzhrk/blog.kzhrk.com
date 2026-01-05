@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { css } from "../../styled-system/css";
+import { css } from "@/styled-system/css";
 
 export default function ErrorPage({
 	error,

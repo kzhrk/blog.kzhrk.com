@@ -4,8 +4,8 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useMemo } from "react";
 import { PostInfo } from "@/components/PostInfo";
+import { css } from "@/styled-system/css";
 import type { PostSummary } from "@/types";
-import { css } from "../../styled-system/css";
 
 interface PostListProps {
 	posts: PostSummary[];

@@ -4,7 +4,7 @@ import { PostInfo } from "@/components/PostInfo";
 import { TweetButton } from "@/components/TweetButton";
 import { SITE_NAME, SITE_URL } from "@/lib/constants";
 import { getAllPosts, getDescription, getPost } from "@/lib/posts";
-import { css } from "../../../../styled-system/css";
+import { css } from "@/styled-system/css";
 
 interface PageProps {
 	params: Promise<{ slug: string[] }>;
