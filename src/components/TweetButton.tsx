@@ -19,7 +19,7 @@ export function TweetButton({ url, text }: TweetButtonProps) {
 	}, []);
 
 	return (
-		<a ref={rootRef} className="twitter-share-button" href={tweetUrl}>
+		<a ref={rootRef} href={tweetUrl}>
 			Tweet
 		</a>
 	);
