@@ -14,7 +14,7 @@ export function TweetButton({ url, text }: TweetButtonProps) {
 	useEffect(() => {
 		if (rootRef.current !== null) {
 			// @ts-expect-error
-			window.twttr.widgets.load(rootRef.current);
+			if (window.twttr) window.twttr.widgets.load(rootRef.current);
 		}
 	}, []);
 
