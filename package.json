@@ -30,7 +30,7 @@
 		"@pandacss/dev": "^1.8.0",
 		"@testing-library/dom": "^10.0.0",
 		"@testing-library/react": "^16.1.0",
-		"@types/node": "24.10.4",
+		"@types/node": "25.0.5",
 		"@types/react": "^19.0.0",
 		"@types/react-dom": "^19.0.0",
 		"@vitejs/plugin-react": "^5.1.2",
