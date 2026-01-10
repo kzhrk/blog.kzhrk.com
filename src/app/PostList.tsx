@@ -54,8 +54,7 @@ export function PostList({ posts, tags }: PostListProps) {
 					display: "flex",
 					gap: "2",
 					alignItems: "center",
-					px: "6",
-					sm: { px: "12" },
+					px: "5",
 					my: "6",
 				})}
 			>
@@ -86,10 +85,7 @@ export function PostList({ posts, tags }: PostListProps) {
 				</select>
 			</div>
 			{filteredPosts.map((post) => (
-				<section
-					key={post.slug}
-					className={css({ px: "6", sm: { px: "12" }, my: "12" })}
-				>
+				<section key={post.slug} className={css({ px: "5", my: "12" })}>
 					<h2 className={css({ fontSize: "2xl" })}>
 						<Link className="link" href={`/posts${post.path}`}>
 							{post.title}
