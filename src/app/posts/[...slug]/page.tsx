@@ -64,7 +64,7 @@ export default async function PostPage({ params }: PageProps) {
 	const url = `${SITE_URL}/posts/${slugPath}`;
 
 	return (
-		<section className={css({ px: "10", py: "12", sm: { p: "12" } })}>
+		<section className={css({ px: "5", py: "12" })}>
 			<h1 className={css({ mb: "4", fontSize: "3xl", fontWeight: "bold" })}>
 				{post.metadata.title}
 			</h1>
