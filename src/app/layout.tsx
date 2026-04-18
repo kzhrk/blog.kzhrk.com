@@ -3,7 +3,6 @@ import Script from "next/script";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/constants";
-import { css } from "@/styled-system/css";
 import "highlight.js/styles/github-dark.css";
 import "./globals.css";
 
@@ -42,6 +41,16 @@ export default function RootLayout({
 		<html lang="ja">
 			<head>
 				<link rel="preconnect" href="https://www.googletagmanager.com" />
+				<link rel="preconnect" href="https://fonts.googleapis.com" />
+				<link
+					rel="preconnect"
+					href="https://fonts.gstatic.com"
+					crossOrigin="anonymous"
+				/>
+				<link
+					rel="stylesheet"
+					href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Noto+Sans+JP:wght@400;500;600;700&display=swap"
+				/>
 				<Script id="gtm" strategy="afterInteractive">
 					{`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 					new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -65,11 +74,7 @@ export default function RootLayout({
 					/>
 				</noscript>
 				<Header />
-				<main
-					className={css({ width: "auto", sm: { width: "10/12" }, mx: "auto" })}
-				>
-					{children}
-				</main>
+				{children}
 				<Footer />
 			</body>
 		</html>

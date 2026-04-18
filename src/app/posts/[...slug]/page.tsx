@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
-import { PostInfo } from "@/components/PostInfo";
 import { TweetButton } from "@/components/TweetButton";
 import { SITE_NAME, SITE_URL } from "@/lib/constants";
 import { getAllPosts, getDescription, getPost } from "@/lib/posts";
-import { css } from "@/styled-system/css";
 
 interface PageProps {
 	params: Promise<{ slug: string[] }>;
@@ -62,27 +61,49 @@ export default async function PostPage({ params }: PageProps) {
 	}
 
 	const url = `${SITE_URL}/posts/${slugPath}`;
+	const dateTimeValue =
+		typeof post.metadata.date === "string"
+			? post.metadata.date
+			: post.metadata.date.toISOString().split("T")[0];
 
 	return (
-		<section className={css({ px: "5", py: "12" })}>
-			<h1 className={css({ mb: "4", fontSize: "3xl", fontWeight: "bold" })}>
-				{post.metadata.title}
-			</h1>
-			<div className={css({ mb: "10", display: "flex", alignItems: "center" })}>
-				<PostInfo
-					date={post.metadata.date}
-					tags={post.metadata.tags}
-					formattedDate={post.formattedDate}
-				/>
-			</div>
+		<article className="post">
+			<Link className="post__back" href="/">
+				← 一覧へ戻る
+			</Link>
+
+			<header className="post__head">
+				<div className="post__meta">
+					<time className="meta-en" dateTime={dateTimeValue}>
+						{post.formattedDate}
+					</time>
+				</div>
+				<h1 className="post__title">{post.metadata.title}</h1>
+				{post.metadata.tags && post.metadata.tags.length > 0 && (
+					<div className="post__tags">
+						{post.metadata.tags.map((tag) => (
+							<Link
+								key={tag}
+								href={`/?tag=${encodeURIComponent(tag)}`}
+								className="tag-chip"
+							>
+								<span className="tag-chip__hash">#</span>
+								{tag}
+							</Link>
+						))}
+					</div>
+				)}
+			</header>
+
 			<div
-				className="html"
+				className="post__body html"
 				// biome-ignore lint/security/noDangerouslySetInnerHtml: HTML is generated from markdown
 				dangerouslySetInnerHTML={{ __html: post.html }}
 			/>
-			<div className={css({ mt: "8" })}>
+
+			<div className="post__footer">
 				<TweetButton url={url} text={post.metadata.title} />
 			</div>
-		</section>
+		</article>
 	);
 }

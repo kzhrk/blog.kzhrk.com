@@ -16,10 +16,16 @@ vi.mock("next/link", () => ({
 	default: ({
 		children,
 		href,
+		className,
 	}: {
 		children: React.ReactNode;
 		href: string;
-	}) => <a href={href}>{children}</a>,
+		className?: string;
+	}) => (
+		<a href={href} className={className}>
+			{children}
+		</a>
+	),
 }));
 
 const mockPosts: PostSummary[] = [
@@ -64,56 +70,50 @@ describe("PostList", () => {
 		expect(screen.getByText("技術記事2")).not.toBeNull();
 	});
 
-	it("タグ選択のセレクトボックスが表示される", () => {
+	it("Allチップと各タグチップが表示される", () => {
 		render(<PostList posts={mockPosts} tags={mockTags} />);
 
-		const select = screen.getByLabelText("絞り込みタグ:");
-		expect(select).not.toBeNull();
+		expect(screen.getByRole("button", { name: /All/ })).not.toBeNull();
+		for (const t of mockTags) {
+			expect(
+				screen.getByRole("button", { name: new RegExp(t) }),
+			).not.toBeNull();
+		}
 	});
 
-	it("セレクトボックスにすべてのタグオプションが含まれる", () => {
+	it("タグチップをクリックするとURLが更新される", () => {
 		render(<PostList posts={mockPosts} tags={mockTags} />);
 
-		expect(screen.getByRole("option", { name: "未選択" })).not.toBeNull();
-		expect(screen.getByRole("option", { name: "技術" })).not.toBeNull();
-		expect(screen.getByRole("option", { name: "React" })).not.toBeNull();
-		expect(screen.getByRole("option", { name: "Vue" })).not.toBeNull();
-		expect(screen.getByRole("option", { name: "投資" })).not.toBeNull();
-	});
-
-	it("タグを選択するとURLが更新される", () => {
-		render(<PostList posts={mockPosts} tags={mockTags} />);
-
-		const select = screen.getByLabelText("絞り込みタグ:");
-		fireEvent.change(select, { target: { value: "技術" } });
+		const chip = screen.getByRole("button", { name: /技術/ });
+		fireEvent.click(chip);
 
 		expect(mockPush).toHaveBeenCalledTimes(1);
 		const calledUrl = mockPush.mock.calls[0][0] as string;
+		expect(calledUrl.startsWith("/?")).toBe(true);
 		const params = new URLSearchParams(calledUrl.replace("/?", ""));
 		expect(params.get("tag")).toBe("技術");
 	});
 
-	it("未選択を選ぶとタグパラメータが削除される", () => {
+	it("Allチップをクリックするとクエリが空のURLになる", () => {
 		render(<PostList posts={mockPosts} tags={mockTags} />);
 
-		const select = screen.getByLabelText("絞り込みタグ:");
-		fireEvent.change(select, { target: { value: "" } });
+		const all = screen.getByRole("button", { name: /All/ });
+		fireEvent.click(all);
 
-		expect(mockPush).toHaveBeenCalledWith("/?");
+		expect(mockPush).toHaveBeenCalledWith("/");
 	});
 
 	it("記事のリンクが正しいパスを持つ", () => {
 		render(<PostList posts={mockPosts} tags={mockTags} />);
 
-		const link = screen.getByRole("link", { name: "技術記事1" });
+		const link = screen.getByRole("link", { name: /技術記事1/ });
 		expect(link.getAttribute("href")).toBe("/posts/2024/05/05/tech-post-1");
 	});
 
-	it("空の記事リストでも正常にレンダリングされる", () => {
+	it("空の記事リストの場合はNo entriesが表示される", () => {
 		render(<PostList posts={[]} tags={[]} />);
 
-		expect(screen.getByLabelText("絞り込みタグ:")).not.toBeNull();
-		expect(screen.queryByRole("heading", { level: 2 })).toBeNull();
+		expect(screen.getByText("No entries.")).not.toBeNull();
 	});
 
 	it("タグがない記事も表示される", () => {
@@ -130,19 +130,5 @@ describe("PostList", () => {
 		render(<PostList posts={postsWithoutTags} tags={[]} />);
 
 		expect(screen.getByText("タグなし記事")).not.toBeNull();
-	});
-});
-
-describe("PostList フィルタリング", () => {
-	it("選択したタグで記事がフィルタリングされる", () => {
-		vi.mocked(vi.fn()).mockImplementation(() => ({
-			useRouter: () => ({ push: mockPush }),
-			useSearchParams: () => new URLSearchParams("tag=技術"),
-		}));
-
-		vi.doMock("next/navigation", () => ({
-			useRouter: () => ({ push: mockPush }),
-			useSearchParams: () => new URLSearchParams("tag=技術"),
-		}));
 	});
 });

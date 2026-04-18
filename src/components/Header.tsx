@@ -1,56 +1,52 @@
-import Image from "next/image";
 import Link from "next/link";
-import { css } from "@/styled-system/css";
 
 export function Header() {
 	return (
-		<header
-			className={css({ color: "white" })}
-			style={{ textShadow: "0 1px 5px black" }}
-		>
-			<div
-				className={css({
-					px: "6",
-					py: "4",
-					sm: { px: "12", py: "8" },
-					bg: "slate.800/75",
-				})}
-			>
-				<div
-					className={css({
-						width: "auto",
-						sm: { width: "10/12" },
-						mx: "auto",
-						display: "flex",
-						alignItems: "center",
-						justifyContent: "space-between",
-					})}
-				>
-					<h1
-						className={css({
-							fontSize: "xl",
-							sm: { fontSize: "3xl" },
-							fontWeight: "bold",
-						})}
-					>
-						<Link className={css({ fontWeight: "normal" })} href="/">
-							blog.kzhrk.com
-						</Link>
-					</h1>
-					<a
-						href="https://github.com/kzhrk/blog.kzhrk.com"
-						className={css({ width: "8" })}
-					>
-						<figure>
-							<Image
-								src="/images/github-logo.png"
-								alt="GitHub Logo"
-								width={32}
-								height={32}
+		<header className="site-header">
+			<div className="site-header__inner">
+				<Link className="brand" href="/" aria-label="blog.kzhrk.com">
+					<span className="brand__mark" aria-hidden>
+						<svg
+							viewBox="0 0 24 24"
+							width="18"
+							height="18"
+							role="img"
+							aria-label="blog mark"
+						>
+							<circle
+								cx="12"
+								cy="12"
+								r="10"
+								fill="none"
+								stroke="currentColor"
+								strokeWidth="1.25"
 							/>
-						</figure>
+							<path
+								d="M7 15 L12 8 L17 15"
+								fill="none"
+								stroke="currentColor"
+								strokeWidth="1.25"
+								strokeLinecap="round"
+								strokeLinejoin="round"
+							/>
+						</svg>
+					</span>
+					<span className="brand__name">
+						<span className="brand__sub">blog.</span>kzhrk
+						<span className="brand__sub">.com</span>
+					</span>
+				</Link>
+
+				<nav className="site-nav" aria-label="Primary">
+					<a
+						className="site-nav__link"
+						href="https://github.com/kzhrk/blog.kzhrk.com"
+						target="_blank"
+						rel="noopener noreferrer"
+					>
+						GitHub ↗
 					</a>
-				</div>
+				</nav>
 			</div>
 		</header>
 	);

@@ -1,43 +1,42 @@
-import Link from "next/link";
-import { css } from "@/styled-system/css";
-
 export function Footer() {
 	return (
-		<footer
-			className={css({
-				px: "6",
-				py: "8",
-				sm: { px: "12", py: "16" },
-				backgroundColor: "rgb(229 231 235)",
-				_osDark: { backgroundColor: "rgb(31 41 55)" },
-			})}
-		>
-			<div
-				className={css({ width: "auto", sm: { width: "10/12" }, mx: "auto" })}
-			>
-				<h2 className={css({ fontSize: "xl", fontWeight: "bold" })}>Author</h2>
-				<div
-					className={css({ mt: "4", display: "flex", alignItems: "center" })}
-				>
-					<p className={css({ mr: "2" })}>kzhrk</p>
-					<a
-						href="https://twitter.com/kzhrk0430"
-						className="twitter-follow-button"
-						data-show-screen-name="true"
-					>
-						Follow @kzhrk0430
-					</a>
+		<footer className="site-footer">
+			<div className="site-footer__inner">
+				<div className="site-footer__block">
+					<h3 className="site-footer__h">Author</h3>
+					<p className="site-footer__p">
+						kzhrk
+						<br />
+						フロントエンドエンジニア。ブラウザというアプリケーションを使い倒して全ての人類に等しく情報を伝えることを生きがいにしている。
+					</p>
 				</div>
-				<p className={css({ mt: "2" })}>
-					フロントエンドエンジニア。ブラウザというアプリケーションを使い倒して全ての人類に等しく情報を伝えることを生きがいにしている。
-				</p>
+				<div className="site-footer__block">
+					<h3 className="site-footer__h">Elsewhere</h3>
+					<ul className="site-footer__list">
+						<li>
+							<a
+								href="https://github.com/kzhrk"
+								target="_blank"
+								rel="noopener noreferrer"
+							>
+								GitHub ↗
+							</a>
+						</li>
+						<li>
+							<a
+								href="https://twitter.com/kzhrk0430"
+								target="_blank"
+								rel="noopener noreferrer"
+							>
+								Twitter ↗
+							</a>
+						</li>
+					</ul>
+				</div>
 			</div>
-			<p className={css({ mt: "16", fontSize: "sm", textAlign: "center" })}>
-				&copy; 2014{" "}
-				<Link className="link" href="/">
-					kzhrk
-				</Link>
-			</p>
+			<div className="site-footer__bottom">
+				<span>© 2014 kzhrk</span>
+			</div>
 		</footer>
 	);
 }
