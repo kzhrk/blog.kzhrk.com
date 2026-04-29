@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Script from "next/script";
+import { ChatBot } from "@/components/ChatBot";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/constants";
@@ -76,6 +77,7 @@ export default function RootLayout({
 				<Header />
 				{children}
 				<Footer />
+				<ChatBot />
 			</body>
 		</html>
 	);
