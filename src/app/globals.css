@@ -792,6 +792,53 @@ a {
 	color: var(--ink);
 }
 
+.chatbot-sources {
+	list-style: none;
+	margin: 6px 0 0;
+	padding: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+}
+.chatbot-sources__item {
+	margin: 0;
+}
+.chatbot-sources__link {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 8px;
+	padding: 6px 10px;
+	border-radius: 8px;
+	border: 1px solid var(--rule-soft);
+	background: var(--bg);
+	color: var(--ink-soft);
+	text-decoration: none;
+	font-size: 0.78rem;
+	transition:
+		background 0.15s,
+		border-color 0.15s,
+		color 0.15s;
+}
+.chatbot-sources__link:hover {
+	color: var(--ink);
+	background: var(--bg-sunk);
+	border-color: var(--rule);
+}
+.chatbot-sources__title {
+	flex: 1;
+	min-width: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.chatbot-sources__date {
+	font-family: var(--mono);
+	color: var(--ink-muted);
+	font-size: 0.72rem;
+	flex-shrink: 0;
+}
+
 .chatbot-banner {
 	padding: 10px 16px;
 	font-size: 0.8rem;

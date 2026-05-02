@@ -107,12 +107,14 @@ export function scorePosts(
 	const scored: ScoredEntry[] = [];
 	for (const entry of corpus) {
 		const title = entry.title.toLowerCase();
+		const description = entry.description.toLowerCase();
 		const tags = entry.tags.map((t) => t.toLowerCase());
 		const body = entry.body.toLowerCase();
 
 		let score = 0;
 		for (const token of tokens) {
 			if (title.includes(token)) score += 3;
+			if (description.includes(token)) score += 2;
 			if (tags.some((t) => t.includes(token))) score += 2;
 			if (body.includes(token)) score += 1;
 		}

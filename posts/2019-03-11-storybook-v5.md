@@ -2,6 +2,7 @@
 title: "Migrate storybook v4 to v5"
 date: 2019-03-11
 tags: [技術]
+summary: Storybook を v4 から v5 にアップデートしたメモ。webpack.config.js の引数 Object 化と、storiesOf の第一引数で日本語が使えなくなったサニタイズ問題を解説。
 ---
 
 ## Storybook v4.0 から v5.0 にアップデートした

@@ -3,6 +3,7 @@ export interface Metadata {
 	date: string | Date;
 	tags?: string[];
 	draft?: boolean;
+	summary?: string;
 }
 
 export interface Post {

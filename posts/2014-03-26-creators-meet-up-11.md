@@ -2,6 +2,7 @@
 date: 2014-03-26
 title: Creators Meet Up 11で登壇しました
 tags: [イベント]
+summary: Creators MeetUP 11 で「CSS Selector を書こう」というタイトルで人生初の登壇を行ったレポート。IE6 サポート終了後に使える CSS Selector を紹介した。
 ---
 
 2013 年 12 月 21 日に開催された[DSLAB さん](http://lab.designsatellites.jp/)主催の勉強会、Creators MeetUP 11 で登壇させていただきました。

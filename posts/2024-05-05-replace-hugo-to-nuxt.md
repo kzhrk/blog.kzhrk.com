@@ -2,6 +2,7 @@
 title: "SSG を Hugo から Nuxt に置き換えた"
 date: 2024-05-05
 tags: [技術]
+summary: ブログの SSG を Hugo から Nuxt 3 に移行した経緯。Hugo の独自テンプレートタグや VSCode Extension のメンテナンス性に課題を感じ、業務で使っている Nuxt に統一した。
 ---
 
 kzhrk.com のドメインは大学生か新卒のときに取得したドメインで、最初はレンタルサーバ上の PHP で [Movable Type](https://www.movabletype.org/) を動かしていた。  

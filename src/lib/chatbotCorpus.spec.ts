@@ -69,5 +69,12 @@ describe("chatbotCorpus", () => {
 				expect(corpus[i].date >= corpus[i + 1].date).toBe(true);
 			}
 		});
+
+		it("description フィールドが必ず存在する", async () => {
+			const corpus = await buildChatbotCorpus();
+			for (const entry of corpus) {
+				expect(entry.description.length).toBeGreaterThan(0);
+			}
+		});
 	});
 });

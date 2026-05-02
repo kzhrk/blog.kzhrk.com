@@ -2,6 +2,7 @@
 date: 2015-10-15
 title: Hello Atom!!
 tags: [技術]
+summary: Sublime Text 2 から Atom にエディタを乗り換えた所感。Atom の良い点・気になる点と、当時導入していた Package (emmet, japanese-wrap など) を紹介。
 ---
 
 今まで[恋に落ちるという触れ込みの Sublime Text2](http://www.sublimetext.com/)を使っていたけど、最近になって[Atom](https://atom.io/)に乗り換えた。
