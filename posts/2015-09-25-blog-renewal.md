@@ -2,6 +2,7 @@
 date: 2015-09-25
 title: hello world
 tags: [技術]
+summary: ブログを WordPress や自前の Jade ベースから Hugo + GitHub Pages に移行した経緯。Wercker で自動デプロイを構築した。
 ---
 
 GitHub にブログを移動しました。

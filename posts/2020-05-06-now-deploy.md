@@ -2,6 +2,7 @@
 title: "Deploy Next.js project to now"
 date: 2020-05-06
 tags: [技術]
+summary: Next.js + Material UI + TypeScript で TODO アプリを作成し、CircleCI から Vercel (旧 now) にデプロイする設定を構築したメモ。
 ---
 
 Next.js でつくったプロジェクトを、CircleCI から[Vercel](https://vercel.com/)(旧 now)にデプロイするときに躓いたので忘備録として記事を残しておく。

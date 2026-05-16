@@ -2,6 +2,7 @@
 title: ブログの技術スタックを刷新した
 date: 2026-01-02
 tags: [技術]
+summary: ブログを Nuxt 3 から Next.js 15 (App Router) に、スタイリングを Tailwind CSS から Panda CSS に移行。Cloudflare Workers (@opennextjs/cloudflare) にデプロイした。
 ---
 
 年末年始を利用して、このブログの技術スタックを大幅に刷新した。主な変更点をまとめる。

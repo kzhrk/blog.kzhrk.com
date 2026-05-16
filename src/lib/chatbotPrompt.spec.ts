@@ -53,22 +53,34 @@ describe("chatbotPrompt", () => {
 	});
 
 	describe("buildInitialPrompts", () => {
-		it("system → user → assistant の順で構成される", () => {
+		it("system プロンプトで始まり、最後は assistant の確認応答で終わる", () => {
 			const corpus = [makeEntry()];
 			const result = buildInitialPrompts(corpus, corpus);
 			expect(result[0].role).toBe("system");
 			expect(result[0].content).toBe(SYSTEM_PROMPT);
-			expect(result[1].role).toBe("user");
-			expect(result[2].role).toBe("assistant");
+			expect(result.at(-1)?.role).toBe("assistant");
 		});
 
-		it("user メッセージに index と関連記事の両方が含まれる", () => {
+		it("few-shot example が system と最終 user の間に挟まる", () => {
+			const corpus = [makeEntry()];
+			const result = buildInitialPrompts(corpus, corpus);
+			expect(result.length).toBeGreaterThanOrEqual(5);
+			const fewShot = result.slice(1, -2);
+			expect(fewShot.length).toBeGreaterThan(0);
+			expect(
+				fewShot.every((m) => m.role === "user" || m.role === "assistant"),
+			).toBe(true);
+		});
+
+		it("最終の user メッセージに index と関連記事の両方が含まれる", () => {
 			const corpus = [makeEntry({ title: "全件タイトル" })];
 			const related = [makeEntry({ title: "関連タイトル", body: "関連本文" })];
 			const result = buildInitialPrompts(corpus, related);
-			expect(result[1].content).toContain("全件タイトル");
-			expect(result[1].content).toContain("関連タイトル");
-			expect(result[1].content).toContain("関連本文");
+			const lastUser = result.at(-2);
+			expect(lastUser?.role).toBe("user");
+			expect(lastUser?.content).toContain("全件タイトル");
+			expect(lastUser?.content).toContain("関連タイトル");
+			expect(lastUser?.content).toContain("関連本文");
 		});
 	});
 });

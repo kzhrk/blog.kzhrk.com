@@ -81,7 +81,7 @@ export const buildChatbotCorpus = cache(
 				date: toIsoDate(metadata.date),
 				formattedDate: formatDate(metadata.date),
 				tags: metadata.tags ?? [],
-				description: buildDescription(stripped),
+				description: metadata.summary?.trim() || buildDescription(stripped),
 				body,
 			});
 		}

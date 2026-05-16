@@ -2,6 +2,7 @@
 title: "TSKaigi 2024 After Talk に参加した"
 date: 2024-06-04
 tags: [イベント]
+summary: LayerX で開催された TSKaigi 2024 After Talk の参加レポート。AWS CDK、JSDoc 型、Effect、Remix、Nx モノレポ移行など Full Stack TypeScript 関連の話題。
 ---
 
 2024 年 6 月 4 日に東銀座の LayerX さんで開催された [TSKaigi 2024 After Talk](https://layerx.connpass.com/event/318123/) に参加してきた。  

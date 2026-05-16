@@ -27,6 +27,7 @@ interface ChatMessage {
 	id: string;
 	role: "user" | "assistant";
 	content: string;
+	sources?: ChatbotCorpusEntry[];
 }
 
 const CONTEXT_URL = "/chatbot-context.json";
@@ -138,6 +139,11 @@ export function ChatBot() {
 
 		try {
 			const related = searchPosts(trimmed, corpus, 3);
+			setMessages((prev) =>
+				prev.map((m) =>
+					m.id === assistantMessage.id ? { ...m, sources: related } : m,
+				),
+			);
 			const initialPrompts = buildInitialPrompts(corpus, related);
 			const session = await createSession({
 				initialPrompts,
@@ -227,6 +233,29 @@ export function ChatBot() {
 								<p className="chatbot-msg__body">
 									{m.content || (isThinking ? "..." : "")}
 								</p>
+								{m.role === "assistant" &&
+									m.sources &&
+									m.sources.length > 0 && (
+										<ul className="chatbot-sources" aria-label="参照記事">
+											{m.sources.map((src) => (
+												<li key={src.slug} className="chatbot-sources__item">
+													<a
+														href={src.path}
+														className="chatbot-sources__link"
+														target="_blank"
+														rel="noopener noreferrer"
+													>
+														<span className="chatbot-sources__title">
+															{src.title}
+														</span>
+														<span className="chatbot-sources__date">
+															{src.formattedDate}
+														</span>
+													</a>
+												</li>
+											))}
+										</ul>
+									)}
 							</div>
 						))}
 					</div>
