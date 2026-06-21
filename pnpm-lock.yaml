@@ -21,7 +21,7 @@ importers:
         specifier: ^17.0.1
         version: 17.0.6
       next:
-        specifier: ^16.1.1
+        specifier: ^16.2.9
         version: 16.2.9(@babel/core@7.29.7)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       react:
         specifier: ^19.0.0
@@ -34,7 +34,7 @@ importers:
         specifier: 2.3.11
         version: 2.3.11
       '@opennextjs/cloudflare':
-        specifier: ^1.14.8
+        specifier: ^1.19.11
         version: 1.19.11(next@16.2.9(@babel/core@7.29.7)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(wrangler@4.103.0)
       '@pandacss/dev':
         specifier: ^1.8.0
