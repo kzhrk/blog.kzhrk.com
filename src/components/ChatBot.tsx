@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { ChatbotCorpusEntry } from "@/lib/chatbotCorpus";
+import { renderChatbotMarkdown } from "@/lib/chatbotMarkdown";
 import { buildInitialPrompts } from "@/lib/chatbotPrompt";
 import { searchPosts } from "@/lib/chatbotSearch";
 import {
@@ -230,9 +231,23 @@ export function ChatBot() {
 								<span className="chatbot-msg__role">
 									{m.role === "user" ? "you" : "assistant"}
 								</span>
-								<p className="chatbot-msg__body">
-									{m.content || (isThinking ? "..." : "")}
-								</p>
+								{m.role === "assistant" ? (
+									m.content ? (
+										<div
+											className="chatbot-msg__body chatbot-md"
+											// biome-ignore lint/security/noDangerouslySetInnerHtml: HTML is generated from markdown
+											dangerouslySetInnerHTML={{
+												__html: renderChatbotMarkdown(m.content),
+											}}
+										/>
+									) : (
+										<p className="chatbot-msg__body">
+											{isThinking ? "..." : ""}
+										</p>
+									)
+								) : (
+									<p className="chatbot-msg__body">{m.content}</p>
+								)}
 								{m.role === "assistant" &&
 									m.sources &&
 									m.sources.length > 0 && (
@@ -240,7 +255,7 @@ export function ChatBot() {
 											{m.sources.map((src) => (
 												<li key={src.slug} className="chatbot-sources__item">
 													<a
-														href={src.path}
+														href={`/posts${src.path}`}
 														className="chatbot-sources__link"
 														target="_blank"
 														rel="noopener noreferrer"
