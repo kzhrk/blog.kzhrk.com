@@ -1,0 +1,8 @@
+/*
+ * widgets.js が挿入する iframe の中はライト用の配色で、背景は透明になっている。
+ * ページがダーク（color-scheme: dark）のとき、配色の異なる iframe はブラウザが
+ * 不透明な白で塗る。iframe 側の color-scheme を中身に合わせ、透明のまま表示させる。
+ */
+.root iframe {
+	color-scheme: light;
+}
