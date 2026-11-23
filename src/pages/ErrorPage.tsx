@@ -1,6 +1,6 @@
 import type { ErrorComponentProps } from "@tanstack/react-router";
 import { useEffect } from "react";
-import { css } from "@/styled-system/css";
+import styles from "./ErrorPage.module.css";
 
 export function ErrorPage({ error, reset }: ErrorComponentProps) {
 	useEffect(() => {
@@ -8,36 +8,12 @@ export function ErrorPage({ error, reset }: ErrorComponentProps) {
 	}, [error]);
 
 	return (
-		<div
-			className={css({
-				display: "flex",
-				flexDirection: "column",
-				alignItems: "center",
-				justifyContent: "center",
-				minHeight: "50vh",
-				px: "6",
-				py: "12",
-			})}
-		>
-			<h1 className={css({ fontSize: "4xl", fontWeight: "bold", mb: "4" })}>
-				エラーが発生しました
-			</h1>
-			<p className={css({ fontSize: "xl", mb: "8", textAlign: "center" })}>
+		<div className={styles.root}>
+			<h1 className={styles.title}>エラーが発生しました</h1>
+			<p className={styles.message}>
 				申し訳ありません。予期しないエラーが発生しました。
 			</p>
-			<button
-				type="button"
-				onClick={reset}
-				className={css({
-					px: "6",
-					py: "3",
-					bg: "blue.600",
-					color: "white",
-					fontWeight: "bold",
-					cursor: "pointer",
-					_hover: { bg: "blue.700" },
-				})}
-			>
+			<button type="button" onClick={reset} className={styles.action}>
 				再試行
 			</button>
 		</div>

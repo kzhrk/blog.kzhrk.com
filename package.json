@@ -3,9 +3,8 @@
 	"private": true,
 	"type": "module",
 	"scripts": {
-		"prepare": "panda codegen",
 		"dev": "vite dev",
-		"build": "pnpm prepare && vite build",
+		"build": "vite build",
 		"preview": "pnpm build && vite preview",
 		"deploy": "pnpm build && wrangler deploy",
 		"lint": "oxlint",
@@ -28,7 +27,6 @@
 	},
 	"devDependencies": {
 		"@cloudflare/vite-plugin": "^1.70.1",
-		"@pandacss/dev": "^1.8.0",
 		"@testing-library/dom": "^10.0.0",
 		"@testing-library/react": "^16.1.0",
 		"@types/node": "26.0.0",

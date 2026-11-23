@@ -1,48 +1,15 @@
 import { Link } from "@tanstack/react-router";
-import { css } from "@/styled-system/css";
+import styles from "./NotFoundPage.module.css";
 
 export function NotFoundPage() {
 	return (
-		<div
-			className={css({
-				display: "flex",
-				flexDirection: "column",
-				alignItems: "center",
-				justifyContent: "center",
-				minHeight: "50vh",
-				px: "6",
-				py: "12",
-				textAlign: "center",
-			})}
-		>
-			<h1
-				className={css({
-					fontSize: "6xl",
-					fontWeight: "bold",
-					mb: "2",
-					color: "gray.400",
-				})}
-			>
-				404
-			</h1>
-			<h2 className={css({ fontSize: "2xl", fontWeight: "bold", mb: "4" })}>
-				ページが見つかりませんでした
-			</h2>
-			<p className={css({ fontSize: "md", color: "gray.500", mb: "8" })}>
+		<div className={styles.root}>
+			<h1 className={styles.code}>404</h1>
+			<h2 className={styles.title}>ページが見つかりませんでした</h2>
+			<p className={styles.message}>
 				お探しのページは移動または削除された可能性があります。
 			</p>
-			<Link
-				to="/"
-				className={css({
-					display: "inline-block",
-					px: "6",
-					py: "3",
-					bg: "blue.600",
-					color: "white",
-					fontWeight: "bold",
-					_hover: { bg: "blue.700" },
-				})}
-			>
+			<Link to="/" className={styles.action}>
 				トップページに戻る
 			</Link>
 		</div>
