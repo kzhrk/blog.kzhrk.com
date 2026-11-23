@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef } from "react";
+import styles from "./TweetButton.module.css";
 
 interface TweetButtonProps {
 	url: string;
@@ -51,6 +52,7 @@ export function TweetButton({ url, text }: TweetButtonProps) {
 	return (
 		<div
 			ref={rootRef}
+			className={styles.root}
 			// widgets.js がハイドレーションより先にリンクを置き換えることがある
 			suppressHydrationWarning
 			dangerouslySetInnerHTML={innerHtml}
