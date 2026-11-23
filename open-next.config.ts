@@ -7,13 +7,13 @@ const config: OpenNextConfig = {
 			converter: "edge",
 			proxyExternalRequest: "fetch",
 			incrementalCache: () =>
-				import(
-					"@opennextjs/cloudflare/overrides/incremental-cache/kv-incremental-cache"
-				).then((m) => m.default),
+				import("@opennextjs/cloudflare/overrides/incremental-cache/kv-incremental-cache").then(
+					(m) => m.default,
+				),
 			tagCache: () =>
-				import(
-					"@opennextjs/cloudflare/overrides/tag-cache/kv-next-tag-cache"
-				).then((m) => m.default),
+				import("@opennextjs/cloudflare/overrides/tag-cache/kv-next-tag-cache").then(
+					(m) => m.default,
+				),
 			queue: "direct",
 		},
 	},
@@ -25,13 +25,13 @@ const config: OpenNextConfig = {
 			converter: "edge",
 			proxyExternalRequest: "fetch",
 			incrementalCache: () =>
-				import(
-					"@opennextjs/cloudflare/overrides/incremental-cache/kv-incremental-cache"
-				).then((m) => m.default),
+				import("@opennextjs/cloudflare/overrides/incremental-cache/kv-incremental-cache").then(
+					(m) => m.default,
+				),
 			tagCache: () =>
-				import(
-					"@opennextjs/cloudflare/overrides/tag-cache/kv-next-tag-cache"
-				).then((m) => m.default),
+				import("@opennextjs/cloudflare/overrides/tag-cache/kv-next-tag-cache").then(
+					(m) => m.default,
+				),
 			queue: "direct",
 		},
 	},
