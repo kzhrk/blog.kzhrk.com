@@ -24,6 +24,12 @@ function getDateParts(date: string | Date) {
 	return { year, month, day };
 }
 
+// frontmatter の date は YAML の解析結果として Date で渡ってくる。
+// String(Date) は "Sat Nov 07 2026 …" になり文字列比較では日付順にならないため、時刻で比較する。
+function toTime(date: string | Date): number {
+	return new Date(date).getTime();
+}
+
 function groupByYear(posts: PostSummary[]): YearGroup[] {
 	const groups = new Map<string, PostSummary[]>();
 	for (const p of posts) {
@@ -52,10 +58,7 @@ export function PostList({
 	onSelectTag,
 }: PostListProps) {
 	const sortedPosts = useMemo(
-		() =>
-			posts
-				.slice()
-				.sort((a, b) => String(b.date).localeCompare(String(a.date))),
+		() => posts.toSorted((a, b) => toTime(b.date) - toTime(a.date)),
 		[posts],
 	);
 
