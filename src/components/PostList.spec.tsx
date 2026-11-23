@@ -130,6 +130,36 @@ describe("PostList", () => {
 		expect(link.getAttribute("href")).toBe("/posts/2024/05/05/tech-post-1");
 	});
 
+	it("記事が日付の新しい順に並ぶ", () => {
+		// frontmatter の date は Date として渡ってくる。曜日が異なる日付で並びを確認する
+		const posts: PostSummary[] = [
+			["1月25日", new Date("2026-01-25")],
+			["11月7日", new Date("2026-11-07")],
+			["1月1日", new Date("2026-01-01")],
+			["8月19日", new Date("2026-08-19")],
+			["文字列の日付", "2026-05-05"],
+		].map(([title, date], i) => ({
+			title: title as string,
+			date,
+			path: `/2026/post-${i}`,
+			slug: `2026/post-${i}`,
+			formattedDate: "",
+		}));
+
+		renderPostList({ posts, tags: [] });
+
+		const titles = screen
+			.getAllByRole("heading", { level: 3 })
+			.map((h) => h.textContent);
+		expect(titles).toEqual([
+			"11月7日",
+			"8月19日",
+			"文字列の日付",
+			"1月25日",
+			"1月1日",
+		]);
+	});
+
 	it("空の記事リストの場合はNo entriesが表示される", () => {
 		renderPostList({ posts: [], tags: [] });
 
