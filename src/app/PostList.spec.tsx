@@ -3,7 +3,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import type { PostSummary } from "@/types";
 import { PostList } from "./PostList";
 
-const mockPush = vi.fn();
+const mockPush = vi.fn<(url: string) => void>();
 
 vi.mock("next/navigation", () => ({
 	useRouter: () => ({

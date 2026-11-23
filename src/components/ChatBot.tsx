@@ -235,7 +235,7 @@ export function ChatBot() {
 									m.content ? (
 										<div
 											className="chatbot-msg__body chatbot-md"
-											// biome-ignore lint/security/noDangerouslySetInnerHtml: HTML is generated from markdown
+											// HTML is generated from markdown
 											dangerouslySetInnerHTML={{
 												__html: renderChatbotMarkdown(m.content),
 											}}

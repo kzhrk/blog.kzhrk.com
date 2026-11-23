@@ -10,8 +10,10 @@
 		"start": "next start",
 		"preview": "pnpm build && pnpm exec opennextjs-cloudflare build && pnpm exec wrangler dev",
 		"deploy": "pnpm build && pnpm exec opennextjs-cloudflare build && pnpm exec opennextjs-cloudflare deploy",
-		"lint": "biome check .",
-		"lint:fix": "biome check --write .",
+		"lint": "oxlint",
+		"lint:fix": "oxlint --fix",
+		"format": "oxfmt",
+		"format:check": "oxfmt --check",
 		"test": "vitest run",
 		"test:watch": "vitest"
 	},
@@ -25,7 +27,6 @@
 		"react-dom": "^19.0.0"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "2.3.11",
 		"@opennextjs/cloudflare": "^1.19.11",
 		"@pandacss/dev": "^1.8.0",
 		"@testing-library/dom": "^10.0.0",
@@ -36,9 +37,11 @@
 		"@vitejs/plugin-react": "^5.1.2",
 		"autoprefixer": "^10.4.23",
 		"happy-dom": "^20.0.11",
+		"oxfmt": "^0.79.0",
+		"oxlint": "^1.94.0",
 		"postcss": "^8.5.6",
 		"typescript": "^5.9.3",
-		"vitest": "^4.0.16",
+		"vitest": "^4.1.12",
 		"wrangler": "^4.53.0"
 	},
 	"engines": {

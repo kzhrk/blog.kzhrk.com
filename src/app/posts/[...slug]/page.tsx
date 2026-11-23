@@ -97,7 +97,7 @@ export default async function PostPage({ params }: PageProps) {
 
 			<div
 				className="post__body html"
-				// biome-ignore lint/security/noDangerouslySetInnerHtml: HTML is generated from markdown
+				// HTML is generated from markdown
 				dangerouslySetInnerHTML={{ __html: post.html }}
 			/>
 
