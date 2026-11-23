@@ -50,6 +50,23 @@ const EVAL_CASES: EvalCase[] = [
 		expectedSlug: "2026/01/02/blog-tech-update",
 	},
 	{
+		query: "ブログを TanStack Start に移行した話",
+		expectedSlug: "2026/11/23/migrate-next-to-tanstack-start",
+	},
+	{
+		query: "Next.js から移行した理由は?",
+		expectedSlug: "2026/11/23/migrate-next-to-tanstack-start",
+		note: "「Next.js に移行した話」とは向きが逆",
+	},
+	{
+		query: "CSS Modules への移行について",
+		expectedSlug: "2026/11/23/migrate-next-to-tanstack-start",
+	},
+	{
+		query: "oxlint と oxfmt を導入した話",
+		expectedSlug: "2026/11/23/migrate-next-to-tanstack-start",
+	},
+	{
 		query: "自作キーボードについて",
 		expectedSlug: "2025/02/08/myself-keyboard",
 	},
