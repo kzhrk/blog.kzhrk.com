@@ -10,6 +10,12 @@ export default defineConfig({
 	resolve: {
 		tsconfigPaths: true,
 	},
+	css: {
+		modules: {
+			// CSS 側のクラス名（site-header__inner）を styles.siteHeaderInner として参照する
+			localsConvention: "camelCaseOnly",
+		},
+	},
 	plugins: [
 		cloudflare({ viteEnvironment: { name: "ssr" } }),
 		tanstackStart({

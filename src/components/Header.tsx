@@ -1,11 +1,12 @@
 import { Link } from "@tanstack/react-router";
+import styles from "./Header.module.css";
 
 export function Header() {
 	return (
-		<header className="site-header">
-			<div className="site-header__inner">
-				<Link className="brand" to="/" aria-label="blog.kzhrk.com">
-					<span className="brand__mark" aria-hidden>
+		<header className={styles.siteHeader}>
+			<div className={styles.siteHeaderInner}>
+				<Link className={styles.brand} to="/" aria-label="blog.kzhrk.com">
+					<span className={styles.brandMark} aria-hidden>
 						<svg
 							viewBox="0 0 24 24"
 							width="18"
@@ -31,15 +32,15 @@ export function Header() {
 							/>
 						</svg>
 					</span>
-					<span className="brand__name">
-						<span className="brand__sub">blog.</span>kzhrk
-						<span className="brand__sub">.com</span>
+					<span className={styles.brandName}>
+						<span className={styles.brandSub}>blog.</span>kzhrk
+						<span className={styles.brandSub}>.com</span>
 					</span>
 				</Link>
 
-				<nav className="site-nav" aria-label="Primary">
+				<nav className={styles.siteNav} aria-label="Primary">
 					<a
-						className="site-nav__link"
+						className={styles.siteNavLink}
 						href="https://github.com/kzhrk/blog.kzhrk.com"
 						target="_blank"
 						rel="noopener noreferrer"
