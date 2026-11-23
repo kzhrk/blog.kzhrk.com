@@ -1,13 +1,14 @@
-"use client";
-
-import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useCallback, useMemo } from "react";
+import { Link } from "@tanstack/react-router";
+import { useMemo } from "react";
 import type { PostSummary } from "@/types";
 
 interface PostListProps {
 	posts: PostSummary[];
 	tags: string[];
+	/** 選択中のタグ。未選択は空文字 */
+	selectedTag: string;
+	/** タグの切り替え。空文字で選択解除 */
+	onSelectTag: (tag: string) => void;
 }
 
 type YearGroup = [string, PostSummary[]];
@@ -41,11 +42,12 @@ function getTagCounts(posts: PostSummary[]): Map<string, number> {
 	return counts;
 }
 
-export function PostList({ posts, tags }: PostListProps) {
-	const router = useRouter();
-	const searchParams = useSearchParams();
-	const selectedTag = searchParams.get("tag") || "";
-
+export function PostList({
+	posts,
+	tags,
+	selectedTag,
+	onSelectTag,
+}: PostListProps) {
 	const sortedPosts = useMemo(
 		() =>
 			posts
@@ -65,17 +67,6 @@ export function PostList({ posts, tags }: PostListProps) {
 	const yearGroups = useMemo(() => groupByYear(filteredPosts), [filteredPosts]);
 	const tagCounts = useMemo(() => getTagCounts(sortedPosts), [sortedPosts]);
 
-	const setTag = useCallback(
-		(tag: string) => {
-			const params = new URLSearchParams(searchParams);
-			if (tag) params.set("tag", tag);
-			else params.delete("tag");
-			const qs = params.toString();
-			router.push(qs ? `/?${qs}` : "/");
-		},
-		[router, searchParams],
-	);
-
 	return (
 		<main className="page">
 			<div className="filterbar">
@@ -87,7 +78,7 @@ export function PostList({ posts, tags }: PostListProps) {
 						<button
 							type="button"
 							className={`tag-chip ${!selectedTag ? "is-active" : ""}`}
-							onClick={() => setTag("")}
+							onClick={() => onSelectTag("")}
 						>
 							All <span className="tag-chip__count">{sortedPosts.length}</span>
 						</button>
@@ -98,7 +89,7 @@ export function PostList({ posts, tags }: PostListProps) {
 									type="button"
 									key={t}
 									className={`tag-chip ${active ? "is-active" : ""}`}
-									onClick={() => setTag(active ? "" : t)}
+									onClick={() => onSelectTag(active ? "" : t)}
 								>
 									<span className="tag-chip__hash">#</span>
 									{t}
@@ -132,7 +123,8 @@ export function PostList({ posts, tags }: PostListProps) {
 										<Link
 											key={p.slug}
 											className="row-a"
-											href={`/posts${p.path}`}
+											to="/posts/$"
+											params={{ _splat: p.slug }}
 										>
 											<div className="row-a__date">
 												<span className="row-a__day">{day}</span>

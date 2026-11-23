@@ -1,15 +1,8 @@
-"use client";
-
+import type { ErrorComponentProps } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { css } from "@/styled-system/css";
 
-export default function ErrorPage({
-	error,
-	reset,
-}: {
-	error: Error & { digest?: string };
-	reset: () => void;
-}) {
+export function ErrorPage({ error, reset }: ErrorComponentProps) {
 	useEffect(() => {
 		console.error("Application error:", error);
 	}, [error]);

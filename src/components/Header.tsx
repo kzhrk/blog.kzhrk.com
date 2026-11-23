@@ -1,10 +1,10 @@
-import Link from "next/link";
+import { Link } from "@tanstack/react-router";
 
 export function Header() {
 	return (
 		<header className="site-header">
 			<div className="site-header__inner">
-				<Link className="brand" href="/" aria-label="blog.kzhrk.com">
+				<Link className="brand" to="/" aria-label="blog.kzhrk.com">
 					<span className="brand__mark" aria-hidden>
 						<svg
 							viewBox="0 0 24 24"

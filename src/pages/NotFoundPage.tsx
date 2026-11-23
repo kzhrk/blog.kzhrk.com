@@ -1,7 +1,7 @@
-import Link from "next/link";
+import { Link } from "@tanstack/react-router";
 import { css } from "@/styled-system/css";
 
-export default function NotFound() {
+export function NotFoundPage() {
 	return (
 		<div
 			className={css({
@@ -32,7 +32,7 @@ export default function NotFound() {
 				お探しのページは移動または削除された可能性があります。
 			</p>
 			<Link
-				href="/"
+				to="/"
 				className={css({
 					display: "inline-block",
 					px: "6",
