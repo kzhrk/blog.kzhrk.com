@@ -1,13 +1,18 @@
 # blog.kzhrk.com
 
-Personal blog built with Next.js and deployed to Cloudflare Workers.
+Personal blog built with TanStack Start and deployed to Cloudflare Workers.
 
 ## Tech Stack
 
-- **Framework**: Next.js 15 (React 19)
-- **Styling**: Tailwind CSS
-- **Deployment**: Cloudflare Workers + KV (via @opennextjs/cloudflare)
+- **Framework**: TanStack Start (React 19, Vite)
+- **Styling**: CSS Modules + PostCSS (autoprefixer)
+- **Deployment**: Cloudflare Workers (static assets + Worker, via @cloudflare/vite-plugin)
 - **Content**: Markdown files with gray-matter frontmatter
+- **Lint / Format**: oxlint, oxfmt
+- **Type check**: TypeScript 7
+- **Test**: Vitest 5
+
+All pages are prerendered at build time and served as static assets. The Worker handles 404 pages and the data requests made during client-side navigation.
 
 ## Setup
 
@@ -25,7 +30,7 @@ pnpm dev
 
 ## Build
 
-Build the application for production:
+Build the application and prerender all pages into `dist/`:
 
 ```bash
 pnpm build
@@ -33,10 +38,19 @@ pnpm build
 
 ## Preview
 
-Preview the production build locally with Cloudflare Workers:
+Preview the production build locally:
 
 ```bash
 pnpm preview
+```
+
+## Lint, Format, Type check, Test
+
+```bash
+pnpm lint
+pnpm format:check
+pnpm typecheck
+pnpm test
 ```
 
 ## Deploy
@@ -61,10 +75,13 @@ Set the following environment variables in `.env` or GitHub Secrets:
 ```
 ├── posts/              # Markdown blog posts
 ├── src/
-│   ├── app/            # Next.js App Router pages
-│   ├── components/     # React components
-│   ├── lib/            # Utility functions (posts, markdown)
+│   ├── routes/         # TanStack Router file routes (__root, index, posts/$, server routes)
+│   ├── pages/          # Page components and their CSS Modules
+│   ├── components/     # React components and their CSS Modules
+│   ├── lib/            # Utility functions (posts, markdown, chatbot)
+│   ├── styles/         # Design tokens, reset, shared CSS Modules
 │   └── types/          # TypeScript type definitions
-├── open-next.config.ts # OpenNext configuration for Cloudflare
+├── docs/               # Implementation plans
+├── vite.config.ts      # Vite / TanStack Start configuration
 └── wrangler.jsonc      # Cloudflare Workers configuration
 ```

@@ -47,16 +47,19 @@
 │   │   ├── __root.tsx              # layout.tsx を移植。ChatBot はここに置く
 │   │   ├── index.tsx               # トップページ（page.tsx）
 │   │   ├── posts/$.tsx             # 記事ページ（posts/[...slug]/page.tsx）
-│   │   └── chatbot-context[.]json.ts   # サーバールート
+│   │   ├── chatbot-context[.]json.ts   # サーバールート
+│   │   └── sitemap[.]xml.ts        # サーバールート
 │   ├── pages/                      # 新規: ページ本体と同名の .module.css（route から呼ぶ）
 │   ├── components/                 # 各コンポーネントと同名の .module.css を並べる
 │   ├── lib/
+│   │   ├── postFiles.ts            # 新規: import.meta.glob で posts/*.md を取り込む
 │   │   ├── posts.ts                # Markdown の読み込み方を変更
 │   │   ├── posts.functions.ts      # 新規: サーバー関数
 │   │   └── …                       # ほかは変更なし
 │   └── styles/
 │       ├── tokens.css              # CSS 変数（配色・書体・余白）
-│       └── base.css                # リセットと要素の基本スタイル
+│       ├── base.css                # リセットと要素の基本スタイル
+│       └── typography.module.css   # 複数箇所で使う meta-en
 ├── postcss.config.mjs              # autoprefixer のみ
 ├── .oxlintrc.json                  # 新規（biome.json を置き換え）
 ├── .oxfmtrc.json                   # 新規
@@ -76,6 +79,7 @@ import { defineConfig } from "vite";
 
 export default defineConfig({
 	resolve: { tsconfigPaths: true },
+	css: { modules: { localsConvention: "camelCaseOnly" } },
 	plugins: [
 		cloudflare({ viteEnvironment: { name: "ssr" } }),
 		tanstackStart({
@@ -83,8 +87,11 @@ export default defineConfig({
 				enabled: true,
 				crawlLinks: true,
 				autoSubfolderIndex: false, // /posts/…/slug.html として出力
+				// /?tag=… はクライアント側で処理する。プリレンダリングすると index.html を上書きする
+				filter: ({ path }) => !path.includes("?"),
 			},
-			sitemap: { enabled: true, host: "https://blog.kzhrk.com" },
+			// コンポーネントを持たないサーバールートは自動検出されないため明示する
+			pages: [{ path: "/sitemap.xml" }, { path: "/chatbot-context.json" }],
 		}),
 		viteReact(),
 	],
@@ -140,7 +147,7 @@ const files = import.meta.glob<string>("../../posts/*.md", {
 
 // src/lib/posts.functions.ts
 export const fetchPost = createServerFn({ method: "GET" })
-	.inputValidator((slug: string) => slug)
+	.validator((slug: string) => slug)
 	.handler(({ data }) => getPost(data));
 
 // src/routes/posts/$.tsx
@@ -188,6 +195,8 @@ Panda CSS と `globals.css`（997 行）をやめ、CSS Modules に分割しま�
 | リセット、要素の基本スタイル | `styles/base.css` | `__root.tsx` |
 | Header / Footer | `Header.module.css` / `Footer.module.css` | 各コンポーネント |
 | Filter bar、年別タイムライン | `PostList.module.css` | `PostList.tsx` |
+| tag-chip | `TagChip.module.css` | `PostList.tsx`、`pages/PostPage.tsx` |
+| meta-en | `styles/typography.module.css` | `PostList.tsx`、`pages/PostPage.tsx` |
 | Post detail、Article prose | `PostPage.module.css` | `pages/PostPage.tsx` |
 | ChatBot | `ChatBot.module.css` | `ChatBot.tsx` |
 | Responsive | 各 module に分配 | |
@@ -201,7 +210,8 @@ CSS 変数とリセットは性質上グローバルなので、`tokens.css` と
 ### 分割時の決めごと
 
 - **Markdown 由来のクラス:** `heading`、`link`、`hljs`、`chatbot-md__link` は marked が文字列として出力するので、ハッシュ化できません。module の中で `.body :global(.heading)` のように書きます。
-- **共有しているクラス:** `tag-chip` は一覧と記事ページの両方で使っています。`TagChip` コンポーネントに切り出します。`meta-en` は `composes` で共有します。
+- **クラス名:** CSS 側のクラス名は `globals.css` のまま変えず、`localsConvention: "camelCaseOnly"` で `styles.siteHeaderInner` のように参照します。ルールの移動だけで済み、差分を追いやすくなります。
+- **共有しているクラス:** `tag-chip` と `meta-en` は一覧と記事ページの両方で使っています。それぞれ独立した module に分け、両方から import します。
 - **import の方法:** すべて静的 import にします。`?url` と `head()` の組み合わせや遅延 import した部品の CSS は、サーバー描画時のリンクに入りません。
 - **型:** `tsconfig.json` の `types` に `vite/client` を追加します。
 
@@ -223,7 +233,7 @@ TypeScript 7.1 はまだ beta です。安定版の 7.0.2 を `^7.0.2` で入れ
 ### Biome から変わる点
 
 - oxlint が対象にするのは JS と TS です。Biome が行っていた CSS の lint はなくなります。
-- Biome からの移行ツールは公式ドキュメントにありません。ルールは recommended 相当を手で設定します。
+- oxfmt の設定は `oxfmt --migrate=biome` で `biome.json` から生成できます。oxlint には Biome からの移行手段がないので、correctness カテゴリを有効にして手で設定します。
 - フォーマッタが変わるので、初回は全ファイルに差分が出ます。フォーマットだけのコミットに分けます。
 - インデントは `.editorconfig` と同じタブに揃えます。
 
@@ -243,7 +253,7 @@ TypeScript 7.1 はまだ beta です。安定版の 7.0.2 を `^7.0.2` で入れ
 | `next/link` | `@tanstack/react-router` の `Link` | Header、PostList、記事ページ、404 |
 | `useSearchParams` / `useRouter` | `validateSearch` + `Route.useSearch()` + `useNavigate` | `?tag=` が型付きになります |
 | `next/script` | `head()` の `scripts` | GTM と Twitter ウィジェット |
-| `sitemap.ts` | プラグインの `sitemap` オプション | 出力が現行と合わなければサーバールートで書きます |
+| `sitemap.ts` | サーバールート（`sitemap[.]xml.ts`） | 組み込みの sitemap は `lastmod` がビルド日になるため使いません |
 | `chatbot-context.json/route.ts` | サーバールート | URL は同じ |
 | `not-found.tsx` | `notFoundComponent` | loader からは `notFound()` を投げます |
 | `error.tsx` | `errorComponent` | |
@@ -294,14 +304,11 @@ KV の名前空間 2 つは、切り替え後に問題がないことを確認�
 - **Cloudflare プラグイン併用でのプリレンダリング:** 実行環境まわりは過去に不具合報告があります。検証ステップ（手順 2）で確かめます。
 - **末尾スラッシュ:** `autoSubfolderIndex: false` の出力と Workers の静的アセットの配信ルールの組み合わせで、現行の URL がリダイレクトなしで返ることを確認します。
 - **タグの search params:** TanStack Router は search params を JSON として解釈します。`2024` のような数字だけのタグが数値にならないよう、`validateSearch` で文字列に揃えます。
-- **sitemap の内容:** 組み込みの sitemap が現行と同じ URL を出すか比較します。`lastmod` などが必要ならサーバールートに切り替えます。
-- **サーバールートのプリレンダリング:** `chatbot-context.json` を静的ファイルとして書き出せるかは公式ドキュメントに記載がありません。書き出せない場合は Worker が応答します。
 - **クライアントのバンドル:** gray-matter、highlight.js、記事の Markdown がクライアント側に入っていないことをビルド出力で確認します。
 - **gray-matter の動作:** Worker の実行環境で frontmatter の解析が動くことを確認します。
 - **CSS のリンク出力:** プリレンダリングした HTML に各ルートの stylesheet リンクが入っていることを確認します。CSS Modules がハイドレーション後にしか当たらないという過去の報告があります。
 - **テストでのクラス名:** CSS Modules にするとクラス名が変わります。クラス名で要素を探しているテストがあれば書き換えます。
 - **TypeScript 7 での型チェック:** 現在の `tsconfig.json` と TanStack Router の生成する型が `tsc --noEmit` で通ることを確認します。
-- **oxfmt の設定:** タブインデントの指定方法と、`posts/` と `routeTree.gen.ts` の除外方法を設定リファレンスで確認します。
 
 ### 引き受けるコスト
 
@@ -325,3 +332,35 @@ KV の名前空間 2 つは、切り替え後に問題がないことを確認�
 - [Oxlint](https://oxc.rs/docs/guide/usage/linter.html)
 - [Oxfmt](https://oxc.rs/docs/guide/usage/formatter.html)
 - [Vitest: Migration Guide](https://vitest.dev/guide/migration.html)
+
+## 実装結果（2026-11-23）
+
+方針どおりに実装し、ローカルのプレビュー（`vite preview`）で確認しました。本番へのデプロイは未実施です。
+
+### 確認できたこと
+
+- **プリレンダリング:** Cloudflare プラグイン併用で、トップページ、記事 27 本、`sitemap.xml`、`chatbot-context.json` の計 30 ページが出力されます。サーバールートも `pages` に指定すれば静的ファイルになります。
+- **URL:** `/posts/YYYY/MM/DD/slug` は 200 を返し、末尾スラッシュ付きは 307 でスラッシュなしへリダイレクトします。存在しない URL は 404 です。
+- **チャットボット:** 開いた状態で一覧 ⇄ 記事 ⇄ タグ絞り込みを行き来しても、状態が残ります。
+- **見た目:** 一覧、タグ絞り込み、記事 2 本、チャットボットを、デスクトップ・モバイル・ダークモードで本番とスクリーンショット比較し、差分はありませんでした。
+- **クライアントのバンドル:** 記事の Markdown、gray-matter、highlight.js は含まれていません。
+- **CSS のリンク:** プリレンダリングした HTML に、ルートごとの stylesheet リンクが入っています。
+- **デプロイ設定:** `wrangler deploy --dry-run` が通ります（Worker は gzip 後 約 700 KiB）。
+
+### 方針から変えた点
+
+- **sitemap:** 組み込みの sitemap は `lastmod` がビルド日になり、タグ絞り込みの URL も含まれました。現行と同じ内容を出すサーバールートにしています。
+- **タグ絞り込みのプリレンダリング除外:** リンクをたどって `/?tag=…` までプリレンダリングされ、`index.html` を上書きしました。`prerender.filter` でクエリ付きの URL を除外しています。
+- **タグ絞り込みの適用タイミング:** `index.html` は絞り込みなしの一覧なので、`/?tag=…` を直接開くとハイドレーションが不一致になります。`useHydrated` でハイドレーション後に絞り込みを適用しています。現行の本番ではこの不一致エラーが出ています。
+- **サーバー関数のバリデータ:** インストールした版の API 名は `.validator` でした。
+- **TagChip:** コンポーネントにはせず、CSS Modules を共有する形にしました。`button` と `Link` で要素が異なるためです。
+- **oxlint のルール:** `ChatBot` の挙動を変えないため、`react/set-state-in-effect` と `jsx-a11y/prefer-tag-over-role` を無効にしています。
+
+### 見た目が変わる点
+
+- **404 ページのボタン:** 文字色が白になります。これまでは Panda のユーティリティが `@layer` 内にあり、レイヤー外の `a { color: inherit }` に負けて白が当たっていませんでした。
+
+### 残っている作業
+
+- 本番へのデプロイ後、KV の名前空間 2 つ（`NEXT_INC_CACHE_KV`、`NEXT_TAG_CACHE_KV`）を手動で削除します。
+- Prompt API 対応ブラウザでのチャットボットの応答は未確認です。確認に使ったブラウザは Prompt API に対応していません。
