@@ -1,0 +1,44 @@
+/* blog.kzhrk.com — design tokens（アイボリー読み物系） */
+
+:root {
+	--bg: oklch(0.968 0.012 85);
+	--bg-raised: oklch(0.985 0.01 85);
+	--bg-sunk: oklch(0.935 0.018 82);
+	--ink: oklch(0.22 0.018 60);
+	--ink-soft: oklch(0.4 0.018 60);
+	--ink-muted: oklch(0.55 0.02 60);
+	--rule: oklch(0.82 0.02 75);
+	--rule-soft: oklch(0.88 0.018 78);
+	--accent: oklch(0.55 0.14 30);
+	--accent-soft: oklch(0.9 0.05 40);
+	--highlight: oklch(0.92 0.07 85);
+
+	--sans:
+		"Noto Sans JP", "Helvetica Neue", Arial, Hiragino Kaku Gothic ProN, meiryo,
+		sans-serif;
+	--mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+	--density-row-py: 22px;
+	--density-section-my: 56px;
+	--content-max: 720px;
+	--wide-max: 960px;
+
+	color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--bg: oklch(0.18 0.015 70);
+		--bg-raised: oklch(0.22 0.018 70);
+		--bg-sunk: oklch(0.14 0.015 70);
+		--ink: oklch(0.94 0.015 85);
+		--ink-soft: oklch(0.78 0.015 75);
+		--ink-muted: oklch(0.62 0.02 70);
+		--rule: oklch(0.32 0.02 75);
+		--rule-soft: oklch(0.26 0.02 75);
+		--accent: oklch(0.78 0.13 40);
+		--accent-soft: oklch(0.32 0.08 40);
+		--highlight: oklch(0.3 0.08 80);
+		color-scheme: dark;
+	}
+}

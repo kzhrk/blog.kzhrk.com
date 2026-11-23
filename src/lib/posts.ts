@@ -1,9 +1,8 @@
-import { readdir, readFile } from "node:fs/promises";
 import { format, parseISO } from "date-fns";
 import matter from "gray-matter";
-import { cache } from "react";
 import type { Metadata, Post, PostSummary } from "@/types";
 import { parseMarkdown } from "./markdown";
+import { postFilenames, postFiles } from "./postFiles";
 
 function filenameToSlug(filename: string): string {
 	return filename
@@ -20,12 +19,11 @@ function formatDate(dateValue: string | Date): string {
 	return format(date, "yyyy年M月d日");
 }
 
-export const getPost = cache(async (slug: string): Promise<Post | null> => {
-	const filename = slugToFilename(slug);
-	const filePath = `./posts/${filename}.md`;
+export async function getPost(slug: string): Promise<Post | null> {
+	const file = postFiles[`${slugToFilename(slug)}.md`];
+	if (file === undefined) return null;
 
 	try {
-		const file = await readFile(filePath, "utf-8");
 		const { data, content } = matter(file);
 		const metadata = data as Metadata;
 
@@ -43,19 +41,14 @@ export const getPost = cache(async (slug: string): Promise<Post | null> => {
 	} catch {
 		return null;
 	}
-});
+}
 
-export const getAllPosts = cache(async (): Promise<PostSummary[]> => {
+export async function getAllPosts(): Promise<PostSummary[]> {
 	try {
-		const files = await readdir("./posts");
 		const posts: PostSummary[] = [];
 
-		for (const file of files.reverse()) {
-			if (!file.endsWith(".md")) continue;
-
-			const filePath = `./posts/${file}`;
-			const fileContent = await readFile(filePath, "utf-8");
-			const { data } = matter(fileContent);
+		for (const file of postFilenames.toReversed()) {
+			const { data } = matter(postFiles[file]);
 			const metadata = data as Metadata;
 
 			if (metadata.draft) continue;
@@ -74,9 +67,9 @@ export const getAllPosts = cache(async (): Promise<PostSummary[]> => {
 		console.error("Error reading posts directory:", error);
 		return [];
 	}
-});
+}
 
-export const getAllTags = cache(async (): Promise<string[]> => {
+export async function getAllTags(): Promise<string[]> {
 	const posts = await getAllPosts();
 	const tagSet = new Set<string>();
 
@@ -89,7 +82,7 @@ export const getAllTags = cache(async (): Promise<string[]> => {
 	}
 
 	return Array.from(tagSet);
-});
+}
 
 export function getDescription(content: string): string {
 	return `${content

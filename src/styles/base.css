@@ -1,0 +1,228 @@
+/*
+ * リセット。Panda CSS の preflight が出力していた内容を引き継いだもの。
+ * @layer に入れることで、コンポーネントのスタイルが読み込み順に関係なく優先される。
+ */
+@layer reset {
+	html {
+		-webkit-text-size-adjust: 100%;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+		tab-size: 4;
+		line-height: 1.5;
+		-webkit-tap-highlight-color: transparent;
+	}
+
+	*,
+	::before,
+	::after,
+	::backdrop,
+	::file-selector-button {
+		border-style: solid;
+		border-width: 0;
+		border-color: currentcolor;
+		box-sizing: border-box;
+		margin: 0;
+		padding: 0;
+	}
+
+	hr {
+		color: inherit;
+		border-top-width: 1px;
+		height: 0;
+	}
+
+	body {
+		line-height: inherit;
+		height: 100%;
+	}
+
+	img {
+		border-style: none;
+	}
+
+	img,
+	svg,
+	video,
+	canvas,
+	audio,
+	iframe,
+	embed,
+	object {
+		vertical-align: middle;
+		display: block;
+	}
+
+	img,
+	video {
+		max-width: 100%;
+		height: auto;
+	}
+
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
+		text-wrap: balance;
+		font-size: inherit;
+		font-weight: inherit;
+	}
+
+	p,
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
+		overflow-wrap: break-word;
+	}
+
+	ol,
+	ul,
+	menu {
+		list-style: none;
+	}
+
+	button,
+	input:where([type="button"], [type="reset"], [type="submit"]),
+	::file-selector-button {
+		appearance: button;
+	}
+
+	button,
+	input,
+	optgroup,
+	select,
+	textarea,
+	::file-selector-button {
+		font: inherit;
+		background: transparent;
+		font-feature-settings: inherit;
+		font-variation-settings: inherit;
+		letter-spacing: inherit;
+		color: inherit;
+	}
+
+	::placeholder {
+		opacity: 1;
+		color: color-mix(in oklab, currentcolor 50%, transparent);
+	}
+
+	::selection {
+		background-color: #0073ff4d;
+	}
+
+	textarea {
+		resize: vertical;
+	}
+
+	table {
+		border-color: inherit;
+		text-indent: 0;
+		border-collapse: collapse;
+	}
+
+	summary {
+		display: list-item;
+	}
+
+	small {
+		font-size: 80%;
+	}
+
+	sub,
+	sup {
+		vertical-align: baseline;
+		font-size: 75%;
+		line-height: 0;
+		position: relative;
+	}
+
+	sub {
+		bottom: -0.25em;
+	}
+
+	sup {
+		top: -0.5em;
+	}
+
+	dialog {
+		padding: 0;
+	}
+
+	a {
+		text-decoration: inherit;
+		color: inherit;
+	}
+
+	abbr:where([title]) {
+		text-decoration: underline dotted;
+	}
+
+	b,
+	strong {
+		font-weight: bolder;
+	}
+
+	code,
+	kbd,
+	samp,
+	pre {
+		font-family:
+			ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+			"Courier New";
+		font-feature-settings: normal;
+		font-variation-settings: normal;
+		font-size: 1em;
+	}
+
+	progress {
+		vertical-align: baseline;
+	}
+
+	::-webkit-search-decoration,
+	::-webkit-search-cancel-button {
+		-webkit-appearance: none;
+	}
+
+	::-webkit-inner-spin-button,
+	::-webkit-outer-spin-button {
+		height: auto;
+	}
+
+	:-moz-ui-invalid {
+		box-shadow: none;
+	}
+
+	:-moz-focusring {
+		outline: auto;
+	}
+
+	[hidden]:where(:not([hidden="until-found"])) {
+		display: none !important;
+	}
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+	background: var(--bg);
+	color: var(--ink);
+	font-family: var(--sans);
+	font-size: 16px;
+	line-height: 1.75;
+	-webkit-font-smoothing: antialiased;
+	text-rendering: optimizeLegibility;
+	font-feature-settings: "palt" 1;
+	letter-spacing: 0.01em;
+	transition:
+		background-color 0.3s ease,
+		color 0.3s ease;
+}
+
+a {
+	color: inherit;
+}

@@ -23,7 +23,7 @@ describe("ChatBot", () => {
 
 	it("Prompt API 非対応ブラウザでは案内が表示される", async () => {
 		const user = (await import("@testing-library/dom")).fireEvent;
-		const fetchMock = vi.fn(() =>
+		const fetchMock = vi.fn<() => Promise<Response>>(() =>
 			Promise.resolve({
 				ok: true,
 				json: () => Promise.resolve([]),

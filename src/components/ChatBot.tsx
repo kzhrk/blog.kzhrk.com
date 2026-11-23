@@ -1,5 +1,3 @@
-"use client";
-
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { ChatbotCorpusEntry } from "@/lib/chatbotCorpus";
 import { renderChatbotMarkdown } from "@/lib/chatbotMarkdown";
@@ -12,6 +10,7 @@ import {
 	streamPrompt,
 } from "@/lib/promptApi";
 import type { LanguageModelAvailability } from "@/types/prompt-api";
+import styles from "./ChatBot.module.css";
 
 type Status =
 	| { type: "idle" }
@@ -196,7 +195,7 @@ export function ChatBot() {
 		<>
 			<button
 				type="button"
-				className="chatbot-fab"
+				className={styles.chatbotFab}
 				aria-label={open ? "チャットを閉じる" : "チャットを開く"}
 				aria-expanded={open}
 				onClick={() => setOpen((v) => !v)}
@@ -206,64 +205,74 @@ export function ChatBot() {
 
 			{open && (
 				<div
-					className="chatbot-panel"
+					className={styles.chatbotPanel}
 					role="dialog"
 					aria-label="ブログ チャットボット"
 				>
-					<header className="chatbot-panel__head">
+					<header className={styles.chatbotPanelHead}>
 						<div>
-							<h2 className="chatbot-panel__title">Ask kzhrk's blog</h2>
-							<p className="chatbot-panel__sub">
+							<h2 className={styles.chatbotPanelTitle}>Ask kzhrk's blog</h2>
+							<p className={styles.chatbotPanelSub}>
 								Chrome の Prompt API でローカル動作 / 記事の内容を元に回答します
 							</p>
 						</div>
 					</header>
 
-					<div className="chatbot-panel__log" ref={logRef} aria-live="polite">
+					<div
+						className={styles.chatbotPanelLog}
+						ref={logRef}
+						aria-live="polite"
+					>
 						{messages.length === 0 && (
-							<p className="chatbot-panel__hint">
+							<p className={styles.chatbotPanelHint}>
 								例:「NISA についてどんな記事がありますか?」「Hugo から Nuxt
 								に置き換えた理由は?」
 							</p>
 						)}
 						{messages.map((m) => (
-							<div key={m.id} className={`chatbot-msg chatbot-msg--${m.role}`}>
-								<span className="chatbot-msg__role">
+							<div
+								key={m.id}
+								className={`${styles.chatbotMsg} ${m.role === "user" ? styles.chatbotMsgUser : styles.chatbotMsgAssistant}`}
+							>
+								<span className={styles.chatbotMsgRole}>
 									{m.role === "user" ? "you" : "assistant"}
 								</span>
 								{m.role === "assistant" ? (
 									m.content ? (
 										<div
-											className="chatbot-msg__body chatbot-md"
-											// biome-ignore lint/security/noDangerouslySetInnerHtml: HTML is generated from markdown
+											className={`${styles.chatbotMsgBody} ${styles.chatbotMd}`}
+											// HTML is generated from markdown
 											dangerouslySetInnerHTML={{
 												__html: renderChatbotMarkdown(m.content),
 											}}
 										/>
 									) : (
-										<p className="chatbot-msg__body">
+										<p className={styles.chatbotMsgBody}>
 											{isThinking ? "..." : ""}
 										</p>
 									)
 								) : (
-									<p className="chatbot-msg__body">{m.content}</p>
+									<p className={styles.chatbotMsgBody}>{m.content}</p>
 								)}
 								{m.role === "assistant" &&
 									m.sources &&
 									m.sources.length > 0 && (
-										<ul className="chatbot-sources" aria-label="参照記事">
+										<ul className={styles.chatbotSources} aria-label="参照記事">
 											{m.sources.map((src) => (
-												<li key={src.slug} className="chatbot-sources__item">
+												<li
+													key={src.slug}
+													className={styles.chatbotSourcesItem}
+												>
 													<a
 														href={`/posts${src.path}`}
-														className="chatbot-sources__link"
+														className={styles.chatbotSourcesLink}
 														target="_blank"
 														rel="noopener noreferrer"
 													>
-														<span className="chatbot-sources__title">
+														<span className={styles.chatbotSourcesTitle}>
 															{src.title}
 														</span>
-														<span className="chatbot-sources__date">
+														<span className={styles.chatbotSourcesDate}>
 															{src.formattedDate}
 														</span>
 													</a>
@@ -282,14 +291,14 @@ export function ChatBot() {
 					/>
 
 					<form
-						className="chatbot-panel__form"
+						className={styles.chatbotPanelForm}
 						onSubmit={(e) => {
 							e.preventDefault();
 							if (canSend) sendMessage();
 						}}
 					>
 						<textarea
-							className="chatbot-panel__input"
+							className={styles.chatbotPanelInput}
 							placeholder="記事について質問してみる…"
 							value={input}
 							onChange={(e) => setInput(e.target.value)}
@@ -305,7 +314,7 @@ export function ChatBot() {
 						/>
 						<button
 							type="submit"
-							className="chatbot-panel__send"
+							className={styles.chatbotPanelSend}
 							disabled={!canSend}
 						>
 							送信
@@ -332,26 +341,30 @@ function StatusBanner({
 			return null;
 		case "loading-context":
 			return (
-				<div className="chatbot-banner">記事データを読み込んでいます…</div>
+				<div className={styles.chatbotBanner}>
+					記事データを読み込んでいます…
+				</div>
 			);
 		case "unsupported":
 			return (
-				<div className="chatbot-banner chatbot-banner--warn">
+				<div className={`${styles.chatbotBanner} ${styles.chatbotBannerWarn}`}>
 					このブラウザでは Prompt API が利用できません。Chrome 138 以降 (
 					デスクトップ) でお試しください。
 				</div>
 			);
 		case "checking":
 			return (
-				<div className="chatbot-banner">モデルの状態を確認しています…</div>
+				<div className={styles.chatbotBanner}>
+					モデルの状態を確認しています…
+				</div>
 			);
 		case "needs-download":
 			return (
-				<div className="chatbot-banner">
+				<div className={styles.chatbotBanner}>
 					モデル (Gemini Nano) のダウンロードが必要です。
 					<button
 						type="button"
-						className="chatbot-banner__action"
+						className={styles.chatbotBannerAction}
 						onClick={onDownload}
 					>
 						ダウンロード開始
@@ -361,16 +374,18 @@ function StatusBanner({
 		case "downloading": {
 			const pct = Math.round(status.progress * 100);
 			return (
-				<div className="chatbot-banner">モデルをダウンロード中… {pct}%</div>
+				<div className={styles.chatbotBanner}>
+					モデルをダウンロード中… {pct}%
+				</div>
 			);
 		}
 		case "thinking":
 			return (
-				<div className="chatbot-banner">
+				<div className={styles.chatbotBanner}>
 					回答を生成しています…
 					<button
 						type="button"
-						className="chatbot-banner__action"
+						className={styles.chatbotBannerAction}
 						onClick={onStop}
 					>
 						停止
@@ -379,7 +394,7 @@ function StatusBanner({
 			);
 		case "error":
 			return (
-				<div className="chatbot-banner chatbot-banner--error">
+				<div className={`${styles.chatbotBanner} ${styles.chatbotBannerError}`}>
 					{status.message}
 				</div>
 			);
