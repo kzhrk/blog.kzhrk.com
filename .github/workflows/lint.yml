@@ -14,3 +14,5 @@ jobs:
         run: pnpm lint
       - name: format
         run: pnpm format:check
+      - name: typecheck
+        run: pnpm typecheck
