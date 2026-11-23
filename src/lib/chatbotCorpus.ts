@@ -1,8 +1,7 @@
-import { readdir, readFile } from "node:fs/promises";
 import { format, parseISO } from "date-fns";
 import matter from "gray-matter";
-import { cache } from "react";
 import type { Metadata } from "@/types";
+import { postFilenames, postFiles } from "./postFiles";
 
 export interface ChatbotCorpusEntry {
 	slug: string;
@@ -53,40 +52,34 @@ function toIsoDate(value: string | Date): string {
 	return format(date, "yyyy-MM-dd");
 }
 
-export const buildChatbotCorpus = cache(
-	async (): Promise<ChatbotCorpusEntry[]> => {
-		const files = await readdir("./posts");
-		const entries: ChatbotCorpusEntry[] = [];
+export async function buildChatbotCorpus(): Promise<ChatbotCorpusEntry[]> {
+	const entries: ChatbotCorpusEntry[] = [];
 
-		for (const file of files) {
-			if (!file.endsWith(".md")) continue;
+	for (const file of postFilenames) {
+		const { data, content } = matter(postFiles[file]);
+		const metadata = data as Metadata;
 
-			const fileContent = await readFile(`./posts/${file}`, "utf-8");
-			const { data, content } = matter(fileContent);
-			const metadata = data as Metadata;
+		if (metadata.draft) continue;
 
-			if (metadata.draft) continue;
+		const slug = filenameToSlug(file);
+		const stripped = stripMarkdown(content);
+		const body =
+			stripped.length > MAX_BODY_LENGTH
+				? stripped.slice(0, MAX_BODY_LENGTH)
+				: stripped;
 
-			const slug = filenameToSlug(file);
-			const stripped = stripMarkdown(content);
-			const body =
-				stripped.length > MAX_BODY_LENGTH
-					? stripped.slice(0, MAX_BODY_LENGTH)
-					: stripped;
+		entries.push({
+			slug,
+			path: `/${slug}`,
+			title: metadata.title,
+			date: toIsoDate(metadata.date),
+			formattedDate: formatDate(metadata.date),
+			tags: metadata.tags ?? [],
+			description: metadata.summary?.trim() || buildDescription(stripped),
+			body,
+		});
+	}
 
-			entries.push({
-				slug,
-				path: `/${slug}`,
-				title: metadata.title,
-				date: toIsoDate(metadata.date),
-				formattedDate: formatDate(metadata.date),
-				tags: metadata.tags ?? [],
-				description: metadata.summary?.trim() || buildDescription(stripped),
-				body,
-			});
-		}
-
-		entries.sort((a, b) => (a.date < b.date ? 1 : -1));
-		return entries;
-	},
-);
+	entries.sort((a, b) => (a.date < b.date ? 1 : -1));
+	return entries;
+}
