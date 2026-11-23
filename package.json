@@ -27,7 +27,7 @@
 	},
 	"devDependencies": {
 		"@cloudflare/vite-plugin": "^1.70.1",
-		"@testing-library/dom": "^10.0.0",
+		"@testing-library/dom": "^10.4.2",
 		"@testing-library/react": "^16.1.0",
 		"@types/node": "26.0.0",
 		"@types/react": "^19.0.0",
