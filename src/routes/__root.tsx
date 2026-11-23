@@ -12,7 +12,8 @@ import { Header } from "@/components/Header";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/constants";
 import { ErrorPage } from "@/pages/ErrorPage";
 import { NotFoundPage } from "@/pages/NotFoundPage";
-import "@/styles/globals.css";
+import "@/styles/tokens.css";
+import "@/styles/base.css";
 
 const GTM_ID = "GTM-5WPKT2H7";
 const OGP_IMAGE = `${SITE_URL}/images/ogp.png`;
