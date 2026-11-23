@@ -97,6 +97,76 @@ export interface ScoredEntry {
 	score: number;
 }
 
+type Role = "source" | "destination";
+
+const FIELD_WEIGHT = { title: 3, description: 2, tags: 2, body: 1 };
+const ROLE_WEIGHT = 6;
+// 英数字の語句と、その直後の助詞。「Next.js 15 (App Router) に」のような補足の括弧は読み飛ばす
+const ROLE_RE = /([a-z0-9][a-z0-9 ._-]*?)\s*(?:\([^)]*\)\s*)?(から|へ|に)/g;
+
+/**
+ * 「A から B に移行した」の A と B を取り出す。
+ * 単語の一致だけでは移行元と移行先を区別できないため、助詞から役割を判定する。
+ * 対象は英数字の語句だけで、数字だけの語（バージョン番号など）は除く。
+ */
+export function extractRoles(text: string): Map<string, Set<Role>> {
+	const roles = new Map<string, Set<Role>>();
+	for (const match of text.toLowerCase().matchAll(ROLE_RE)) {
+		const role: Role = match[2] === "から" ? "source" : "destination";
+		for (const term of match[1].split(/[^a-z0-9_]+/)) {
+			if (!term || /^\d+$/.test(term)) continue;
+			const found = roles.get(term) ?? new Set<Role>();
+			found.add(role);
+			roles.set(term, found);
+		}
+	}
+	return roles;
+}
+
+interface IndexedEntry {
+	entry: ChatbotCorpusEntry;
+	title: string;
+	description: string;
+	tags: string[];
+	body: string;
+	roles: Map<string, Set<Role>>;
+}
+
+function indexEntry(entry: ChatbotCorpusEntry): IndexedEntry {
+	return {
+		entry,
+		title: entry.title.toLowerCase(),
+		description: entry.description.toLowerCase(),
+		tags: entry.tags.map((t) => t.toLowerCase()),
+		body: entry.body.toLowerCase(),
+		roles: extractRoles(`${entry.title}\n${entry.description}`),
+	};
+}
+
+function fieldScore(doc: IndexedEntry, token: string): number {
+	let score = 0;
+	if (doc.title.includes(token)) score += FIELD_WEIGHT.title;
+	if (doc.description.includes(token)) score += FIELD_WEIGHT.description;
+	if (doc.tags.some((t) => t.includes(token))) score += FIELD_WEIGHT.tags;
+	if (doc.body.includes(token)) score += FIELD_WEIGHT.body;
+	return score;
+}
+
+/**
+ * 同じ役割で登場していれば加点し、逆の役割でしか登場していなければ減点する。
+ * 「Next.js に移行した話」で「Next.js から移行した」記事が上に来るのを防ぐ。
+ */
+function roleScore(
+	queryRoles: Set<Role> | undefined,
+	docRoles: Set<Role> | undefined,
+): number {
+	if (!queryRoles || !docRoles) return 0;
+	for (const role of queryRoles) {
+		if (docRoles.has(role)) return ROLE_WEIGHT;
+	}
+	return -ROLE_WEIGHT;
+}
+
 export function scorePosts(
 	query: string,
 	corpus: ChatbotCorpusEntry[],
@@ -104,23 +174,31 @@ export function scorePosts(
 	const tokens = tokenize(query);
 	if (tokens.length === 0) return [];
 
+	const docs = corpus.map(indexEntry);
+	const queryRoles = extractRoles(query);
+
+	// 多くの記事に出てくる語（「ブログ」「移行」など）ほど重みを下げる
+	const weighted = tokens.map((token) => {
+		const scores = docs.map((doc) => fieldScore(doc, token));
+		const matched = scores.filter((score) => score > 0).length;
+		const idf = matched === 0 ? 0 : Math.log(1 + docs.length / matched);
+		return { token, scores, idf };
+	});
+
 	const scored: ScoredEntry[] = [];
-	for (const entry of corpus) {
-		const title = entry.title.toLowerCase();
-		const description = entry.description.toLowerCase();
-		const tags = entry.tags.map((t) => t.toLowerCase());
-		const body = entry.body.toLowerCase();
-
+	docs.forEach((doc, index) => {
 		let score = 0;
-		for (const token of tokens) {
-			if (title.includes(token)) score += 3;
-			if (description.includes(token)) score += 2;
-			if (tags.some((t) => t.includes(token))) score += 2;
-			if (body.includes(token)) score += 1;
+		let matched = false;
+		for (const { token, scores, idf } of weighted) {
+			if (scores[index] === 0) continue;
+			matched = true;
+			score +=
+				idf *
+				(scores[index] +
+					roleScore(queryRoles.get(token), doc.roles.get(token)));
 		}
-
-		if (score > 0) scored.push({ entry, score });
-	}
+		if (matched) scored.push({ entry: doc.entry, score });
+	});
 
 	scored.sort((a, b) => b.score - a.score);
 	return scored;
