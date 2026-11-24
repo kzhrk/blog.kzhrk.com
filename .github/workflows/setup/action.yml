@@ -1,10 +1,10 @@
 name: setup
-
+description: Setup Node.js environment and install dependencies
 runs:
   using: "composite"
   steps:
-    - uses: pnpm/action-setup@v4
-    - uses: actions/setup-node@v4
+    - uses: pnpm/action-setup@v4.3.0
+    - uses: actions/setup-node@v4.4.0
       with:
         node-version-file: ".node-version"
     - name: Install dependencies
